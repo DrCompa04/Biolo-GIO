@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Biolo‑Gio | Enciclopedia degli animali</title>
+  <title>Biolo-Gio | Enciclopedia degli animali</title>
   <meta name="description" content="Schede chiare e ricche su animali, habitat, dieta, comportamento, riproduzione, ruolo ecologico e curiosità. Perfetto per GitHub Pages." />
   <style>
     :root{
@@ -61,7 +61,7 @@
     .btn{appearance:none; border:none; padding:10px 12px; border-radius:10px; background:#dbf4ff; color:#0c4a6e; cursor:pointer; text-decoration:none; display:inline-flex; gap:8px; align-items:center}
     .btn:hover{background:#bae6fd}
 
-    /* ===== LAYOUT SCHEDA in stile “enciclopedia”: hero + sidebar sticky ===== */
+    /* ===== LAYOUT SCHEDA enciclopedia ===== */
     .detail{margin-top:24px; display:grid; grid-template-columns:1.6fr 0.9fr; gap:18px}
     .hero-animal{border-radius:16px; overflow:hidden; position:relative; border:1px solid #e2e8f0}
     .hero-animal .banner{height:180px; display:grid; place-items:center; font-size:96px}
@@ -78,7 +78,7 @@
     .section{scroll-margin-top:100px}
     .section h3{margin:0 0 8px}
 
-    /* ===== Accordion (a fisarmonica) ===== */
+    /* ===== Accordion ===== */
     details.acc{border:1px solid #e2e8f0; border-radius:12px; background:#fff; margin:14px 0; overflow:hidden}
     details.acc[open]{box-shadow:0 8px 24px #0000000d}
     summary.acc-sum{list-style:none; cursor:pointer; padding:12px 14px; display:flex; align-items:center; gap:10px; font-weight:600}
@@ -91,6 +91,8 @@
     .btn-ghost{background:#fff; border:1px solid #e2e8f0; color:#334155}
     .btn-ghost:hover{background:#f8fafc}
 
+    .callout{background:#ecfeff; border:1px solid #bae6fd; padding:10px 12px; border-radius:12px; font-size:14px}
+
     .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(40px);background:linear-gradient(135deg,var(--brand),var(--brand-2));color:white;padding:10px 18px;border-radius:12px;box-shadow:0 8px 30px #00000026;opacity:0;pointer-events:none;transition:opacity .35s, transform .35s;z-index:9999}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -98,7 +100,7 @@
     footer a{color:var(--brand)}
     @media (max-width:900px){ .detail{grid-template-columns:1fr} .quick{position:relative; top:auto} }
 
-    /* ===== Temi habitat (pagina) con pattern visibile ===== */
+    /* ===== Temi habitat pagina ===== */
     @keyframes drift { 0%{background-position:0 0, 0 0, 200px 200px} 100%{background-position:0 0, 0 0, 400px 400px} }
     body[class*="theme-"]{
       background-attachment: fixed;
@@ -115,9 +117,9 @@
 <body>
 <header>
   <div class="wrap topbar">
-    <a class="logo" href="#/home" aria-label="Biolo‑Gio home">
+    <a class="logo" href="#/home" aria-label="Biolo-Gio home">
       <div class="mark">🧬</div>
-      <b>Biolo‑Gio</b>
+      <b>Biolo-Gio</b>
     </a>
     <nav>
       <a href="#/home">Home</a>
@@ -131,7 +133,7 @@
 <main class="wrap">
   <section class="hero">
     <h1>Enciclopedia degli animali, chiara e completa.</h1>
-    <p>Ogni scheda: descrizione sempre visibile; le altre sezioni si aprono con un click. Sfondi che richiamano l’habitat.</p>
+    <p>Descrizione sempre visibile; le altre sezioni si aprono con un click. Sfondi che richiamano l’habitat.</p>
   </section>
 
   <section class="panel pad" id="controls">
@@ -161,7 +163,7 @@
   <section id="view"></section>
 
   <footer>
-    <p>Progetto <b>Biolo‑Gio</b>. Un solo file, massima semplicità. Pubblica su GitHub Pages e diffondi la meraviglia del regno animale.</p>
+    <p>Progetto <b>Biolo-Gio</b>. Un solo file, massima semplicità. Pubblica su GitHub Pages e diffondi la meraviglia del regno animale.</p>
   </footer>
 </main>
 
@@ -169,7 +171,7 @@
 
 <script>
 /* ==========================
-   DATI (10 specie) — testi ulteriormente ampliati
+   DATI — 10 specie (testi estesi)
    ========================== */
 const ANIMALS = [
   { // 1 Wombat
@@ -177,19 +179,19 @@ const ANIMALS = [
     scientificName: "Vombatus ursinus",
     class: "Mammiferi",
     emoji: "🪵",
-    habitat: "Praterie e foreste aperte dell'Australia sud‑orientale",
+    habitat: "Praterie e foreste aperte dell'Australia sud-orientale",
     diet: "Erbivoro (erbe, cortecce, radici)",
     lifespan: "10–15 anni",
     size: "20–35 kg; ~1 m",
     conservation: "Least Concern",
-    description: "Marsupiale tozzo e robusto, ‘ingegnere del suolo’: scava gallerie lunghe anche decine di metri con camere di riposo asciutte e ventilate. Corpo basso, arti anteriori potenti con artigli larghi; muso squadrato, orecchie piccole e folto mantello lo proteggono dalla terra e dal freddo. Le sue tane mantengono temperatura quasi costante e diventano rifugi per molte altre specie durante incendi e ondate di caldo.",
-    sociality: "Solitario ma tollerante nelle aree di confine: più individui possono usare la stessa rete di tunnel in orari diversi. Segna il territorio con odori e con i celebri ‘cubi’. Ritmo crepuscolare‑notturno, con uscite più lunghe dopo la pioggia quando l’erba è più ricca.",
-    reproduction: "Di solito un solo piccolo. Resta nel marsupio 6–7 mesi (aperto all’indietro, così non entra terra) e poi continua a seguire la madre finché impara a foraggiare. Crescita lenta ma robusta, adatta a diete povere.",
-    feeding: "Bruca erbe dure, cortecce e radici. La digestione è lentissima (anche 48 ore) per estrarre il più possibile dalle fibre; beve poco perché ricava acqua dal cibo. In periodi secchi riduce l’attività per risparmiare energia.",
-    interactions: "Le tane migliorano drenaggio e aerazione del suolo e offrono micro‑rifugi a rettili, piccoli mammiferi e uccelli. Se inseguito si infila nel tunnel e può ‘tappare’ l’ingresso col posteriore osseo.",
-    human: "Rischi: strade, recinzioni e perdita di habitat; in alcune zone è protetto. Programmi locali installano passaggi faunistici per ridurre gli incidenti.",
-    fun: "Feces design: i ‘cubi’ non rotolano via e marcano i punti strategici.",
-    facts: ["Tane ramificate e fresche","Marsupio rivolto all’indietro","Attivo soprattutto di notte","Digestione lentissima"]
+    description: "Marsupiale tozzo e robusto, ingegnere del suolo: scava reti di gallerie lunghe anche decine di metri con camere di riposo asciutte e ventilate. Corpo basso, arti anteriori potentissimi con artigli larghi come palette; testa squadrata che fa da ariete per spingere terra o ostacoli. Il mantello fitto e le orecchie piccole riducono perdite di calore e ingressi di polvere. Vive in ambienti dove l’acqua scarseggia: ha un metabolismo lento e un intestino che estrae energia da erbe fibrose quasi “impossibili”. La temperatura corporea è più bassa rispetto a mammiferi simili: un trucco per consumare meno.",
+    sociality: "Solitario ma tollerante nelle zone di confine: più individui possono usare la stessa rete di tunnel in orari diversi. Si riconoscono con segnali olfattivi e con i celebri cubi di feci, che non rotolano via e restano sui sassi come “post-it” profumati. Attivo soprattutto di notte o dopo la pioggia, quando l’erba è più ricca e il terreno è morbido. Nonostante l’aspetto pacioso, allo scatto può superare i 40 km/h per brevi tratti e rifugiarsi in galleria bloccandone l’ingresso con la schiena corazzata.",
+    reproduction: "Di solito un solo piccolo alla volta. Resta nel marsupio 6–7 mesi: il marsupio è rivolto all’indietro, così non entra terra mentre scava. Dopo l’uscita continua a seguire la madre e a poppare per qualche settimana, imparando percorsi e “stanze” della tana. Accrescimento lento ma robusto: strategia utile dove il cibo è povero.",
+    feeding: "Bruca erbe dure, cortecce e radici. La digestione può durare 48 ore: il colon compatta l’acqua al massimo e crea, sì, i famosi cubi. Beve poco: ricava liquidi dal cibo e dalla rugiada; nei periodi secchi riduce l’attività per risparmiare energie.",
+    interactions: "Le tane aerano il suolo, drenano l’acqua e creano micro-rifugi usati da rettili, piccoli mammiferi e uccelli. In caso di predazione, la difesa preferita è la galleria: si infila dentro e chiude l’accesso come un tappo vivente.",
+    human: "Rischi principali: strade, recinzioni e perdita di habitat. In molte aree è protetto; sottopassi faunistici e mappatura delle tane riducono gli incidenti.",
+    fun: "Design fecale brevettabile: cubi che non rotolano e marcano a prova di vento.",
+    facts: ["Tane ramificate con camere”, “Marsupio rivolto all’indietro”, “Attivo soprattutto di notte”, “Digestione lentissima”, “Corre a >40 km/h a scatto", "‘Ingegnere dell’ecosistema’"],
   },
   { // 2 Falco pellegrino
     name: "Falco pellegrino",
@@ -201,14 +203,14 @@ const ANIMALS = [
     lifespan: "~15 anni",
     size: "Apertura alare 80–120 cm",
     conservation: "Least Concern",
-    description: "Rapace compatto con ali appuntite, dorso ardesia e baffi scuri sul viso. È il campione della velocità: in picchiata supera i 300 km/h grazie a corpo aerodinamico, ali rigide e un sistema respiratorio che regge l’alta pressione dell’aria.",
-    sociality: "Coppie stabili su territori con ottimi punti di decollo e vista libera. In città usa torri e grattacieli come ‘scogliere’ moderne e pattuglia i cieli urbani lungo corridoi d’aria.",
-    reproduction: "Nidifica in conche su roccia o su tetti ghiaiosi; depone 2–4 uova. Incubazione condivisa; i giovani fanno esercizi di mira: i genitori rilasciano una preda in volo per insegnare il passaggio.",
-    feeding: "Preda soprattutto colombi, storni e limicoli. La picchiata colpisce e stordisce; la preda viene afferrata in aria o recuperata a terra. Vista finissima per seguire bersagli a grande distanza.",
-    interactions: "Regola popolazioni di uccelli urbani troppo abbondanti; subisce mobbing da corvidi e gabbiani quando è individuato.",
-    human: "Crollato nel ’900 per pesticidi che assottigliavano i gusci, è tornato grazie ai divieti e ai progetti di tutela. Molte città hanno webcam sui nidi per monitoraggio e didattica.",
-    fun: "Un ‘jet’ con le penne: rollio e virate strette tra palazzi come in un canyon d’aria.",
-    facts: [">300 km/h in picchiata","Nidi urbani su campanili","Vista 2–3× più fine","Becco con ‘dente’ tagliente"]
+    description: "Rapace compatto, ali appuntite e baffi scuri sul viso. È il campione assoluto della velocità: in picchiata supera i 300 km/h grazie ad ali rigide, corpo a goccia e un sistema respiratorio che regge l’impatto dell’aria. La vista è finissima: individua un uccello a centinaia di metri e calcola l’angolo perfetto di attacco come un aereo acrobatico. In città ha trovato scogliere alternative: campanili e grattacieli con vista sulle “autostrade” del vento tra i palazzi.",
+    sociality: "In stagione riproduttiva vive in coppia stabile su territori con ottimi punti di decollo e grandi prospettive sulla pianura o sulla città. Difende i dintorni del nido con passaggi minacciosi e vocalizzi. Fuori stagione è più solitario, ma gli individui giovani si trattengono a lungo nei territori dei genitori imparando rotte e posatoi. In ambiente urbano si fa rispettare da gabbiani e corvidi, ma può subire mobbing quando viene scoperto.",
+    reproduction: "Nidifica in conche su cenge o tetti ghiaiosi. Depone 2–4 uova, incubate da entrambi i genitori. L’addestramento dei giovani è spettacolare: gli adulti lasciano cadere una preda in volo e li invitano a “passarsi” il bersaglio finché la mira diventa chirurgica. La coppia spesso riusa lo stesso sito per anni.",
+    feeding: "Caccia in volo: piccioni, storni, limicoli. La picchiata (stoop) colpisce per stordimento; poi afferra in aria o recupera a terra. Occhi protetti da una membrana nittitante “a visiera” e tubercolo nel becco che spezza il collo della preda con un morso preciso.",
+    interactions: "Regola popolazioni urbane troppo numerose e mantiene dinamica la comunità di uccelli cittadini. Competizione con gabbiani e corvidi su posatoi e prede; occasionalmente furto di preda (cleptoparassitismo) ai suoi danni.",
+    human: "Crollato nel ’900 per pesticidi che assottigliavano i gusci, è tornato grazie ai divieti e a progetti di tutela. Oggi molte città ospitano webcam su nidi: una telenovela scientifica che avvicina il pubblico alla conservazione.",
+    fun: "Un jet con le piume: rollio, virate strette e planate tra palazzi come in un canyon d’aria.",
+    facts: [">300 km/h in picchiata", "Vista 2–3× più fine della nostra", "Nidi urbani su campanili", "Becco con ‘dente’ tagliente", "Membrana nittitante protettiva"],
   },
   { // 3 Corvo
     name: "Corvo comune",
@@ -220,14 +222,14 @@ const ANIMALS = [
     lifespan: "10–15 anni",
     size: "45–50 cm; apertura alare ~1 m",
     conservation: "Least Concern",
-    description: "Uccello nero lucido, curioso e molto intelligente. Riconosce volti umani, ricorda eventi, impara per osservazione e usa piccoli strumenti per ottenere cibo.",
-    sociality: "Coppie stabili durante la riproduzione; grandi dormitori comuni in inverno. I giovani formano ‘bande’ esplorative che sperimentano nuove fonti di cibo e strategie.",
-    reproduction: "Nido solido su alberi o strutture; 3–6 uova. Entrambi i genitori difendono il nido con richiami d’allarme e insegnano ai giovani i siti di alimentazione.",
-    feeding: "Dieta flessibile: insetti, cereali, frutti, carcasse, scarti urbani. Nasconde porzioni in ‘dispense’ e le recupera grazie a memoria spaziale notevole.",
-    interactions: "Ripulisce rifiuti organici e carcasse, riducendo rischi sanitari. Può rubare prede ad altri uccelli o seguire trattori per catturare insetti.",
-    human: "In città sincronizza la ricerca di cibo con gli orari umani (mense, mercati). A volte rumoroso, ma utile come spazzino naturale.",
-    fun: "Ricorda per anni chi lo ha aiutato… e chi lo ha infastidito.",
-    facts: ["Usa attrezzi","Memoria a lungo termine","Adattabile in città","Ricco vocabolario di richiami"]
+    description: "Nero lucido, curioso, molto intelligente. Riconosce volti umani, ricorda eventi per anni e impara osservando: se un corvo risolve un problema, gli altri lo copiano. Sa usare piccoli attrezzi, come rametti per estrarre cibo da fessure. Il volo è elastico, con virate abili e planate sopra strade e campi: osservatore nato dei nostri comportamenti.",
+    sociality: "Durante la riproduzione vive in coppia stabile; la sera e in inverno si riunisce in grandi dormitori con centinaia di individui. I giovani formano “bande” esplorative che testano nuove fonti di cibo e apprendono luoghi sicuri. Comunicazione ricca: richiami di allarme, inviti al cibo, persino “commenti” insistenti su eventi insoliti.",
+    reproduction: "Nido solido su alberi o strutture, costruito con rami e foderato con fibre più morbide. Depone 3–6 uova; entrambi i genitori nutrono i piccoli. I giovani accompagnano gli adulti nei primi spostamenti e imparano dove e quando cercare cibo.",
+    feeding: "Dieta flessibile: insetti, cereali, frutta, carcasse e scarti urbani. Sa aprire noci lasciandole cadere sull’asfalto, o seguire i trattori per catturare larve e grilli. Nasconde avanzi in piccole “dispense” e ricorda i nascondigli a distanza di tempo.",
+    interactions: "È uno spazzino naturale: accelera la decomposizione e ripulisce i rifiuti organici. Può rubare cibo ad altri uccelli o disturbare rapaci per farli allontanare dalla preda. Predatori principali: falchi e aquile; i corvi, in gruppo, sanno tenerli a distanza con mobbing insistente.",
+    human: "In città sincronizza la ricerca di cibo con i nostri orari (mense, mercati, raccolta rifiuti). A volte rumoroso, ma molto utile. La sua presenza indica ambienti dinamici e ricchi di nicchie ecologiche.",
+    fun: "Ha senso dell’umorismo? Difficile dirlo, ma ama i giochi: scivola sulla neve, ruba palline ai cani, inventa problemi da risolvere.",
+    facts: ["Usa attrezzi semplici", "Memoria a lungo termine", "Adattabile in città", "Ricco vocabolario di richiami", "Nasconde e ritrova cibo"],
   },
   { // 4 Pinguino
     name: "Pinguino imperatore",
@@ -239,33 +241,33 @@ const ANIMALS = [
     lifespan: "15–20 anni",
     size: "Fino a 120 cm; 20–40 kg",
     conservation: "Near Threatened",
-    description: "L’unico uccello che si riproduce nel pieno dell’inverno antartico. Piume fittissime trattengono aria come una muta; spesso strato di grasso, circolazione nelle zampe ‘a scambio di calore’. Goffo a terra, agile e veloce in acqua.",
-    sociality: "Colonie di migliaia. Durante le bufere si stringono in ‘huddle’ ruotando lentamente: tutti passano a turno nella zona più calda.",
-    reproduction: "Un uovo per stagione. La femmina parte a nutrirsi; il maschio cova per ~60 giorni tenendo l’uovo sui piedi sotto una piega di pelle (marsupio di cova). Alla schiusa si alternano nelle cure.",
-    feeding: "Immersioni profonde (anche >500 m) con apnea 15–20 minuti. Caccia pesci e krill seguendo banchi e luce sotto il ghiaccio.",
-    interactions: "Predato da foche leopardo e orche in mare; skua e altri uccelli possono predare uova e pulcini a terra.",
-    human: "Specie sentinella dei cambiamenti del ghiaccio marino; tutelata e monitorata con foto satellitari delle colonie.",
-    fun: "Scivola sulla pancia per coprire distanza risparmiando energia.",
-    facts: ["Colonie gigantesche","Uovo sui piedi del maschio","Immersioni eccezionali","Huddle anti‑tempesta"]
+    description: "L’unico uccello che si riproduce nel pieno dell’inverno antartico. Le piume fittissime trattengono aria come una muta; lo strato di grasso e uno scambio di calore nelle zampe riducono la dispersione termica. A terra è goffo, in acqua è un proiettile elegante che taglia il buio sotto il ghiaccio, orientandosi con luce filtrata e memoria delle rotte.",
+    sociality: "Le colonie contano migliaia di individui. Nelle tempeste si stringono in “huddle”: una massa che ruota lentamente in modo che ognuno passi, a turno, nella zona più calda. I pulcini riconoscono i genitori dalla voce in mezzo a un mare di gridii: un prodigio di acustica naturale.",
+    reproduction: "Un solo uovo. La femmina lo depone e parte a nutrirsi; il maschio lo cova sui piedi, sotto una piega di pelle, per circa 60 giorni a digiuno. Al ritorno della femmina, i ruoli si invertono: staffetta perfetta in un ambiente estremo. I giovani imparano presto a scivolare sulla pancia per spostarsi più in fretta.",
+    feeding: "Immersioni profonde anche oltre 500 m, apnea di 15–20 minuti. Caccia pesci e krill seguendo banchi e bagliori sotto il ghiaccio. Il sangue ricco di mioglobina e la capacità di ridurre la frequenza cardiaca gli permettono lunghe apnee.",
+    interactions: "In mare rischia foche leopardo e orche; a terra skua e gabbiani possono predare uova e pulcini. La disponibilità di ghiaccio marino influenza siti di riproduzione e rotte di caccia.",
+    human: "Specie sentinella dei cambiamenti del ghiaccio marino. È protetta e monitorata anche da satellite, che riconosce le colonie dalle macchie di guano sul ghiaccio.",
+    fun: "Scivola sulla pancia come un bob naturale: energia risparmiata, umore alle stelle.",
+    facts: ["Colonie di migliaia", "Uovo covato sui piedi del maschio", "Immersioni profonde", "‘Huddle’ anti-tempesta", "Riconoscimento vocale dei genitori"],
   },
   { // 5 Gallina
     name: "Gallina domestica",
     scientificName: "Gallus gallus domesticus",
     class: "Uccelli",
     emoji: "🐔",
-    habitat: "Aree rurali e urbane in tutto il mondo",
+    habitat: "Aree rurali e urbane di tutto il mondo",
     diet: "Onnivora (semi, insetti, erbe)",
     lifespan: "5–10 anni",
     size: "Variabile per razza",
     conservation: "—",
-    description: "Uccello domestico diffusissimo. Becchetta, razzola e comunica con diversi richiami: allarme, scoperta cibo, richiamo dei pulcini. Molte razze con colori e taglie differenti.",
-    sociality: "Gruppi con gerarchia (‘ordine di beccata’). La chioccia guida i pulcini, mostra cosa mangiare e li scalda sotto le ali.",
-    reproduction: "Depone uova regolarmente; cova di ~21 giorni. Pulcini precoci: camminano e si alimentano da subito, seguendo la madre.",
-    feeding: "Semi, erbe, insetti e avanzi controllati. Necessari acqua pulita e spazio per razzolare al sole e all’ombra.",
-    interactions: "Può attirare predatori (volpi, faine, rapaci). Un pollaio sicuro con reti e chiusure serali è fondamentale.",
-    human: "Risorsa alimentare e culturale; cresce l’interesse per allevamenti all’aperto e benessere animale.",
-    fun: "Riconosce i compagni e impara routine: sa quando è ora del pasto!",
-    facts: ["21 giorni di cova","Ordine di beccata","Molte razze","Comunicazione ricca"]
+    description: "Uccello domestico diffusissimo, con migliaia di razze e una gamma incredibile di forme e colori. Becchetta e razzola tutto il giorno in cerca di semi e insetti; preferisce spazi aperti con ripari vicini. Ha un linguaggio sorprendentemente ricco: richiami specifici per ‘cibo trovato’, ‘attenzione rapace’, ‘richiamo dei pulcini’.",
+    sociality: "Vive in gruppo con una gerarchia semplice detta “ordine di beccata”. Le chiocce sono ottime madri: mostrano cosa mangiare, radunano i piccoli sotto le ali e li difendono con coraggio. I galli pattugliano e segnalano pericoli con richiami distinti per predatori terrestri o aerei.",
+    reproduction: "Depone uova regolarmente; se cova, la schiusa avviene in ~21 giorni. I pulcini sono precoci: camminano e si alimentano subito. Le razze differiscono per frequenza di deposizione, dimensione dell’uovo e istinto di cova.",
+    feeding: "Dieta varia: semi, erbe, insetti e avanzi controllati. Per benessere servono acqua pulita, grit (sassolini) per la digestione e spazio per razzolare al sole e all’ombra.",
+    interactions: "Attira piccoli predatori (volpi, faine, rapaci). Un pollaio sicuro con reti ben tese e chiusura serale riduce i rischi. In orto è preziosa: riduce insetti e produce concime naturale.",
+    human: "Risorsa alimentare e culturale globale. Cresce l’interesse per metodi rispettosi del benessere: luce naturale, arricchimento, tempo all’aperto.",
+    fun: "Riconosce individui del gruppo e memorizza routine: sa quando è ora del pasto e il percorso della “passeggiata”.",
+    facts: ["21 giorni di cova", "Ordine di beccata", "Molte razze selezionate", "Richiami diversi per tipo di pericolo", "Uovo: alimento completo"],
   },
   { // 6 Coccodrillo
     name: "Coccodrillo del Nilo",
@@ -277,14 +279,14 @@ const ANIMALS = [
     lifespan: "40+ anni",
     size: ">5 m (massimi)",
     conservation: "Least Concern (tutele locali)",
-    description: "Rettile massiccio con corazza di osteodermi. Termoregola alternando sole e acqua; respira con narici e occhi in cima al muso come un periscopio.",
-    sociality: "Condivide rive e pozze, soprattutto nella stagione secca. Posatoi soleggiati sono risorse ‘contese’ e possono creare gerarchie locali.",
-    reproduction: "Nido scavato nella sabbia; la madre sorveglia e risponde ai pigolii dei piccoli ancora nel guscio, aiutandoli a uscire e trasportandoli all’acqua.",
-    feeding: "Pesci, antilopi, zebre e uccelli. Denti per afferrare (non masticare): strappa scuotendo la testa; può fare la ‘rotazione della morte’ per separare pezzi.",
-    interactions: "Predatore al vertice che mantiene l’equilibrio rimuovendo prede deboli o malate. Condivide carcasse con avvoltoi e altri necrofagi.",
-    human: "Conflitti presso rive frequentate; la pianificazione di accessi sicuri riduce i rischi. Specie protetta in molte aree.",
-    fun: "Immobile per ore in agguato, poi scatto fulmineo: maestro della pazienza.",
-    facts: ["Morsi potentissimi","Cure parentali","Rotazione della morte","Periscopio naturale"]
+    description: "Rettile massiccio con corazza di osteodermi. Occhi e narici in cima al muso funzionano come un periscopio: può restare quasi sommerso e invisibile. Termoregola alternando sole e acqua; spalanca la bocca per dissipare calore come un “radiatore” naturale.",
+    sociality: "Condivide rive e pozze, soprattutto nella stagione secca. Posatoi soleggiati sono preziosi e possono generare piccole gerarchie locali. I giovani si aggregano in nursery vicino alla madre o ad adulti tolleranti.",
+    reproduction: "La femmina scava un nido nella sabbia; depone molte uova e sorveglia l’area. I piccoli pigolano dal guscio: la madre risponde, li aiuta a uscire e li trasporta in acqua delicatamente in bocca. Cure parentali insospettate per un rettile.",
+    feeding: "Pesci, antilopi, zebre e uccelli acquatici. Denti per afferrare, non per masticare: lacera scuotendo la testa o esegue la “rotazione della morte” per staccare pezzi. Può restare immobile per ore e scattare all’improvviso.",
+    interactions: "Predatore al vertice che mantiene in equilibrio le popolazioni rimuovendo prede deboli o malate. Condivide carcasse con avvoltoi e altri necrofagi: una mensa a turni.",
+    human: "Conflitti presso rive affollate o punti d’acqua condivisi. Corridoi sicuri, cartelli e abbeveratoi separati per il bestiame riducono i rischi. Specie protetta in molte aree.",
+    fun: "Solo gli occhi e le narici emergono: pazienza infinita, scatto mostruoso.",
+    facts: ["Morsi potentissimi", "Cure parentali", "Rotazione della morte", "Periscopio naturale", "Bocca come radiatore"],
   },
   { // 7 Aquila
     name: "Aquila reale",
@@ -296,14 +298,14 @@ const ANIMALS = [
     lifespan: "20–30 anni",
     size: "Apertura alare fino a 2,3 m",
     conservation: "Least Concern",
-    description: "Grande rapace bruno con nuca dorata. Vista acutissima grazie a fovee molto sviluppate; volo maestoso sfruttando correnti ascensionali.",
-    sociality: "Coppie stabili e territoriali; nidi monumentali riutilizzati e ampliati per anni con rami e ossa.",
-    reproduction: "1–3 uova; il primo nato spesso prevale sugli altri (siblicidio). I genitori si alternano tra caccia e cova.",
-    feeding: "Preda lepri, marmotte, uccelli; in inverno usa anche carcasse. Attacchi dall’alto con affondi potenti.",
-    interactions: "Competizione con corvi e altri rapaci su territori e carogne; subisce mobbing dai corvidi vicino ai dormitori.",
-    human: "Sensibile al disturbo in nidificazione e ai cavi aerei; progetti di conservazione mappano i siti per ridurre impatti.",
-    fun: "Può veleggiare a lungo con pochissimi battiti d’ala.",
-    facts: ["Fovee ‘da supervista’","Nidi monumentali","Picchiate fulminee","Territori estesi"]
+    description: "Grande rapace bruno con nuca dorata. Volo maestoso: sfrutta correnti ascensionali e termiche di valle, pattugliando territori enormi con pochissimi battiti d’ala. La vista è eccezionale grazie a fovee molto sviluppate: individua una marmotta immobile a centinaia di metri.",
+    sociality: "Vive in coppia stabile su territori difesi con voli di parata e vocalizzi. I nidi sono monumentali, riutilizzati e ampliati per anni con rami, pelle e a volte ossa. Giovani restano nei pressi imparando i siti di caccia e i “trucchi del mestiere”.",
+    reproduction: "Depone 1–3 uova; spesso il primo nato prevale (siblicidio), una dura assicurazione sulla sopravvivenza in ambienti difficili. Genitori si alternano tra caccia e cova; i giovani allenano muscoli e coordinazione su posatoi ventosi.",
+    feeding: "Prede principali: lepri, marmotte, uccelli di medie dimensioni. In inverno si nutre anche di carcasse (necrofagia). L’attacco è rapido e preciso: picchiate e affondi con artigli poderosi.",
+    interactions: "Competizione con corvidi e altri rapaci su territori e carogne; spesso mobbing reciproco. Predatori delle uova: corvi e faine se il nido è incustodito.",
+    human: "Sensibile al disturbo vicino ai nidi e a infrastrutture (cavi, eolico). Progetti di conservazione mappano i siti sensibili e programmano lavori fuori stagione riproduttiva.",
+    fun: "Veleggia per ore leggendo l’aria come musica: il cielo è il suo terreno di caccia.",
+    facts: ["Fovee ‘da supervista’", "Nidi monumentali", "Picchiate fulminee", "Territori estesi", "Necrofagia invernale"],
   },
   { // 8 Salamandra
     name: "Salamandra pezzata",
@@ -315,14 +317,14 @@ const ANIMALS = [
     lifespan: "Fino a 20 anni",
     size: "15–25 cm",
     conservation: "Varia per area",
-    description: "Corpo nero lucido con macchie gialle vistose: avviso chimico (aposematismo) per scoraggiare i predatori. Attiva con umidità alta, specialmente dopo i temporali.",
-    sociality: "Schiva e solitaria. Di giorno si ripara sotto legni e pietre; esce di notte per cacciare a corto raggio.",
-    reproduction: "In molte aree partorisce larve in acque pulite di ruscelli e pozze; metamorfosi in poche settimane, poi vita terrestre nelle notti umide.",
-    feeding: "Caccia lenta a vista e olfatto: lombrichi, lumache, larve e piccoli insetti del suolo.",
-    interactions: "Secrezioni cutanee irritanti scoraggiano i predatori. Indicatrice di ecosistemi sani: scompare se l’acqua si inquina.",
-    human: "Minacciata da inquinamento, frammentazione e malattie fungine emergenti; la protezione di boschi umidi è essenziale.",
-    fun: "Dopo la pioggia è più facile incontrarla camminare sul sentiero bagnato.",
-    facts: ["Colori di avviso","Notturna","Sensibile all’inquinamento","Larve in acqua pulita"]
+    description: "Corpo nero lucido con macchie gialle vistose: un cartello di pericolo (aposematismo) che avverte i predatori delle secrezioni cutanee irritanti. Attiva con umidità alta, specialmente dopo temporali; di giorno riposa sotto tronchi e pietre umide. Pelle sottile e vascolarizzata: respira anche per via cutanea, per questo ha bisogno di ambienti puliti.",
+    sociality: "Schiva e solitaria, ma dove l’habitat è perfetto può sfruttare gli stessi rifugi con alternanza naturale. Movimenti lenti e misurati; nelle notti piovose si sposta lungo sentieri e fossi con una sicurezza degna di chi conosce ogni sasso.",
+    reproduction: "In molte aree europee è ovovivipara: partorisce larve in acque fredde e limpide; la metamorfosi avviene in settimane. In altre popolazioni depone uova. I giovani passano da vita acquatica a terrestre seguendo la pioggia come una bussola.",
+    feeding: "Caccia a corto raggio: lombrichi, lumache, larve e insetti del suolo. Vista e olfatto guidano piccoli agguati lenti ma efficaci.",
+    interactions: "Secrezioni cutanee scoraggiano molti predatori. È specie indicatrice: scompare rapidamente se l’acqua si inquina o il bosco si dissecca.",
+    human: "Minacce: inquinamento, frammentazione forestale, malattie fungine emergenti. La tutela dei ruscelli ombrosi e del sottobosco è una cura per lei e per tutto l’ecosistema.",
+    fun: "Dopo la pioggia la trovi su sentieri che luccicano: sembra dipinta a mano.",
+    facts: ["Colori di avviso", "Attiva dopo la pioggia", "Pelle sensibile all’inquinamento", "Larve in acqua pulita", "Respirazione anche cutanea"],
   },
   { // 9 Camaleonte
     name: "Camaleonte comune",
@@ -334,14 +336,14 @@ const ANIMALS = [
     lifespan: "4–7 anni",
     size: "20–35 cm (con coda)",
     conservation: "Varia localmente",
-    description: "Corpo compresso lateralmente, dita a pinza, coda prensile. Occhi indipendenti che offrono campo visivo quasi totale; lingua ‘a molla’ più lunga della testa. Cambia colore per comunicare, regolare la temperatura e gestire lo stress.",
-    sociality: "Territoriale e solitario. Incontri tra adulti: posture, gonfiaggio del corpo e variazione di colore. Se minacciato preferisce l’immobilità ‘da foglia al vento’.",
-    reproduction: "Dopo l’accoppiamento depone uova in terreni soffici e ben drenati; i piccoli nascono già autonomi e si arrampicano subito nella vegetazione bassa.",
-    feeding: "Caccia d’agguato: resta immobile e scatta con la lingua appiccicosa a velocità fulminea. Insetti volanti e striscianti.",
-    interactions: "Predato da serpenti e rapaci; difesa principale: mimetismo e immobilità. I giovani sono più vulnerabili nelle prime settimane.",
-    human: "Minacciato da perdita di habitat costiero, traffico stradale e prelievo illegale in alcune aree; corridoi ecologici e siepi aiutano gli spostamenti.",
+    description: "Corpo compresso lateralmente, dita a pinza, coda prensile: il profilo perfetto per una vita tra rami sottili. Gli occhi si muovono indipendentemente offrendo un campo visivo quasi totale; quando aggancia la preda, convergono e la lingua scatta come una molla appiccicosa. Cambia colore per comunicare stati d’animo, regolare la temperatura e gestire lo stress: più ‘linguaggio’ che invisibilità totale.",
+    sociality: "Territoriale e solitario. In incontri tra adulti gonfia il corpo, mostra colori accesi e oscilla come una foglia al vento per confondere la vista del predatore. Le interazioni vere avvengono soprattutto in stagione riproduttiva.",
+    reproduction: "Dopo l’accoppiamento la femmina depone uova in terreni soffici e ben drenati. I piccoli nascono già arrampicatori e iniziano subito una vita tra rami e cespugli. La sopravvivenza dipende da rifugi e microclima.",
+    feeding: "Caccia d’agguato: resta immobile e colpisce insetti con la lingua a proiettile. Preferisce posatoi che offrano visuale e copertura: è un fotografo naturalista ante litteram.",
+    interactions: "Predato da serpenti e rapaci; difesa principale: immobilità e mimetismo. I giovani, più esposti, usano erba alta e rovi come labirinto protettivo.",
+    human: "Minacciato da perdita di habitat costiero, traffico stradale e prelievo illegale. Corridoi ecologici, siepi e tutela della macchia riducono l’isolamento delle popolazioni.",
     fun: "Ogni occhio guarda altrove: può seguire preda e predatore nello stesso momento.",
-    facts: ["Lingua proiettile","Occhi indipendenti","Coda prensile","Mimetismo comunicativo"]
+    facts: ["Lingua proiettile", "Occhi indipendenti", "Coda prensile", "Mimetismo comunicativo", "Cammino ‘a dondolo’ da foglia"],
   },
   { // 10 Gatto
     name: "Gatto domestico",
@@ -353,14 +355,14 @@ const ANIMALS = [
     lifespan: "12–18 anni",
     size: "3–6 kg (media)",
     conservation: "—",
-    description: "Agile e curioso. Vista crepuscolare con pupille che si dilatano molto; baffi come sensori di distanza; udito fino agli ultrasuoni dei roditori. Anche in casa conserva istinti da cacciatore.",
-    sociality: "Vive da solo o in piccoli gruppi attorno a cibo e ripari. Linguaggio ricco: fusa, miagolii, trilli, posture, strofinamenti e marcature odorose.",
-    reproduction: "Gestazione ~63 giorni; cucciolate multiple all’anno se non sterilizzato. I cuccioli nascono ciechi e sordi, crescono rapidamente nelle prime settimane.",
-    feeding: "Preferisce proteine animali; servono dieta bilanciata, acqua fresca e gioco quotidiano per prevenire sovrappeso e noia.",
-    interactions: "Ottimo predatore di piccoli vertebrati: all’aperto va gestito per ridurre l’impatto su fauna locale (campanellino, orari, rientro notturno).",
-    human: "Compagno amatissimo; importanti sterilizzazione, vaccinazioni e visite veterinarie. Arricchimento ambientale: tiragraffi, nascondigli, giochi di ricerca cibo.",
-    fun: "Scatole, laser e sole: il trio della felicità felina.",
-    facts: ["Visione crepuscolare","Baffi sensori","Cacciatore naturale","Ha bisogno di gioco quotidiano"]
+    description: "Agile e curioso. Vista crepuscolare con pupille che si dilatano molto; baffi come sensori di distanza che misurano passaggi stretti; udito fino agli ultrasuoni dei roditori. Anche in casa conserva istinti da cacciatore: inseguimenti, agguati dietro gli spigoli, corse alle tre del mattino come maratone di formula felina.",
+    sociality: "Vive da solo o in piccoli gruppi legati a cibo e ripari. Linguaggio ricco: fusa (non solo felicità, anche autocalmante), miagolii con “dialetti” casalinghi, posture, strofinamenti e marcature odorose. Le amicizie feline esistono: si vedono in toelettature reciproche e sonnellini condivisi.",
+    reproduction: "Gestazione ~63 giorni; cucciolate multiple all’anno se non sterilizzato. I cuccioli nascono ciechi e sordi, si sviluppano rapidamente nelle prime settimane; la socializzazione precoce riduce paure e comportamenti problematici.",
+    feeding: "Preferisce proteine animali; in ambiente domestico servono dieta bilanciata, acqua fresca (spesso lontano dal cibo), gioco e arricchimento per prevenire sovrappeso e noia. Caccia ‘a pezzetti’: tanti piccoli pasti/gioco al giorno lo rendono sereno.",
+    interactions: "Predatore eccellente di piccoli vertebrati: all’aperto va gestito per proteggere la fauna (campanellino, orari, rientro notturno). In casa riduce stress e solitudine… ma necessita di attenzioni e routine prevedibili.",
+    human: "Compagno amatissimo. Fondamentali sterilizzazione, vaccinazioni, visite veterinarie. Arricchimento ambientale: tiragraffi, postazioni sopraelevate, scatole e giochi che “simulano” caccia.",
+    fun: "Scatole, laser e sole: il trio della felicità felina. Più una finestra da cui guardare il mondo scorrere.",
+    facts: ["Visione crepuscolare", "Baffi sensori", "Cacciatore naturale", "Ha bisogno di gioco quotidiano", "Ama routine e prevedibilità"],
   }
 ];
 
@@ -394,7 +396,7 @@ const toTheme = (hc)=>({
 const THEMES = ['theme-foresta','theme-savana','theme-oceano','theme-montagna','theme-ghiaccio','theme-deserto','theme-prateria'];
 
 /* ==========================
-   PALETTE/PATTERN VARIABILI PER SFONDI (compatibili)
+   SFONDI: palette/pattern variabili
    ========================== */
 function pickThemeVars(theme){
   const tweak = (hex, delta=0) => {
@@ -432,13 +434,12 @@ function pickThemeVars(theme){
     ]}
   };
   const set = sets[theme] || sets["theme-prateria"];
-  const wiggle = (Math.random()*0.08)-0.04; // -4%..+4%
+  const wiggle = (Math.random()*0.08)-0.04;
   const t0 = tweak(set.base0, wiggle);
   const t1 = tweak(set.base1, -wiggle/2);
   const pat = set.patterns[Math.floor(Math.random()*set.patterns.length)];
   return { t0, t1, pat };
 }
-
 function applyTheme(theme){
   document.body.classList.remove(...THEMES);
   document.body.classList.add(theme);
@@ -449,7 +450,7 @@ function applyTheme(theme){
 }
 
 /* ==========================
-   TEMPLATES — home e scheda con FISARMONICA + Apri/Chiudi tutto
+   TEMPLATE
    ========================== */
 function cardTpl(a){
   const hc = habClass(a.habitat);
@@ -501,6 +502,7 @@ function acc(id, title, html){
 function detailTpl(a){
   const hc = habClass(a.habitat);
   const facts = (a.facts||[]).map(f=>`<li>${f}</li>`).join('');
+  const finale = (a.facts && a.facts[0]) ? a.facts[0] : (a.fun || "Questo animale riserva sempre sorprese.");
   return `
   <div class="detail">
     <div>
@@ -533,6 +535,7 @@ function detailTpl(a){
       ${acc('eco', 'Ruolo ecologico e predatori', `<p>${a.interactions||'—'}</p>`)}
       ${facts? acc('facts', 'Curiosità', `<ul>${facts}</ul>`) : ''}
       ${acc('hum', "Rapporto con l'uomo", `<p>${a.human||'—'}</p>`)}
+      <div class="panel pad callout" style="margin-top:12px"><b>Lo sapevi che…</b> ${finale}</div>
     </div>
     ${quickFacts(a)}
   </div>`;
@@ -576,7 +579,7 @@ function render(){
 }
 
 /* ==========================
-   INTERAZIONE + Apri/Chiudi tutto
+   INTERAZIONE
    ========================== */
 function showToast(msg){ const t = document.querySelector('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(showToast._t); showToast._t = setTimeout(()=> t.classList.remove('show'), 2000); }
 function goRandom(){ const items = filteredItems(); if(!items.length) return; const pick = items[Math.floor(Math.random()*items.length)]; location.hash = `#/animal/${pick.id}`; showToast(`Hai pescato: ${pick.name}! 🎲`); }
