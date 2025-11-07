@@ -20,17 +20,69 @@
       --radius:18px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
+    html,body{
       margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
       color:var(--text);
+      background:#f1f5f9; /* base neutra: i temi la sovrascrivono */
+      line-height:1.6;
+      transition: background 400ms ease;
+    }
+    /* Temi habitat per lo sfondo pagina */
+    body.theme-foresta{
       background:
-        radial-gradient(1200px 800px at 10% -10%, #cffafe, transparent),
-        radial-gradient(900px 700px at 110% 0%, #e9d5ff, transparent),
-        linear-gradient(180deg, #fafafa, #f1f5f9 60%),
-        /* pattern leggero tipo onde/monti, bassissima opacità */
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" opacity="0.06"><g fill="none" stroke="%231f2937" stroke-width="1"><path d="M0 80c40-40 120-40 160 0"/><path d="M0 120c40-40 120-40 160 0"/><path d="M0 40c40-40 120-40 160 0"/></g><g fill="none" stroke="%231f2937" stroke-width="1"><path d="M20 160c20-20 60-20 80 0"/><path d="M60 0c20 20 60 20 80 0"/></g></svg>');
-      background-attachment:fixed; line-height:1.6;
+        radial-gradient(1200px 800px at 10% -10%, #bbf7d0, transparent),
+        radial-gradient(900px 700px at 110% 0%, #86efac, transparent),
+        linear-gradient(180deg, #f0fdf4, #dcfce7 60%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" opacity="0.08"><g fill="none" stroke="%2316582A" stroke-width="1"><path d="M10 100c20-30 60-30 80 0"/><path d="M0 60c30-30 90-30 120 0"/></g><g fill="none" stroke="%231F7A3B" stroke-width="1"><circle cx="20" cy="20" r="6"/><circle cx="80" cy="40" r="5"/></g></svg>');
+      background-attachment: fixed;
+    }
+    body.theme-savana{
+      background:
+        radial-gradient(1200px 800px at 10% -10%, #fde68a, transparent),
+        radial-gradient(900px 700px at 110% 0%, #fef3c7, transparent),
+        linear-gradient(180deg, #fffbeb, #fef9c3 60%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" opacity="0.07"><g fill="none" stroke="%236B4F1D" stroke-width="1"><path d="M0 90c30-10 60-10 120 0"/><path d="M0 60c30-10 60-10 120 0"/></g></svg>');
+      background-attachment: fixed;
+    }
+    body.theme-oceano{
+      background:
+        radial-gradient(1200px 800px at 10% -10%, #bae6fd, transparent),
+        radial-gradient(900px 700px at 110% 0%, #a5f3fc, transparent),
+        linear-gradient(180deg, #f0f9ff, #e0f2fe 60%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" opacity="0.08"><path d="M0 30q30 20 60 0t60 0" fill="none" stroke="%230D5B8F"/><path d="M0 70q30 20 60 0t60 0" fill="none" stroke="%231084B3"/></svg>');
+      background-attachment: fixed;
+    }
+    body.theme-montagna{
+      background:
+        radial-gradient(1200px 800px at 10% -10%, #e2e8f0, transparent),
+        radial-gradient(900px 700px at 110% 0%, #cbd5e1, transparent),
+        linear-gradient(180deg, #f8fafc, #e2e8f0 60%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" opacity="0.07"><path d="M0 120L40 80l20 20 20-25 40 45H0z" fill="%23cbd5e1"/></svg>');
+      background-attachment: fixed;
+    }
+    body.theme-ghiaccio{
+      background:
+        radial-gradient(1200px 800px at 10% -10%, #e0f2fe, transparent),
+        radial-gradient(900px 700px at 110% 0%, #f1f5f9, transparent),
+        linear-gradient(180deg, #f8fafc, #e0f2fe 60%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140" opacity="0.06"><g fill="none" stroke="%230e7490" stroke-width="1"><path d="M70 0v140M0 70h140"/><path d="M35 0v140M0 35h140"/></g></svg>');
+      background-attachment: fixed;
+    }
+    body.theme-deserto{
+      background:
+        radial-gradient(1200px 800px at 10% -10%, #fed7aa, transparent),
+        radial-gradient(900px 700px at 110% 0%, #ffedd5, transparent),
+        linear-gradient(180deg, #fff7ed, #ffedd5 60%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" opacity="0.06"><path d="M0 120c40-15 80-15 160 0" fill="none" stroke="%23a16207"/></svg>');
+      background-attachment: fixed;
+    }
+    body.theme-prateria{
+      background:
+        radial-gradient(1200px 800px at 10% -10%, #a7f3d0, transparent),
+        radial-gradient(900px 700px at 110% 0%, #d1fae5, transparent),
+        linear-gradient(180deg, #ecfeff, #d1fae5 60%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140" opacity="0.06"><path d="M0 120l10-20 10 20 10-25 10 25 10-18 10 18 10-22 10 22 10-19 10 19" fill="none" stroke="%230f766e"/></svg>');
+      background-attachment: fixed;
     }
     header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(120%) blur(10px);
       background:linear-gradient(180deg, #ffffffee, #ffffffcc); border-bottom:1px solid #e2e8f0}
@@ -178,13 +230,13 @@ const ANIMALS = [
     lifespan: "20–30 anni",
     size: "75–160 kg",
     conservation: "Vulnerabile (IUCN)",
-    description: "Urside monofagico con adattamenti cranio‑mandibolari e carpo-modificati (\"falso pollice\") per la manipolazione del bambù; intestino da carnivoro ma microbiota adatto a dieta fibrosa.",
-    sociality: "Per lo più solitario; densità basse; comunicazione tramite marcature odorose e vocalizzazioni.",
-    reproduction: "Estro breve (24–72 h) in primavera; gestazione ~95–160 giorni con diapausa embrionale; 1–2 cuccioli, spesso sopravvive 1.",
-    feeding: "Consumano 10–20 kg di bambù/die; selezionano germogli e foglie ad alto contenuto proteico; bassa efficienza di digestione.",
-    interactions: "Pochi predatori naturali; competizione spaziale minima; essenziale la connettività tra foreste di bambù.",
-    human: "Specie bandiera per la conservazione; programmi di breeding e corridoi ecologici in Cina.",
-    fun: "Professionisti del relax: fino a 14 ore al giorno a sgranocchiare. I cuccioli nascono rosa chewing-gum e stanno nel palmo di una mano.",
+    description: "Urside monofagico con adattamenti cranio‑mandibolari (muscoli masseterini robusti, dentatura bunodonte) e ‘falso pollice’ (sesamoide radiale) per la presa del bambù. Stomaco e intestino da carnivoro, ma microbiota cellulolitico; metabolismo basale ridotto per compensare la dieta povera di energia.",
+    sociality: "Specie generalmente solitaria con overlap limitato tra home range; marcature odorose su tronchi e rocce (glande anali) e vocalizzazioni (belati, nitriti) per comunicazione a distanza. Le madri mostrano intenso comportamento materno in tane riparate.",
+    reproduction: "Seasonal breeder primaverile: estro brevissimo (24–72 h) che richiede sincronizzazione fine con i maschi. Diapausa embrionale facoltativa; impianto ritardato. Gestazione 95–160 giorni, nidiata 1–2 (spesso sopravvive un solo neonato). Svezzamento ~8–9 mesi; maturità sessuale 4–6 anni.",
+    feeding: "Dieta dominata da culmi e germogli di Phyllostachys e Fargesia; selezione delle parti più proteiche nelle fasi fenologiche favorevoli. Tempo di alimentazione 10–14 h/die; ingestione 10–20 kg/die. Dentizione e cranio adattati alla frantumazione di tessuti lignocellulosici; fermentazione intestinale limitata → necessità di alto throughput.",
+    interactions: "Pochi predatori adulti; cuccioli vulnerabili a leopardoni. Specie ingegnere di ecosistema: la selezione del bambù influenza struttura del sottobosco e nicchie per altre specie.",
+    human: "Specie bandiera per la conservazione: corridoi ecologici e riserve in Cina hanno favorito un recupero demografico. Programmi di captive breeding con reintroduzioni selettive; conflitti minimi con agricoltura.",
+    fun: "Professionisti del relax: routine ‘mordi, mastica, ripeti’. I neonati nascono rossicci, ciechi e grandi come una barretta di cioccolato.",
     facts: [
       "Ha un falso pollice (osso del polso) per afferrare il bambù.",
       "Passa fino a 14 ore al giorno a mangiare.",
@@ -201,19 +253,19 @@ const ANIMALS = [
     lifespan: "8–15 anni in natura",
     size: "100–220 kg",
     conservation: "In pericolo (IUCN: Endangered)",
-    description: "Grande felide apice con morfotipo striato per cripto-mimesi; predatore opportunista con preferenza per ungulati di media‑grande taglia.",
-    sociality: "Solitaria, territori marcati; sovrapposizioni minime eccetto femmine imparentate.",
-    reproduction: "Ciclo estrale ~3–9 settimane; gestazione ~100–110 giorni; 2–4 cuccioli con cure parentali prolungate (18–24 mesi).",
-    feeding: "Tecnica ‘stalk-and-ambush’: approccio silenzioso, balzo e morso alla gola; consumo 18–40 kg in un pasto.",
-    interactions: "Competizione con leopardi e dholes; in mangrovie interagisce con coccodrilli. Regola popolazioni di ungulati.",
-    human: "Conflitti per predazione su bestiame; ecoturismo e aree protette hanno favorito alcune metapopolazioni.",
-    fun: "Ruggito surround: si sente fino a 3 km. Nuotatrice migliore di molti umani in piscina!",
+    description: "Felide apicale con dimorfismo sessuale marcato; pelliccia striata per cripto-mimesi nel sottobosco. Cranio robusto e canini ~7–9 cm; arti posteriori potenti per sprint corti e balzi.",
+    sociality: "Generalmente solitaria; territori marcati con urine/sfregamenti e graffi; le femmine imparentate possono tollerare overlap. Comunicazione olfattiva e vocale (ruggito, ‘prusten’ – soffio amichevole).",
+    reproduction: "Ciclo estrale 3–9 settimane; estro ~3–6 giorni. Accoppiamenti multipli; gestazione 100–110 giorni; cucciolate 2–4. Cure parentali materne fino a 18–24 mesi; subadulti dispersi successivamente.",
+    feeding: "Strategia ‘stalk-and-ambush’: avvicinamento controvento, scatto esplosivo, morso alla gola o nuca. Dieta principale: cervidi (cervo sambar, chital), cinghiali; consumo singolo 18–40 kg con caching parziale.",
+    interactions: "Competizione con leopardi e dholes; in Sundarbans interazioni con coccodrilli e fauna di mangrovia. Regola popolazioni di ungulati, influenzando cascata trofica.",
+    human: "Conflitto nei paesaggi agro-forestali (predazione di bestiame) mitigato da recinzioni, corridoi e indennizzi. Aree protette e anti-bracconaggio hanno favorito il recupero in alcune metapopolazioni.",
+    fun: "Audio surround: il ruggito viaggia chilometri. Nuotatrice provetta — attraversa fiumi come fossero corsie di una piscina naturale.",
     facts: [
       "Ogni tigre ha strisce uniche come impronte digitali.",
       "Ottima nuotatrice: può attraversare lunghi corsi d'acqua.",
       "Ruggito udibile fino a 3 km."
     ]
-  },
+  }
   {
     name: "Polpo comune",
     scientificName: "Octopus vulgaris",
@@ -224,19 +276,19 @@ const ANIMALS = [
     lifespan: "1–2 anni",
     size: "3–10 kg (variabile)",
     conservation: "Non minacciato globalmente (pressioni locali)",
-    description: "Cefalopode con sistema nervoso decentralizzato (neuroni nei tentacoli), cromatofori e papille per mimetismo dinamico.",
-    sociality: "Generalmente solitario; aggregazioni temporanee in siti ricchi (‘Octopolis’).",
-    reproduction: "Semelparo: maschi trasferiscono lo spermatoforo con l’ectocotile; femmine depongono migliaia di uova e muoiono dopo la schiusa.",
-    feeding: "Predatore notturno; manipola e ‘svita’ crostacei; usa veleno paralizzante e perforazione della conchiglia.",
-    interactions: "Predato da cernie, murene, foche; note interazioni opportunistiche con pesci durante la caccia.",
-    human: "Pesca alimentare; in crescita ricerche su benessere animale e etologia cognitiva.",
-    fun: "Hacker dei barattoli: apre coperchi e smonta attrezzatura sub come un piccolo MacGyver.",
+    description: "Cefalopode dal sistema nervoso distribuito: ~2/3 dei neuroni nei bracci, che possono eseguire pattern motori semi‑autonomi. Cromatofori, iridofori e papille cutanee generano mimetismo dinamico in millisecondi.",
+    sociality: "Per lo più solitario ma con siti ad alta densità (‘Octopolis/Octlantis’) dove si osservano interazioni complesse, inclusi displays e lanci di sedimento.",
+    reproduction: "Semelparo: maschi usano l’ectocotile per trasferire spermatofori; femmine curano migliaia di uova aerandole fino alla schiusa, poi muoiono (senescenza programmata endocrina).",
+    feeding: "Predazione tattile-visiva: esplorazione con chemio-recettori sui bracci, foratura con il becco e iniezione di veleno. Abilità nel problem solving (barattoli, serrature).",
+    interactions: "Predatori: murene, cernie, squali, foche. Mutualismi opportunistici con pesci durante la caccia; uso di conchiglie/rocce come ‘attrezzi’ per rifugi.",
+    human: "Pesca costiera importante; crescente attenzione a benessere e cognizione animale; in ricerca come modello di plasticità neurale.",
+    fun: "Ninja del fondale: cambia pelle e texture in un battito di ciglia. E se trova un barattolo? È già casa sua.",
     facts: [
       "Tre cuori e sangue blu per la emosianina.",
       "Capace di risolvere puzzle e aprire barattoli.",
       "Mimetismo sofisticato grazie a cromatofori e papille."
     ]
-  },
+  }
   {
     name: "Aquila reale",
     scientificName: "Aquila chrysaetos",
@@ -247,19 +299,19 @@ const ANIMALS = [
     lifespan: "20–30 anni",
     size: "Fino a 2,3 m di apertura alare",
     conservation: "Least Concern (tutela locale varia)",
-    description: "Rapace di grande apertura alare, specialista del volo planato in correnti termiche; artigli iper‑cheratinizzati per la presa.",
-    sociality: "Territoriale in coppia monogama; nidi (aeree) riutilizzati per anni.",
-    reproduction: "2 uova; siblicidio frequente; cura biparentale; maturità riproduttiva 4–5 anni.",
-    feeding: "Preda lepri, marmotte, uccelli; tuffi in picchiata ad alta energia; necrofagia opportunista.",
-    interactions: "Competizione con corvidi e altri rapaci; importante nel controllo di meso‑predatori.",
-    human: "Specie bandiera montana; sensibile a disturbo vicino ai nidi e a collisioni con infrastrutture.",
-    fun: "Glider professionista: può veleggiare per ore senza battere le ali — il sogno di ogni paracadutista.",
+    description: "Grande rapace con ali lunghe a profilo alare per planata efficiente; visione 4–5× umana con fovea doppia. Artigli possenti e becco uncinato per trattenere e smembrare prede.",
+    sociality: "Coppie territoriali monogame a lungo termine; nidi (aeree) monumentali riutilizzati e ampliati per decenni.",
+    reproduction: "Deposizione 1–3 uova; siblicidio frequente in scarsità di risorse. Incubazione ~41–45 giorni; involo a 65–80 giorni; maturità 4–5 anni.",
+    feeding: "Predazione su lepri, marmotte, tetraonidi; caccia in picchiata o planata radente. Necrofagia opportunista in inverno.",
+    interactions: "Competizione con corvi/grifoni per carcasse; influenza top‑down su meso‑predatori.",
+    human: "Sensibile al disturbo in periodo riproduttivo e a collisioni con infrastrutture (cavi eolico). Programmi di monitoraggio e protezione dei siti di nidificazione.",
+    fun: "Pilota di alianti naturale: sfrutta le termiche come se avesse un variometro interno.",
     facts: [
       "Voli planati sfruttando correnti ascensionali per ore.",
       "Vista eccezionale, 4–5 volte più acuta dell'umano.",
       "Nidi (aeree) riutilizzati e ampliati per anni."
     ]
-  },
+  }
   {
     name: "Rana freccia velenosa",
     scientificName: "Dendrobates tinctorius",
@@ -270,19 +322,19 @@ const ANIMALS = [
     lifespan: "6–10 anni",
     size: "2–5 cm",
     conservation: "Variabile per specie; minacce: deforestazione",
-    description: "Anuri aposematici con alcaloidi cutanei derivati dalla dieta (formiche, acari); colorazioni segnale anti‑predazione.",
-    sociality: "Territoriali; maschi difendono siti di deposizione.",
-    reproduction: "Cure parentali: trasporto dei girini sul dorso verso piccole pozze (fitotelmi).",
-    feeding: "Cacciano piccoli artropodi con lingua protrattile appiccicosa.",
-    interactions: "Predatori evitano dopo apprendimento; mutualismi indiretti con piante che ospitano l’acqua nelle ascelle fogliari.",
-    human: "I popoli nativi usavano specie affini per avvelenare dardi (non tutte le specie!).",
-    fun: "Piccoli ma punk: colori fluo per dire ‘non toccarmi’.",
+    description: "Piccoli anuri aposematici; gli alcaloidi cutanei sono sequestrati dalla dieta (formiche, acari) e conferiscono tossicità neuro‑/cardiotossica. Pattern cromatico specie‑specifico come segnale onesto ai predatori.",
+    sociality: "Territorialità dei maschi su micro‑habitat umidi; chiamate vocali per difesa e corteggiamento.",
+    reproduction: "Cure parentali notevoli: trasporto dei girini sul dorso verso fitotelmi (ascelle di bromelie). Deposizione suolo/foliaggio; alimentazione dei girini con uova non fecondate in alcune specie.",
+    feeding: "Predatori di micro‑artropodi con lingua proiettile adesiva; attività diurna con picchi in ore umide.",
+    interactions: "Predatori imparano ad evitarle (apprendimento associativo). Possibile mimetismo mülleriano tra specie tossiche.",
+    human: "Uso etnobiologico di specie affini per veleni da dardo (non generalizzare!). Ricerca farmacologica sugli alcaloidi.",
+    fun: "Look fluo, messaggio chiaro: ‘non sono un confetto’.",
     facts: [
       "Colorazione aposematica: avverte i predatori della tossicità.",
       "Tossine derivate dalla dieta di artropodi.",
       "Cure parentali: trasporto dei girini sulle spalle."
     ]
-  },
+  }
   {
     name: "Cane domestico",
     scientificName: "Canis familiaris",
@@ -293,19 +345,19 @@ const ANIMALS = [
     lifespan: "10–14 anni (media)",
     size: "Varia moltissimo per razza",
     conservation: "— (specie domestica)",
-    description: "Canide domestico con plasticità morfologica e comportamentale eccezionale; coevoluzione con l’uomo e accentuata comunicazione interspecifica (gesti, sguardo).",
-    sociality: "Fortemente sociale; gerarchie flessibili; attaccamento all’umano.",
-    reproduction: "Poliestrale; gestazione ~63 giorni; cucciolate multiple.",
-    feeding: "Dieta onnivora; preferenze proteiche; rischio di obesità in ambiente urbano.",
-    interactions: "Predatore/competitore di fauna urbana; vettore di zoonosi se non vaccinato.",
-    human: "Compagno, assistenza (guide, ricerca e soccorso), terapia; richiede responsabilità sanitaria.",
-    fun: "Capiscono decine di parole e centinaia di ‘vibrazioni del frigorifero’.",
+    description: "Canide con la più ampia variabilità morfologica tra i mammiferi; selezione artificiale ha modellato tratti comportamentali (pastore, guardia, compagnia). Spiccata capacità di leggere gesti e sguardo umano (cognizione sociale).",
+    sociality: "Fortemente sociale; strutture gerarchiche flessibili; attaccamento interspecifico (teoria dell’attaccamento applicata ai cani).",
+    reproduction: "Poliestrale non stagionale; gestazione ~63 giorni; cucciolate 1–12+. Socializzazione critica 3–12 settimane.",
+    feeding: "Onnivoro con preferenza proteica; adattamento parziale all’amido in molte razze (copy number amilasi).",
+    interactions: "Predazione su fauna urbana (uccelli piccoli, micromammiferi); vettori di zoonosi se non gestiti (rabbia in regioni endemiche).",
+    human: "Servizi (ricerca e soccorso, assistenza, detection), sport, pet‑therapy. Responsabilità: benessere, vaccinazioni, sterilizzazione responsabile.",
+    fun: "Poliglotta domestico: abbaia in dialetto ‘frigo aperto’.",
     facts: [
       "Olfatto con oltre 200 milioni di recettori in molte razze.",
       "Capace di comprendere decine di parole/comandi.",
       "Addomesticamento da almeno 15.000 anni."
     ]
-  },
+  }
   {
     name: "Pinguino imperatore",
     scientificName: "Aptenodytes forsteri",
@@ -316,19 +368,19 @@ const ANIMALS = [
     lifespan: "15–20 anni",
     size: "1,1–1,3 m; 20–40 kg",
     conservation: "Quasi minacciato (IUCN)",
-    description: "Sfeniscide adattato al freddo estremo con isolamento piumare e lipidico; emoglobinopatie per immersioni prolungate.",
-    sociality: "Coloniale; huddling termico cooperativo durante tempeste.",
-    reproduction: "Incubazione affidata al maschio in inverno; cova sull’embrione appoggiato ai piedi (brood pouch).",
-    feeding: "Immersioni >500 m, caccia pesci e cefalopodi con visione adattata al buio.",
-    interactions: "Predato da foche leopardo e orche; competizione con altri pinguini su siti.",
-    human: "Sentinella climatica: ghiaccio marino critico per il ciclo vitale.",
-    fun: "Professionisti dello scivolo sul ghiaccio pancia‑down: efficienza e stile.",
+    description: "Sfeniscide massimo per taglia; isolamento multistrato (piume dense + grasso sottocutaneo) e emoglobina con alte affinità variabili per O2 consentono immersioni profonde e lunghe.",
+    sociality: "Coloniale; huddling cooperativo che riduce perdita di calore fino al 50%. Comunicazioni vocali individuali per riconoscimento parentale.",
+    reproduction: "Ciclo riproduttivo in pieno inverno antartico: uovo unico trasferito con rituale ai piedi del maschio; digiuno prolungato del maschio fino alla schiusa.",
+    feeding: "Prede: pesci, krill, cefalopodi. Immersioni >500 m, bradicardia indotta, vasocostrizione periferica.",
+    interactions: "Predazione da foche leopardo e orche; competizione su colonie con altre specie di pinguini.",
+    human: "Specie indicatrice del ghiaccio marino: vulnerabile alla riduzione dei pack in scenari climatici di riscaldamento.",
+    fun: "Maestri dello scivolo ventrale: spostamenti rapidi e scenografici.",
     facts: [
       "Incubazione affidata al maschio durante l'inverno.",
       "Immersioni oltre 500 m trattenendo il respiro per 20 min.",
       "Fitta plumatura e grasso per isolamento termico."
     ]
-  },
+  }
   {
     name: "Squalo balena",
     scientificName: "Rhincodon typus",
@@ -339,19 +391,19 @@ const ANIMALS = [
     lifespan: "70+ anni (stima)",
     size: "12–18 m",
     conservation: "In pericolo (IUCN)",
-    description: "Elasmobranchio planctofago, il più grande pesce vivente; filtro branchiale con setole dermiche e nuoto lento energeticamente efficiente.",
-    sociality: "Aggregazioni stagionali in hotspot di plancton (es. Ningaloo, Yucatán).",
-    reproduction: "Ovoviviparo con numerosi embrioni a diversi stadi (uterus a ‘batch’).",
-    feeding: "Suction‑filter feeding; ‘ram feeding’ in banchi di uova/krill.",
-    interactions: "Parassiti remore; pochi predatori naturali.",
-    human: "Vulnerabile a collisioni navali e pesca; valore ecoturistico alto.",
-    fun: "Gentile gigante: spesso curioso e fotogenico come una balena… ma è uno squalo!",
+    description: "Il più grande pesce vivente; filtro branchiale con lamelle dermiche per catturare plancton e uova. Strategia di nuoto lento ad alta efficienza energetica; pattern di macchie unico per individuo.",
+    sociality: "Aggregazioni stagionali in aree di fioriture planctoniche/ spawning di pesci; solitario il resto dell’anno.",
+    reproduction: "Ovoviviparo con numerosi embrioni a stadi diversi nello stesso utero; maturità tardiva.",
+    feeding: "Suction‑filter e ram‑feeding in colonne d’acqua ricche; bocca subterminale ampia.",
+    interactions: "Pochi predatori naturali (grandi squali, orche). Spesso accompagnato da remore e pesci pilota.",
+    human: "Minacce: bycatch, collisioni con imbarcazioni, turismo mal gestito. Valore ecoturistico se regolato.",
+    fun: "Gentile gigante che sa fare selfie migliori di molti influencer.",
     facts: [
       "Il pesce più grande esistente.",
       "Macchie uniche come un'impronta.",
       "Gentile gigante, spesso curioso verso i sub."
     ]
-  },
+  }
   {
     name: "Tartaruga marina verde",
     scientificName: "Chelonia mydas",
@@ -362,19 +414,19 @@ const ANIMALS = [
     lifespan: "80+ anni",
     size: "100–180 kg",
     conservation: "In pericolo (IUCN)",
-    description: "Chelonide migratrice con orientamento magnetico; dieta erbivora adulta con becco seghettato per fanerogame marine.",
-    sociality: "Solitarie in mare, congregazioni su feeding grounds.",
-    reproduction: "Femmina ritorna alla spiaggia natale (filopatria); sex ratio dipendente dalla temperatura del nido.",
-    feeding: "Brucatura di praterie marine, con ruolo ingegneristico nell’ecosistema.",
-    interactions: "Predatori: squali, orche; minacce: plastica, pesca a strascico.",
-    human: "Specie protetta; programmi di monitoraggio nidi e bycatch reduction.",
-    fun: "Navigatori stellari: leggono il campo magnetico come fosse Google Maps.",
+    description: "Chelonide con filopatria alle spiagge natali; navigazione magnetica (mappa geomagnetica). Dieta adulta erbivora che modella le praterie di fanerogame (ruolo ingegneristico).",
+    sociality: "In mare prevalentemente solitarie; congregazioni su feeding grounds e rotte migratorie.",
+    reproduction: "Più deposizioni per stagione (clutches) distanziate di ~2 settimane; temperatura del nido determina il sesso (TSD). Schiusa sincronizzata per saturare i predatori.",
+    feeding: "Brucatura selettiva di fanerogame e macroalghe; giovani più onnivori.",
+    interactions: "Predatori naturali (squali, orche); minacce antropiche: plastica, reti da pesca, luce artificiale sulle spiagge.",
+    human: "Specie protetta con progetti di conservazione costiera, illuminotecnica ‘turtle‑friendly’ e dispositivi TED nelle reti.",
+    fun: "GPS magnetico integrato: bussola interna migliore di molte app.",
     facts: [
       "Migrazioni oceaniche di migliaia di km.",
       "Determinazione del sesso dipende dalla temperatura del nido.",
       "Ritorno alla spiaggia natale per deporre."
     ]
-  },
+  }
   {
     name: "Api da miele",
     scientificName: "Apis mellifera",
@@ -385,13 +437,13 @@ const ANIMALS = [
     lifespan: "Operaia: ~6 settimane; regina: anni",
     size: "~1–1,5 cm",
     conservation: "Pressioni: pesticidi, patogeni, perdita habitat",
-    description: "Imenotteri eusociali con comunicazione danzata (waggle dance) per vettori cibo; superorganismo con divisione in caste.",
-    sociality: "Eusociali: regina, operaie, fuchi; termoregolazione collettiva.",
-    reproduction: "Regina fecondata in volo; covata continua stagionale; preferenze per cavità protette.",
-    feeding: "Raccolta nettare→miele; polline→proteine larvali; navigazione con sole e campo magnetico.",
-    interactions: "Impollinatrici chiave; interagiscono con migliaia di piante; competizione con impollinatori selvatici se gestione intensiva.",
-    human: "Apicoltura, agricoltura, prodotti hive (miele, cera, propoli).",
-    fun: "GPS incorporato e danze da discoteca per dire ‘il bar è a 200 metri a sud‑est’.",
+    description: "Eusociali con superorganismo organizzato in caste; comunicazione tramite waggle dance per codificare distanza e direzione delle risorse. Termoregolazione collettiva dell’alveare.",
+    sociality: "Colonie con regina (riproduzione), operaie (foraggiamento, cura covata, difesa) e fuchi (accoppiamento). Decisioni collettive per siti di nido tramite quorum.",
+    reproduction: "Regina si accoppia in voli nuziali multipli; ovideposizione massiva in stagione. Sciamatura come riproduzione della colonia.",
+    feeding: "Nettare → miele tramite disidratazione ed enzimi; polline come fonte proteica per larve. Navigazione con sole e segnali magnetici.",
+    interactions: "Impollinatrici chiave in agroecosistemi; competizione/patogeni condivisi con impollinatori selvatici.",
+    human: "Apicoltura, servizi ecosistemici, prodotti (miele, cera, propoli). Pratiche a basso impatto per sostenibilità.",
+    fun: "Coreografia a otto per dire ‘ristorante fiorito a ore dieci, 200 metri’.",
     facts: [
       "Danza dell'addome per comunicare la posizione del cibo.",
       "Impollinatrici chiave per agricoltura ed ecosistemi.",
@@ -414,6 +466,32 @@ const habClass = (hab='')=>{
   const h = hab.toLowerCase();
   if(h.includes('bambù')||h.includes('foreste')||h.includes('foresta')) return 'hab-foresta';
   if(h.includes('savana')||h.includes('prateria')) return 'hab-savana';
+  if(h.includes('antart')||h.includes('ghiaccio')||h.includes('polo')) return 'hab-ghiaccio';
+  if(h.includes('mare')||h.includes('oceano')||h.includes('coste')||h.includes('tropicali')) return 'hab-oceano';
+  if(h.includes('montagne')||h.includes('scogliere')||h.includes('alp')) return 'hab-montagna';
+  if(h.includes('deserto')||h.includes('arido')) return 'hab-deserto';
+  if(h.includes('prateria')||h.includes('steppe')) return 'hab-prateria';
+  return '';
+};
+const toTheme = (habClass)=>{
+  switch(habClass){
+    case 'hab-foresta': return 'theme-foresta';
+    case 'hab-savana': return 'theme-savana';
+    case 'hab-ghiaccio': return 'theme-ghiaccio';
+    case 'hab-oceano': return 'theme-oceano';
+    case 'hab-montagna': return 'theme-montagna';
+    case 'hab-deserto': return 'theme-deserto';
+    case 'hab-prateria': return 'theme-prateria';
+    default: return '';
+  }
+};
+const THEMES = ['theme-foresta','theme-savana','theme-oceano','theme-montagna','theme-ghiaccio','theme-deserto','theme-prateria'];
+function applyTheme(theme){
+  document.body.classList.remove(...THEMES);
+  if(theme) document.body.classList.add(theme);
+}
+  if(h.includes('bambù')||h.includes('foreste')||h.includes('foresta')) return 'hab-foresta';
+  if(h.includes('savana')||h.includes('prateria')) return 'hab-savana';
   if(h.includes('antart')||h.includes('ghiaccio')) return 'hab-ghiaccio';
   if(h.includes('mare')||h.includes('oceano')||h.includes('coste')||h.includes('tropicali')) return 'hab-oceano';
   if(h.includes('montagne')||h.includes('scogliere')) return 'hab-montagna';
@@ -434,9 +512,19 @@ function render(){
   if(hash.startsWith('/animal/')){
     const id = hash.split('/')[2];
     const a = ANIMALS.find(x=>x.id===id);
+    if(a){ applyTheme(toTheme(habClass(a.habitat))); }
     container.innerHTML = a ? detailTpl(a) : notFoundTpl();
     return;
   }
+  if(hash==='/curiosita') {
+    applyTheme(THEMES[Math.floor(Math.random()*THEMES.length)]);
+    container.innerHTML = curiositaTpl(); return; }
+  if(hash==='/contatti')  { applyTheme(''); container.innerHTML = contattiTpl();  return; }
+
+  // Home / elenco → sfondo habitat casuale
+  applyTheme(THEMES[Math.floor(Math.random()*THEMES.length)]);
+  container.innerHTML = listTpl();
+}
   if(hash==='/curiosita') { container.innerHTML = curiositaTpl(); return; }
   if(hash==='/contatti')  { container.innerHTML = contattiTpl();  return; }
 
