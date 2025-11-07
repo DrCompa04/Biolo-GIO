@@ -4,464 +4,86 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Biolo‑Gio | Enciclopedia giocosa degli animali</title>
-  <meta name="description" content="Biolo‑Gio: un sito semplice e veloce per scoprire animali e curiosità. Realizzato come singolo file, perfetto per GitHub Pages." />
+  <meta name="description" content="Biolo‑Gio: un sito semplice e veloce per scoprire animali e curiosità." />
   <style>
     :root{
-      --bg:#0f172a;          /* slate-900 */
-      --panel:#111827ee;     /* gray-900 */
-      --muted:#94a3b8;       /* slate-400 */
-      --text:#e5e7eb;        /* gray-200 */
-      --brand:#22d3ee;       /* cyan-400 */
-      --brand-2:#a78bfa;     /* violet-400 */
-      --accent:#34d399;      /* emerald-400 */
-      --danger:#f87171;      /* red-400 */
-      --card:#0b1226cc;      /* slightly darker panel */
-      --ring:#22d3ee55;
+      --bg:#f8fafc;
+      --panel:#ffffff;
+      --muted:#475569;
+      --text:#0f172a;
+      --brand:#06b6d4;
+      --brand-2:#8b5cf6;
+      --accent:#10b981;
+      --danger:#ef4444;
+      --card:#ffffff;
       --radius:18px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
-      color:var(--text); background:radial-gradient(1200px 800px at 10% -10%, #1f2937, transparent),
-                         radial-gradient(900px 700px at 110% 0%, #0ea5e980, transparent),
-                         linear-gradient(180deg, #020617, #0b1226 60%);
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+      color:var(--text); background:
+        radial-gradient(1200px 800px at 10% -10%, #cffafe, transparent),
+        radial-gradient(900px 700px at 110% 0%, #e9d5ff, transparent),
+        linear-gradient(180deg, #fafafa, #f1f5f9 60%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" opacity="0.06"><g fill="none" stroke="%231f2937" stroke-width="1"><path d="M0 80c40-40 120-40 160 0"/><path d="M0 120c40-40 120-40 160 0"/><path d="M0 40c40-40 120-40 160 0"/></g><g fill="none" stroke="%231f2937" stroke-width="1"><path d="M20 160c20-20 60-20 80 0"/><path d="M60 0c20 20 60 20 80 0"/></g></svg>');
+      background-attachment:fixed;
       line-height:1.6;
     }
-    header{
-      position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(10px);
-      background:linear-gradient(180deg, #0b1226ee, #0b122680);
-      border-bottom:1px solid #1f2a44; 
-    }
-    .wrap{max-width:1100px; margin:auto; padding:16px;}
-    .topbar{display:flex; align-items:center; gap:16px;}
-    .logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text)}
-    .logo .mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center; 
-      background: conic-gradient(from 210deg, var(--brand), var(--brand-2) 40%, var(--accent));
-      box-shadow:0 0 0 4px #ffffff08 inset, 0 10px 30px #0006;
-    }
-    .logo b{font-size:20px; letter-spacing:.3px}
-    nav{margin-left:auto; display:flex; gap:14px; flex-wrap:wrap}
-    nav a{color:var(--muted); text-decoration:none; padding:8px 12px; border-radius:10px;}
-    nav a:hover{color:var(--text); background:#1b254180}
-
-    .hero{display:grid; gap:18px; padding:30px 0 8px}
-    .hero h1{margin:0; font-size: clamp(28px, 4vw, 44px); line-height:1.15}
-    .hero p{margin:0; color:var(--muted)}
-
-    .panel{background:var(--panel); border:1px solid #1f2a44; border-radius:var(--radius); box-shadow:0 20px 50px #0006}
-    .panel.pad{padding:16px}
-    .controls{display:grid; grid-template-columns:1fr 180px; gap:12px; align-items:center}
-    .search{position:relative}
-    .search input{width:100%; padding:14px 44px 14px 14px; border-radius:12px; border:1px solid #233155; background:#0a1225; color:var(--text)}
-    .search input:focus{outline:none; box-shadow:0 0 0 6px var(--ring)}
-    .search .icon{position:absolute; right:12px; top:50%; transform:translateY(-50%); opacity:.6}
-    select{width:100%; padding:14px; border-radius:12px; border:1px solid #233155; background:#0a1225; color:var(--text)}
-
-    .grid{display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:14px; margin-top:14px}
-    .card{background:var(--card); border:1px solid #1f2a44; border-radius:16px; overflow:hidden; transition:transform .15s ease, box-shadow .15s ease}
-    .card:hover{transform:translateY(-4px); box-shadow:0 20px 40px #0008}
-    .thumb{height:140px; display:grid; place-items:center; font-size:60px; background:radial-gradient(400px 200px at 10% 0%, #1a2442, transparent)}
-    .badge{display:inline-block; padding:4px 8px; border:1px solid #2a3a62; border-radius:999px; font-size:12px; color:#c7d2fe; background:#1a2442;}
-    .card .body{padding:12px 14px}
-    .card h3{margin:0 0 6px; font-size:18px}
-    .meta{font-size:13px; color:var(--muted)}
-    .card .actions{display:flex; gap:8px; margin-top:12px}
-    .btn{appearance:none; border:none; padding:10px 12px; border-radius:10px; background:#18213e; color:var(--text); cursor:pointer; text-decoration:none; display:inline-flex; gap:8px; align-items:center}
-    .btn:hover{background:#223062}
-
-    .detail{margin-top:24px; display:grid; gap:18px}
-    .back{color:var(--brand); text-decoration:none}
-    .fact{background:#0a1225; border:1px dashed #2a3a62; border-radius:12px; padding:12px}
-
-    footer{margin:30px 0 60px; color:var(--muted)}
-    footer a{color:var(--brand)}
-
-    .pillbar{display:flex; flex-wrap:wrap; gap:8px}
-    .pill{padding:6px 10px; border-radius:999px; border:1px solid #2a3a62; background:#0a1225; color:#c7d2fe; font-size:12px}
-
-    @media (max-width:700px){
-      .controls{grid-template-columns:1fr}
-    }
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--brand);color:white;padding:10px 18px;border-radius:12px;box-shadow:0 4px 20px #0005;opacity:0;pointer-events:none;transition:opacity .4s,transform .4s;z-index:9999}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(-10px)}
   </style>
 </head>
 <body>
-<header>
-  <div class="wrap topbar">
-    <a class="logo" href="#/home" aria-label="Biolo‑Gio home">
-      <div class="mark">🧬</div>
-      <b>Biolo‑Gio</b>
-    </a>
-    <nav>
-      <a href="#/home">Home</a>
-      <a href="#/animali">Animali</a>
-      <a href="#/curiosita">Curiosità</a>
-      <a href="#/contatti">Contatti</a>
-    </nav>
-  </div>
-</header>
-
-<main class="wrap">
-  <section class="hero">
-    <h1>Enciclopedia degli animali, a misura di curiosità.</h1>
-    <p>
-      Scopri specie, habitat, dieta, stato di conservazione e piccole perle zoologiche. Tutto in un unico file HTML, perfetto per GitHub Pages. 
-      Modifica i dati direttamente qui sotto per aggiungere nuovi animali.
-    </p>
-  </section>
-
-  <section class="panel pad" id="controls">
-    <div class="controls">
-      <label class="search">
-        <input id="q" placeholder="Cerca per nome, habitat, dieta… (es. panda, savana, onnivoro)" autocomplete="off" />
-        <span class="icon">🔎</span>
-      </label>
-      <label>
-        <select id="filterClass">
-          <option value="">Tutte le classi</option>
-          <option>Mammiferi</option>
-          <option>Uccelli</option>
-          <option>Rettili</option>
-          <option>Anfibi</option>
-          <option>Pesci</option>
-          <option>Invertebrati</option>
-        </select>
-      </label>
-    </div>
-    <div class="pillbar" id="quickTags" style="margin-top:10px"></div>
-  </section>
-
-  <section id="view"></section>
-
-  <footer>
-    <p>
-      Progetto <b>Biolo‑Gio</b>. Codice in un solo file per semplicità. 
-      Pubblica su GitHub Pages e condividi: <a href="https://pages.github.com/" target="_blank" rel="noreferrer">guida ufficiale</a>.
-    </p>
-  </footer>
-</main>
-
-<script>
-// ==========================
-// DATI IN-LINEA (modifica qui per aggiungere animali!)
-// ==========================
-const ANIMALS = [
-  {
-    name: "Panda gigante",
-    scientificName: "Ailuropoda melanoleuca",
-    class: "Mammiferi",
-    emoji: "🐼",
-    habitat: "Foreste di bambù, Cina",
-    diet: "Erbivoro (bambù, occasionalmente proteine)",
-    lifespan: "20–30 anni",
-    size: "75–160 kg",
-    conservation: "Vulnerabile",
-    facts: [
-      "Ha un falso pollice (osso del polso) per afferrare il bambù.",
-      "Passa fino a 14 ore al giorno a mangiare.",
-      "I cuccioli nascono rosa e molto piccoli (circa 100 grammi)."
-    ]
-  },
-  {
-    name: "Tigre del Bengala",
-    scientificName: "Panthera tigris tigris",
-    class: "Mammiferi",
-    emoji: "🐯",
-    habitat: "Foreste, mangrovie e praterie del subcontinente indiano",
-    diet: "Carnivoro",
-    lifespan: "8–15 anni in natura",
-    size: "100–220 kg",
-    conservation: "Minacciata",
-    facts: [
-      "Ogni tigre ha strisce uniche come impronte digitali.",
-      "Ottima nuotatrice: può attraversare lunghi corsi d'acqua.",
-      "Ruggito udibile fino a 3 km."
-    ]
-  },
-  {
-    name: "Polpo comune",
-    scientificName: "Octopus vulgaris",
-    class: "Invertebrati",
-    emoji: "🐙",
-    habitat: "Mari temperati e tropicali, fondali rocciosi",
-    diet: "Carnivoro (crostacei, molluschi)",
-    lifespan: "1–2 anni",
-    size: "3–10 kg (variabile)",
-    conservation: "Non valutato globalmente",
-    facts: [
-      "Tre cuori e sangue blu per la emosianina.",
-      "Capace di risolvere puzzle e aprire barattoli.",
-      "Mimetismo sofisticato grazie a cromatofori e papille."
-    ]
-  },
-  {
-    name: "Aquila reale",
-    scientificName: "Aquila chrysaetos",
-    class: "Uccelli",
-    emoji: "🦅",
-    habitat: "Montagne e scogliere dell'emisfero nord",
-    diet: "Carnivoro (predatore)",
-    lifespan: "20–30 anni",
-    size: "Fino a 2,3 m di apertura alare",
-    conservation: "A minimo rischio",
-    facts: [
-      "Voli planati sfruttando correnti ascensionali per ore.",
-      "Vista eccezionale, 4–5 volte più acuta dell'umano.",
-      "Nidi (aeree) riutilizzati e ampliati per anni."
-    ]
-  },
-  {
-    name: "Rana freccia velenosa",
-    scientificName: "Dendrobates tinctorius",
-    class: "Anfibi",
-    emoji: "🐸",
-    habitat: "Foreste pluviali sudamericane",
-    diet: "Insettivoro",
-    lifespan: "6–10 anni",
-    size: "2–5 cm",
-    conservation: "Variabile per specie",
-    facts: [
-      "Colorazione aposematica: avverte i predatori della tossicità.",
-      "Tossine derivate dalla dieta di artropodi.",
-      "Cure parentali: trasporto dei girini sulle spalle."
-    ]
-  },
-  {
-    name: "Cane domestico",
-    scientificName: "Canis familiaris",
-    class: "Mammiferi",
-    emoji: "🐶",
-    habitat: "Cosmopolita, associato all'uomo",
-    diet: "Onnivoro (prevalenza carnivora)",
-    lifespan: "10–14 anni (media)",
-    size: "Varia moltissimo per razza",
-    conservation: "—",
-    facts: [
-      "Olfatto con oltre 200 milioni di recettori in molte razze.",
-      "Capace di comprendere decine di parole/comandi.",
-      "Addomesticamento da almeno 15.000 anni."
-    ]
-  },
-  {
-    name: "Pinguino imperatore",
-    scientificName: "Aptenodytes forsteri",
-    class: "Uccelli",
-    emoji: "🐧",
-    habitat: "Antartide",
-    diet: "Piscivoro",
-    lifespan: "15–20 anni",
-    size: "1,1–1,3 m; 20–40 kg",
-    conservation: "Quasi minacciato",
-    facts: [
-      "Incubazione affidata al maschio durante l'inverno.",
-      "Immersioni oltre 500 m trattenendo il respiro per 20 min.",
-      "Fitta plumatura e grasso per isolamento termico."
-    ]
-  },
-  {
-    name: "Squalo balena",
-    scientificName: "Rhincodon typus",
-    class: "Pesci",
-    emoji: "🦈",
-    habitat: "Mari tropicali e caldi",
-    diet: "Filtratore (plancton)",
-    lifespan: "70+ anni (stima)",
-    size: "12–18 m",
-    conservation: "In pericolo",
-    facts: [
-      "Il pesce più grande esistente.",
-      "Macchie uniche come un'impronta.",
-      "Gentile gigante, spesso curioso verso i sub."
-    ]
-  },
-  {
-    name: "Tartaruga marina verde",
-    scientificName: "Chelonia mydas",
-    class: "Rettili",
-    emoji: "🐢",
-    habitat: "Mare tropicale/subtropicale; spiagge per la nidificazione",
-    diet: "Erbivoro (alghe, fanerogame)",
-    lifespan: "80+ anni",
-    size: "100–180 kg",
-    conservation: "In pericolo",
-    facts: [
-      "Migrazioni oceaniche di migliaia di km.",
-      "Determinazione del sesso dipende dalla temperatura del nido.",
-      "Ritorno alla spiaggia natale per deporre."
-    ]
-  },
-  {
-    name: "Api da miele",
-    scientificName: "Apis mellifera",
-    class: "Invertebrati",
-    emoji: "🐝",
-    habitat: "Cosmopolita, ambienti con fiori",
-    diet: "Nettare e polline",
-    lifespan: "Operaia: ~6 settimane; regina: anni",
-    size: "~1–1,5 cm",
-    conservation: "Sensibili a pesticidi e perdita habitat",
-    facts: [
-      "Danza dell'addome per comunicare la posizione del cibo.",
-      "Impollinatrici chiave per agricoltura ed ecosistemi.",
-      "Colonie con suddivisione in caste."
-    ]
-  }
-];
-
-// ==========================
-// UTILITÀ
-// ==========================
-const slug = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-  .replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
-const by = key => (a,b)=> (a[key]||"").localeCompare(b[key]||"");
-const qs = sel => document.querySelector(sel);
-const qsa = sel => [...document.querySelectorAll(sel)];
-const state = { q:"", cls:"", route:"/home" };
-
-// Precalcola slug e indicizzazione semplice
-ANIMALS.forEach(a=>{ a.id = slug(a.name); a._hay = [a.name,a.scientificName,a.habitat,a.diet,a.class].join(" ").toLowerCase(); });
-
-// ==========================
-// RENDER
-// ==========================
-function render(){
-  const container = qs('#view');
-  const hash = location.hash.replace('#','') || '/home';
-  state.route = hash;
-
-  if(hash.startsWith('/animal/')){
-    const id = hash.split('/')[2];
-    const a = ANIMALS.find(x=>x.id===id);
-    container.innerHTML = a ? detailTpl(a) : notFoundTpl();
-    return;
-  }
-
-  if(hash==='/curiosita'){
-    container.innerHTML = curiositaTpl();
-    return;
-  }
-
-  if(hash==='/contatti'){
-    container.innerHTML = contattiTpl();
-    return;
-  }
-
-  // default: elenco animali
-  container.innerHTML = listTpl();
-}
-
-function listTpl(){
-  const q = state.q.trim().toLowerCase();
-  let items = ANIMALS
-    .filter(a => (!q || a._hay.includes(q)))
-    .filter(a => (!state.cls || a.class===state.cls))
-    .sort(by('name'));
-
-  const cards = items.map(cardTpl).join('');
-  return `
-    <div class="grid">${cards || emptyTpl()}</div>
-  `;
-}
-
-function cardTpl(a){
-  return `
-    <article class="card" aria-label="${a.name}">
-      <div class="thumb" aria-hidden="true">${a.emoji || '🧬'}</div>
-      <div class="body">
-        <span class="badge">${a.class}</span>
-        <h3>${a.name}</h3>
-        <div class="meta"><i>${a.scientificName}</i></div>
-        <div class="actions">
-          <a class="btn" href="#/animal/${a.id}">Scheda</a>
-          <a class="btn" href="#/curiosita" title="Vai alle curiosità">✨</a>
-        </div>
+  <div id="toast" class="toast"></div>
+  <main class="wrap">
+    <section class="panel pad" id="controls">
+      <div class="controls">
+        <label class="search">
+          <input id="q" placeholder="Cerca per nome, habitat, dieta…" autocomplete="off" />
+          <span class="icon">🔎</span>
+        </label>
+        <label>
+          <select id="filterClass">
+            <option value="">Tutte le classi</option>
+            <option>Mammiferi</option>
+            <option>Uccelli</option>
+            <option>Rettili</option>
+            <option>Anfibi</option>
+            <option>Pesci</option>
+            <option>Invertebrati</option>
+          </select>
+        </label>
       </div>
-    </article>
-  `;
-}
-
-function detailTpl(a){
-  const facts = a.facts.map(f=>`<li>${f}</li>`).join('');
-  return `
-    <div class="detail">
-      <a class="back" href="javascript:history.back()">← Torna indietro</a>
-      <div class="panel pad">
-        <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap">
-          <div class="thumb" style="width:120px; height:120px; font-size:64px">${a.emoji||'🧬'}</div>
-          <div style="flex:1; min-width:240px">
-            <h2 style="margin:0 0 6px">${a.name}</h2>
-            <div class="meta"><i>${a.scientificName}</i></div>
-            <div class="pillbar" style="margin-top:10px">
-              <span class="pill">Classe: ${a.class}</span>
-              <span class="pill">Habitat: ${a.habitat}</span>
-              <span class="pill">Dieta: ${a.diet}</span>
-              <span class="pill">Vita media: ${a.lifespan}</span>
-              <span class="pill">Taglia: ${a.size}</span>
-              <span class="pill">Conservazione: ${a.conservation}</span>
-            </div>
-          </div>
-        </div>
+      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap">
+        <button class="btn" id="btnRandom">🎲 Animale casuale</button>
+        <span class="meta">Premi <kbd>R</kbd> per sceglierne uno a caso.</span>
       </div>
-      <div class="fact">
-        <b>Curiosità</b>
-        <ul style="margin-top:8px">${facts}</ul>
-      </div>
-      <div>
-        <a class="btn" href="#/animali">Torna all'elenco</a>
-      </div>
-    </div>
-  `;
-}
+    </section>
+    <section id="view"></section>
+  </main>
+  <script>
+    const ANIMALS=[{name:"Panda gigante",scientificName:"Ailuropoda melanoleuca",class:"Mammiferi",emoji:"🐼",habitat:"Foreste di bambù, Cina"},{name:"Tigre del Bengala",scientificName:"Panthera tigris tigris",class:"Mammiferi",emoji:"🐯",habitat:"Foreste e praterie"},{name:"Polpo comune",scientificName:"Octopus vulgaris",class:"Invertebrati",emoji:"🐙",habitat:"Mari temperati e tropicali"}];
+    const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+    ANIMALS.forEach(a=>a.id=slug(a.name));
+    const qs=s=>document.querySelector(s);
+    const state={q:"",cls:""};
 
-function curiositaTpl(){
-  const pick = (arr)=> arr[Math.floor(Math.random()*arr.length)];
-  const facts = [];
-  for(let i=0;i<6;i++){
-    const a = pick(ANIMALS);
-    facts.push(`<li><b>${a.name}:</b> ${pick(a.facts)}</li>`);
-  }
-  return `
-    <div class="panel pad">
-      <h2 style="margin-top:0">Curiosità casuali ✨</h2>
-      <p class="meta">Aggiorna la pagina per nuove chicche.</p>
-      <ul>${facts.join('')}</ul>
-    </div>
-  `;
-}
+    function filteredItems(){return ANIMALS.filter(a=>!state.q||a.name.toLowerCase().includes(state.q.toLowerCase())).filter(a=>!state.cls||a.class===state.cls)}
 
-function contattiTpl(){
-  return `
-    <div class="panel pad">
-      <h2 style="margin-top:0">Contatti</h2>
-      <p>Progetto didattico. Per suggerimenti o collaborazioni, apri una issue sul repository GitHub del progetto oppure invia un messaggio tramite i canali indicati nel profilo.</p>
-      <p class="meta">Suggerimento: crea un file <code>README.md</code> nel repository con le istruzioni per contribuire.</p>
-    </div>
-  `;
-}
+    function cardTpl(a){return`<article class="card"><div class="thumb">${a.emoji}</div><h3>${a.name}</h3><i>${a.scientificName}</i></article>`}
+    function listTpl(){return filteredItems().map(cardTpl).join('')||'<p>Nessun risultato.</p>'}
+    function render(){qs('#view').innerHTML=listTpl()}
 
-function notFoundTpl(){
-  return `<div class="panel pad"><h2>Ops!</h2><p>Animale non trovato.</p></div>`
-}
+    function showToast(msg){const t=qs('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
 
-function emptyTpl(){
-  return `<div class="panel pad"><p>Nessun risultato. Prova a cambiare ricerca o filtro.</p></div>`
-}
+    function goRandom(){const items=filteredItems();if(!items.length)return;const pick=items[Math.floor(Math.random()*items.length)];showToast(`Hai pescato: ${pick.name}!`)}
 
-// ==========================
-// INTERAZIONE
-// ==========================
-function setupControls(){
-  qs('#q').addEventListener('input', e=>{ state.q = e.target.value; render(); });
-  qs('#filterClass').addEventListener('change', e=>{ state.cls = e.target.value; render(); });
-
-  // Tag rapidi
-  const tags = ["Foreste","Savana","Antartide","Oceano","Montagne","Erbivoro","Carnivoro","Onnivoro","Filtratore","Insettivoro"];
-  qs('#quickTags').innerHTML = tags.map(t=>`<button class="btn" data-tag="${t.toLowerCase()}">${t}</button>`).join('');
-  qsa('#quickTags .btn').forEach(b=> b.addEventListener('click', ()=>{ qs('#q').value = b.dataset.tag; state.q = b.dataset.tag; render(); }));
-}
-
-window.addEventListener('hashchange', render);
-window.addEventListener('DOMContentLoaded', ()=>{ setupControls(); render(); });
-</script>
+    qs('#q').addEventListener('input',e=>{state.q=e.target.value;render()})
+    qs('#filterClass').addEventListener('change',e=>{state.cls=e.target.value;render()})
+    qs('#btnRandom').addEventListener('click',goRandom)
+    window.addEventListener('keydown',e=>{if(e.key.toLowerCase()==='r'){goRandom()}})
+    render()
+  </script>
 </body>
 </html>
