@@ -3,55 +3,48 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Biolo-Gio | Enciclopedia degli animali</title>
-  <meta name="description" content="Biolo-Gio: scopri specie, habitat, dieta, conservazione e curiosità — semplice e veloce su GitHub Pages." />
+  <title>Biolo‑Gio | Enciclopedia degli animali</title>
+  <meta name="description" content="Schede chiare e ricche su animali, habitat, dieta, comportamento, riproduzione, ruolo ecologico e curiosità. Perfetto per GitHub Pages." />
   <style>
     :root{
       --bg:#f8fafc; --panel:#ffffff; --muted:#475569; --text:#0f172a;
-      --brand:#06b6d4; --brand-2:#8b5cf6; --card:#ffffff; --ring:#22d3ee55; --radius:18px;
-      /* colori/pattern che cambiano a ogni visita, impostati via JS */
+      --brand:#06b6d4; --brand-2:#8b5cf6; --accent:#10b981; --card:#ffffff; --ring:#22d3ee55; --radius:18px;
       --t0:#ffffff; --t1:#f1f5f9; --pattern:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'/>");
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
-      color:var(--text); background:#f1f5f9; line-height:1.6; transition: background 400ms ease;
-    }
-    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(120%) blur(10px);
-      background:linear-gradient(180deg, #ffffffee, #ffffffcc); border-bottom:1px solid #e2e8f0}
-    .wrap{max-width:1100px; margin:auto; padding:16px}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif; color:var(--text); background:#f1f5f9; line-height:1.6;}
+
+    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(120%) blur(10px); background:linear-gradient(180deg, #ffffffee, #ffffffcc); border-bottom:1px solid #e2e8f0}
+    .wrap{max-width:1180px; margin:auto; padding:16px}
     .topbar{display:flex; align-items:center; gap:16px}
     .logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text)}
-    .logo .mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
-      background: conic-gradient(from 210deg, var(--brand), var(--brand-2) 40%, #10b981);
-      box-shadow:0 0 0 4px #00000005 inset, 0 10px 30px #0001;}
+    .logo .mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center; background: conic-gradient(from 210deg, var(--brand), var(--brand-2) 40%, var(--accent)); box-shadow:0 0 0 4px #00000005 inset, 0 10px 30px #0001;}
     .logo b{font-size:20px; letter-spacing:.3px}
     nav{margin-left:auto; display:flex; gap:14px; flex-wrap:wrap}
     nav a{color:var(--muted); text-decoration:none; padding:8px 12px; border-radius:10px}
     nav a:hover{color:var(--text); background:#e2e8f0}
 
-    .hero{display:grid; gap:18px; padding:30px 0 8px}
+    .hero{display:grid; gap:4px; padding:24px 0 8px}
     .hero h1{margin:0; font-size:clamp(28px, 4vw, 44px); line-height:1.15}
     .hero p{margin:0; color:var(--muted)}
 
     .panel{background:var(--panel); border:1px solid #e2e8f0; border-radius:var(--radius); box-shadow:0 8px 30px #0000000d}
     .panel.pad{padding:16px}
 
-    .controls{display:grid; grid-template-columns:1fr 180px; gap:12px; align-items:center}
+    .controls{display:grid; grid-template-columns:1fr 200px; gap:12px; align-items:center}
     .search{position:relative}
     .search input{width:100%; padding:14px 44px 14px 14px; border-radius:12px; border:1px solid #cbd5e1; background:#ffffff; color:var(--text)}
     .search input:focus{outline:none; box-shadow:0 0 0 6px var(--ring)}
     .search .icon{position:absolute; right:12px; top:50%; transform:translateY(-50%); opacity:.6}
     select{width:100%; padding:14px; border-radius:12px; border:1px solid #cbd5e1; background:#ffffff; color:var(--text)}
 
-    .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:14px; margin-top:14px}
+    .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:16px; margin-top:16px}
     .card{background:var(--card); border:1px solid #e2e8f0; border-radius:16px; overflow:hidden; transition:transform .15s ease, box-shadow .15s ease}
     .card:hover{transform:translateY(-4px); box-shadow:0 12px 30px #00000014}
-    .thumb{height:140px; display:grid; place-items:center; font-size:60px; position:relative; overflow:hidden}
+    .thumb{height:160px; display:grid; place-items:center; font-size:72px; position:relative; overflow:hidden}
     .thumb .emoji{position:relative; z-index:1; filter: drop-shadow(0 2px 6px rgba(0,0,0,.12));}
 
-    /* gradiente delicato per le card, legato all'habitat */
     .hab-foresta{background: linear-gradient(135deg,#dcfce7,#bbf7d0)}
     .hab-savana{background: linear-gradient(135deg,#fef9c3,#fde68a)}
     .hab-oceano{background: linear-gradient(135deg,#e0f2fe,#bae6fd)}
@@ -68,48 +61,51 @@
     .btn{appearance:none; border:none; padding:10px 12px; border-radius:10px; background:#dbf4ff; color:#0c4a6e; cursor:pointer; text-decoration:none; display:inline-flex; gap:8px; align-items:center}
     .btn:hover{background:#bae6fd}
 
-    .detail{margin-top:24px; display:grid; gap:18px}
-    .back{color:var(--brand); text-decoration:none}
+    /* ===== LAYOUT SCHEDA in stile “enciclopedia”: hero + sidebar sticky ===== */
+    .detail{margin-top:24px; display:grid; grid-template-columns:1.6fr 0.9fr; gap:18px}
+    .hero-animal{border-radius:16px; overflow:hidden; position:relative; border:1px solid #e2e8f0}
+    .hero-animal .banner{height:180px; display:grid; place-items:center; font-size:96px}
+    .hero-animal .head{display:flex; gap:16px; align-items:center; padding:12px 16px}
+    .hero-animal h2{margin:0}
+    .quick{position:sticky; top:90px; align-self:start}
+    .quick .kv{display:grid; grid-template-columns:auto 1fr; gap:8px 12px; font-size:14px}
+    .chip{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:#f1f5f9; border:1px solid #e2e8f0; font-size:12px}
+
+    .toc{display:flex; flex-wrap:wrap; gap:8px; padding:8px 0}
+    .toc a{padding:6px 10px; border:1px solid #e2e8f0; border-radius:999px; text-decoration:none; color:#334155; background:#fff}
+    .toc a:hover{background:#f8fafc}
+
+    .section{scroll-margin-top:100px}
+    .section h3{margin:0 0 8px}
+    .callout{background:#ecfeff; border:1px solid #bae6fd; padding:10px 12px; border-radius:12px; font-size:14px}
 
     .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(40px);background:linear-gradient(135deg,var(--brand),var(--brand-2));color:white;padding:10px 18px;border-radius:12px;box-shadow:0 8px 30px #00000026;opacity:0;pointer-events:none;transition:opacity .35s, transform .35s;z-index:9999}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
     footer{margin:30px 0 60px; color:var(--muted)}
     footer a{color:var(--brand)}
-    @media (max-width:700px){ .controls{grid-template-columns:1fr} }
+    @media (max-width:900px){ .detail{grid-template-columns:1fr} .quick{position:relative; top:auto} }
 
-    /* ===== Temi habitat (BACKGROUND DI PAGINA) con pattern e variazione ===== */
-    @keyframes drift {
-      0%   { background-position: 0 0, 0 0, 0 0, 0 0; }
-      100% { background-position: 0 0, 0 0, 0 0, 200px 200px; }
-    }
-    /* base comune: 2 gradienti + 1 pattern (impostati via var) */
+    /* ===== Temi habitat di PAGINA: fallback semplificato (gradienti + pattern SEMPRE visibile) ===== */
+    @keyframes drift { 0%{background-position:0 0, 0 0, 200px 200px} 100%{background-position:0 0, 0 0, 400px 400px} }
     body[class*="theme-"]{
       background-attachment: fixed;
       background-image:
-        radial-gradient(1200px 800px at 10% -10%, color-mix(in oklab, var(--t0) 70%, transparent), transparent),
-        radial-gradient(900px 700px  at 110% 0%,  color-mix(in oklab, var(--t1) 70%, transparent), transparent),
         linear-gradient(180deg, var(--t0), var(--t1) 60%),
+        radial-gradient(900px 700px at 110% 0%, rgba(255,255,255,.45), transparent),
         var(--pattern);
-      background-size: auto, auto, auto, 220px 220px;
-      animation: drift 90s linear infinite; /* movimento lentissimo */
+      background-size:auto, auto, 240px 240px;
+      animation: drift 120s linear infinite;
     }
-    /* classi "marker" usate dal JS per scegliere palette/pattern */
-    body.theme-foresta{}
-    body.theme-savana{}
-    body.theme-oceano{}
-    body.theme-montagna{}
-    body.theme-ghiaccio{}
-    body.theme-deserto{}
-    body.theme-prateria{}
+    body.theme-foresta{} body.theme-savana{} body.theme-oceano{} body.theme-montagna{} body.theme-ghiaccio{} body.theme-deserto{} body.theme-prateria{}
   </style>
 </head>
 <body>
 <header>
   <div class="wrap topbar">
-    <a class="logo" href="#/home" aria-label="Biolo-Gio home">
+    <a class="logo" href="#/home" aria-label="Biolo‑Gio home">
       <div class="mark">🧬</div>
-      <b>Biolo-Gio</b>
+      <b>Biolo‑Gio</b>
     </a>
     <nav>
       <a href="#/home">Home</a>
@@ -122,14 +118,14 @@
 
 <main class="wrap">
   <section class="hero">
-    <h1>Enciclopedia degli animali, a misura di curiosità.</h1>
-    <p>Testi chiari, tante informazioni, sfondi che richiamano l’habitat. 100% GitHub Pages friendly.</p>
+    <h1>Enciclopedia degli animali, chiara e completa.</h1>
+    <p>Ogni scheda: descrizione, socialità, alimentazione, riproduzione, ruolo ecologico, rapporto con l’uomo, curiosità. Con sfondi che richiamano l’habitat.</p>
   </section>
 
   <section class="panel pad" id="controls">
     <div class="controls">
       <label class="search">
-        <input id="q" placeholder="Cerca per nome, habitat, dieta… (es. wombat, savana, insettivoro)" autocomplete="off" />
+        <input id="q" placeholder="Cerca per nome, habitat, dieta… (es. falco, savana, insettivoro)" autocomplete="off" />
         <span class="icon">🔎</span>
       </label>
       <label>
@@ -153,75 +149,75 @@
   <section id="view"></section>
 
   <footer>
-    <p>Progetto <b>Biolo-Gio</b>. Un solo file, massima semplicità. Pubblica su GitHub Pages e diffondi la meraviglia del regno animale.</p>
+    <p>Progetto <b>Biolo‑Gio</b>. Un solo file, massima semplicità. Pubblica su GitHub Pages e diffondi la meraviglia del regno animale.</p>
   </footer>
 </main>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* ==========================
-   DATI: 10 animali (testi chiari e ricchi)
-   ========================== */
+// ==========================
+// DATI (10 specie) — testi ampliati, semplici e ricchi
+// ==========================
 const ANIMALS = [
-  {
+  { // 1 Wombat
     name: "Wombat",
     scientificName: "Vombatus ursinus",
     class: "Mammiferi",
     emoji: "🪵",
-    habitat: "Praterie e foreste aperte dell'Australia sud-orientale",
+    habitat: "Praterie e foreste aperte dell'Australia sud‑orientale",
     diet: "Erbivoro (erbe, cortecce, radici)",
     lifespan: "10–15 anni",
     size: "20–35 kg; ~1 m",
     conservation: "Least Concern",
-    description: "Marsupiale tozzo e fortissimo nello scavare: costruisce lunghe tane fresche d’estate e tiepide d’inverno.",
-    sociality: "Perlopiù solitario e notturno; può condividere cunicoli con altri wombat.",
-    reproduction: "Un piccolo che resta nel marsupio (aperto verso dietro) per 6–7 mesi, poi segue la madre.",
-    feeding: "Bruca erbe dure e cortecce con digestione lenta: sfrutta al massimo le fibre.",
-    interactions: "Le tane offrono rifugio a molti altri animali. Se minacciato, blocca il tunnel col posteriore osseo.",
-    human: "Rischi principali: strade e perdita di habitat.",
-    fun: "Famoso per le feci a forma di cubo: non rotolano e “segnano” meglio il territorio.",
-    facts: ["Tane lunghe decine di metri", "Attivo soprattutto di notte", "Feci… cubiche!"]
+    description: "Marsupiale tozzo e robusto, costruisce lunghi tunnel freschi d'estate e tiepidi d'inverno. Ha zampe anteriori forti e artigli adatti a scavare terreni duri.",
+    sociality: "Per lo più solitario e notturno; può condividere parti della tana con altri, senza vivere in gruppo stabile.",
+    reproduction: "Un piccolo alla volta: resta nel marsupio per circa 6–7 mesi. Il marsupio è rivolto all'indietro, così non entra terra mentre scava.",
+    feeding: "Bruca erbe dure e cortecce lentamente; l'intestino estrae molta energia dalle fibre. Beve poco: ricava acqua dal cibo.",
+    interactions: "Le sue tane diventano rifugio per altri animali in caso di incendi o caldo estremo. Se minacciato, blocca l'ingresso con il posteriore osseo.",
+    human: "Rischi: traffico stradale e perdita di habitat. In molte zone è rispettato e protetto.",
+    fun: "Produce feci a forma di cubo: non rotolano via e ‘marcano’ meglio i punti chiave.",
+    facts: ["Tane lunghe decine di metri","Marsupio rivolto all'indietro","Attivo di notte"]
   },
-  {
+  { // 2 Falco pellegrino
     name: "Falco pellegrino",
     scientificName: "Falco peregrinus",
     class: "Uccelli",
     emoji: "🪶",
-    habitat: "Scogliere, città, montagne; quasi globale",
+    habitat: "Scogliere, montagne e città in tutto il mondo",
     diet: "Carnivoro (uccelli in volo)",
     lifespan: "~15 anni",
     size: "Apertura alare 80–120 cm",
     conservation: "Least Concern",
-    description: "L’animale più veloce del mondo: in picchiata supera i 300 km/h. Vista eccellente e corpo aerodinamico.",
-    sociality: "In coppie territoriali in stagione riproduttiva; altrimenti solitario. In città usa campanili e grattacieli come scogliere.",
-    reproduction: "Nidifica su cenge/edifici; 2–4 uova. I giovani apprendono la caccia con inseguimenti spettacolari.",
-    feeding: "Colpisce in picchiata uccelli in volo (piccioni, storni, limicoli).",
-    interactions: "Predatore apicale degli uccelli urbani; competizione con gabbiani/corvidi.",
-    human: "È tornato in molte città dopo lo stop ai pesticidi più dannosi; progetti urbani proteggono i nidi.",
-    fun: "Un “jet” con le piume: radar naturale per inseguimenti tra i palazzi.",
-    facts: [">300 km/h in picchiata", "Nidifica volentieri in città", "Vista finissima"]
+    description: "Cacciatore velocissimo: in picchiata supera i 300 km/h. Corpo aerodinamico e vista eccezionale gli permettono attacchi precisi.",
+    sociality: "In coppia durante la riproduzione, altrimenti solitario. In città usa campanili e grattacieli come scogliere moderne.",
+    reproduction: "Nidifica su cenge o tetti; depone 2–4 uova. I giovani imparano con inseguimenti guidati dai genitori.",
+    feeding: "Cattura uccelli in volo, spesso piccioni o storni, colpendoli con un ‘pugno’ del becco o con l'impatto controllato.",
+    interactions: "Predatore apicale degli uccelli urbani; limita specie troppo numerose in città.",
+    human: "È tornato dove era scomparso grazie allo stop ai pesticidi più dannosi e a progetti di tutela.",
+    fun: "Un ‘jet’ naturale: cambi di direzione rapidissimi come un aereo acrobatico.",
+    facts: [">300 km/h in picchiata","Nidi su campanili","Vista finissima"]
   },
-  {
+  { // 3 Corvo
     name: "Corvo comune",
     scientificName: "Corvus corone",
     class: "Uccelli",
     emoji: "🐦",
-    habitat: "Campagne, città, boschi aperti in Europa e Asia",
+    habitat: "Campagne, città e boschi aperti in Europa e Asia",
     diet: "Onnivoro opportunista",
     lifespan: "10–15 anni",
     size: "45–50 cm; apertura alare ~1 m",
     conservation: "Least Concern",
-    description: "Intelligente e curioso. Riconosce volti, risolve problemi e usa semplici ‘attrezzi’.",
-    sociality: "Coppie stabili; grandi dormitori serali con centinaia di individui.",
-    reproduction: "Nido su alberi o strutture; 3–6 uova; cure condivise.",
-    feeding: "Insetti, cereali, frutta, carcasse e scarti urbani: sa adattarsi.",
-    interactions: "Spazzino utilissimo: ripulisce rifiuti organici e carcasse.",
-    human: "In città impara i nostri ritmi e si avvicina senza timore.",
-    fun: "Può ricordare per anni chi lo ha trattato bene… o male.",
-    facts: ["Memoria a lungo termine", "Usa piccoli attrezzi", "Vive bene in città"]
+    description: "Intelligente, curioso e adattabile. Riconosce volti, ricorda eventi e sa risolvere piccoli problemi.",
+    sociality: "Coppie stabili durante la riproduzione; grandi dormitori comuni la sera nelle città e in campagna.",
+    reproduction: "Nido in alto su alberi o strutture; 3–6 uova. Entrambi i genitori allevano i piccoli.",
+    feeding: "Mangia insetti, cereali, frutta, carcasse e anche scarti: una dieta che cambia con l'ambiente.",
+    interactions: "Ripulisce rifiuti organici e carcasse, riducendo la diffusione di malattie.",
+    human: "In città sfrutta i nostri ritmi: sa quando e dove trovare cibo.",
+    fun: "Può ricordarsi per anni di persone amiche… o antipatiche.",
+    facts: ["Usa piccoli attrezzi","Memoria lunga","Si adatta alla vita urbana"]
   },
-  {
+  { // 4 Pinguino
     name: "Pinguino imperatore",
     scientificName: "Aptenodytes forsteri",
     class: "Uccelli",
@@ -231,35 +227,35 @@ const ANIMALS = [
     lifespan: "15–20 anni",
     size: "Fino a 120 cm; 20–40 kg",
     conservation: "Near Threatened",
-    description: "Si riproduce nel pieno dell’inverno polare. Goffo a terra, ma in acqua è un nuotatore elegante e instancabile.",
+    description: "Si riproduce nel pieno dell'inverno polare. A terra è goffo, in acqua è agile e resistente al freddo intenso.",
     sociality: "Colonie enormi; durante le bufere si stringono e ruotano per scaldarsi a turno.",
-    reproduction: "La femmina depone un uovo; il maschio lo cova sui piedi per settimane, a digiuno, finché lei torna dal mare.",
-    feeding: "Tuffi anche oltre 500 m e apnea di 15–20 minuti.",
-    interactions: "Predato da foche leopardo e orche; sensibile ai cambiamenti del ghiaccio marino.",
-    human: "Specie simbolo del clima polare; ampiamente protetta.",
-    fun: "Scivola sulla pancia per fare chilometri risparmiando energie.",
-    facts: ["Colonie di migliaia", "Uovo covato sui piedi", "Immersioni profonde"]
+    reproduction: "La femmina depone un uovo e lo affida al maschio che lo cova sui piedi, sotto una piega di pelle, per settimane a digiuno.",
+    feeding: "Tuffi fino a centinaia di metri e apnea di 15–20 minuti per pescare in profondità.",
+    interactions: "Predato da foche leopardo e orche; dipende dal ghiaccio marino.",
+    human: "Specie simbolo; monitorata come indicatore del cambiamento climatico.",
+    fun: "Scivola sulla pancia per muoversi più in fretta e risparmiare energia.",
+    facts: ["Colonie di migliaia","Uovo sui piedi del maschio","Immersioni profonde"]
   },
-  {
+  { // 5 Gallina
     name: "Gallina domestica",
     scientificName: "Gallus gallus domesticus",
     class: "Uccelli",
     emoji: "🐔",
-    habitat: "Aree rurali e urbane in tutto il mondo",
+    habitat: "Aree rurali e urbane di tutto il mondo",
     diet: "Onnivora (semi, insetti, erbe)",
     lifespan: "5–10 anni",
     size: "Variabile per razza",
     conservation: "—",
-    description: "Uccello domestico diffusissimo. Becchetta e razzola tutto il giorno in cerca di semi e insetti.",
-    sociality: "Vive in gruppo con gerarchie semplici (‘ordine di beccata’). Le chiocce proteggono i pulcini.",
-    reproduction: "Depone uova regolarmente; se cova, schiudono in ~21 giorni.",
-    feeding: "Semi, erbe, insetti e avanzi; molto adattabile.",
-    interactions: "Si integra bene con orti e cortili; attira insetti e piccoli predatori.",
-    human: "Fondamentale per alimentazione e tradizioni rurali; cresce l’attenzione al benessere.",
-    fun: "Riconosce i membri del gruppo e impara routine quotidiane.",
-    facts: ["21 giorni di cova", "Ordine di beccata", "Molte razze diverse"]
+    description: "Uccello domestico comunissimo. Becchetta e razzola per trovare semi e insetti, comunicando con diversi richiami.",
+    sociality: "Vive in gruppo con gerarchie semplici (‘ordine di beccata’). Le chiocce guidano e riscaldano i pulcini.",
+    reproduction: "Depone uova regolarmente; se cova, schiudono in circa 21 giorni. I pulcini sono precoci.",
+    feeding: "Semi, erbe, insetti e piccoli scarti: dieta variabile ma equilibrata.",
+    interactions: "Può attrarre piccoli predatori; bisogna proteggere il pollaio.",
+    human: "Importantissima per alimentazione e cultura rurale; cresce l'attenzione al benessere.",
+    fun: "Riconosce i compagni e impara piccole routine.",
+    facts: ["21 giorni di cova","Ordine di beccata","Molte razze diverse"]
   },
-  {
+  { // 6 Coccodrillo
     name: "Coccodrillo del Nilo",
     scientificName: "Crocodylus niloticus",
     class: "Rettili",
@@ -267,56 +263,56 @@ const ANIMALS = [
     habitat: "Fiumi, laghi e paludi dell’Africa",
     diet: "Carnivoro (pesci e grandi vertebrati)",
     lifespan: "40+ anni",
-    size: "Fino a >5 m",
+    size: ">5 m (massimi)",
     conservation: "Least Concern (tutele locali)",
-    description: "Massiccio e corazzato. Alterna lunghe attese immobili a scatti velocissimi.",
-    sociality: "Più individui possono condividere gli stessi tratti di fiume.",
-    reproduction: "Nido di sabbia; la madre vigila uova e piccoli, che pigolano già nel guscio.",
-    feeding: "Pesci, antilopi, zebre: trascina in acqua e affoga la preda.",
-    interactions: "Predatore al vertice delle catene fluviali.",
-    human: "Temuto ma protetto in molte aree: essenziale per l’equilibrio degli ecosistemi.",
-    fun: "Può restare quasi immobile per ore aspettando il momento giusto.",
-    facts: ["Morsi potentissimi", "Apnea prolungata", "Cura parentale insospettata"]
+    description: "Massiccio, corazzato e paziente: può restare immobile a lungo e scattare con potenza al momento giusto.",
+    sociality: "Più individui condividono rive e pozze nei periodi secchi.",
+    reproduction: "Nido di sabbia; la madre vigila uova e piccoli e li aiuta a raggiungere l'acqua.",
+    feeding: "Pesci, antilopi, zebre: trascina in acqua e affoga la preda; taglia pezzi scuotendo la testa.",
+    interactions: "Predatore al vertice; controlla popolazioni e mantiene gli ecosistemi fluviali in equilibrio.",
+    human: "Temuto, ma protetto in molte aree; conflitti ridotti con gestione corretta delle rive.",
+    fun: "Apnea lunga e denti ‘ganci’: afferrare sì, masticare no.",
+    facts: ["Morsi potentissimi","Cure parentali","Aspetta per ore"]
   },
-  {
+  { // 7 Aquila
     name: "Aquila reale",
     scientificName: "Aquila chrysaetos",
     class: "Uccelli",
     emoji: "🦅",
-    habitat: "Montagne e scogliere dell’emisfero nord",
+    habitat: "Montagne e scogliere dell'emisfero nord",
     diet: "Carnivoro (predatore)",
     lifespan: "20–30 anni",
     size: "Apertura alare fino a 2,3 m",
     conservation: "Least Concern",
-    description: "Grande rapace dalla vista eccezionale. Sfrutta le correnti ascensionali e piomba sulla preda.",
-    sociality: "Di solito in coppia; nidi monumentali riutilizzati per anni.",
-    reproduction: "1–3 uova; spesso il piccolo più forte prevale (siblicidio).",
+    description: "Grande rapace elegante. Veleggia sfruttando le correnti ascensionali e piomba con decisione sulla preda.",
+    sociality: "Coppie stabili e territoriali; nidi giganteschi riutilizzati per anni.",
+    reproduction: "1–3 uova; spesso il primo nato domina sugli altri (siblicidio).",
     feeding: "Lepri, marmotte e uccelli; in inverno anche carcasse.",
-    interactions: "Competizione con corvi e altri rapaci su carogne e territori.",
-    human: "Specie simbolo delle montagne; sensibile al disturbo vicino ai nidi.",
-    fun: "Può veleggiare per ore quasi senza battere le ali.",
-    facts: ["Fovea ‘da supervista’", "Nidi riusati per anni", "Picchiate fulminee"]
+    interactions: "Concorre con corvi e altri rapaci su cibo e territori.",
+    human: "Specie simbolo; sensibile al disturbo vicino ai nidi e a cavi/eolico.",
+    fun: "Può restare in aria per ore con pochi battiti d’ala.",
+    facts: ["Vista eccezionale","Nidi monumentali","Picchiate fulminee"]
   },
-  {
+  { // 8 Salamandra
     name: "Salamandra pezzata",
     scientificName: "Salamandra salamandra",
     class: "Anfibi",
     emoji: "🦎",
-    habitat: "Boschi umidi europei, vicino ad acqua pulita",
+    habitat: "Boschi umidi europei, presso acque pulite",
     diet: "Insettivora (vermi, larve, piccoli invertebrati)",
     lifespan: "Fino a 20 anni",
     size: "15–25 cm",
     conservation: "Varia per area",
-    description: "Corpo nero lucido con macchie gialle: segnale ‘non toccarmi’. Attiva dopo la pioggia e di notte.",
-    sociality: "Timida e solitaria; rifugi sotto tronchi e pietre umide.",
-    reproduction: "Molte popolazioni partoriscono larve in acque pulite; metamorfosi in poche settimane.",
-    feeding: "Caccia lenta: vermi, lumache e insetti vicino al suolo.",
-    interactions: "Secrezioni cutanee urticanti: i predatori imparano a evitarla.",
-    human: "Indicatrice di ambienti sani; soffre l’inquinamento.",
-    fun: "Dopo un temporale è il momento migliore per incontrarla.",
-    facts: ["Colori di avviso (aposematismo)", "Notturna", "Sensibile alla qualità dell’acqua"]
+    description: "Corpo nero lucido con macchie gialle ben visibili: avverte i predatori della sua poca appetibilità.",
+    sociality: "Schiva e solitaria; attiva di notte e dopo la pioggia.",
+    reproduction: "Le femmine partoriscono larve in acque limpide; metamorfosi in settimane.",
+    feeding: "Caccia lenta a vista e olfatto: lombrichi, lumache, insetti.",
+    interactions: "Secrezioni cutanee urticanti scoraggiano i predatori.",
+    human: "Specie indicatrice di ambienti sani; soffre l'inquinamento dell'acqua.",
+    fun: "Dopo un temporale è il momento migliore per vederla.",
+    facts: ["Colori di avviso","Notturna","Sensibile alla qualità dell’acqua"]
   },
-  {
+  { // 9 Camaleonte
     name: "Camaleonte comune",
     scientificName: "Chamaeleo chamaeleon",
     class: "Rettili",
@@ -326,39 +322,39 @@ const ANIMALS = [
     lifespan: "4–7 anni",
     size: "20–35 cm (con coda)",
     conservation: "Varia localmente",
-    description: "Maestro del mimetismo: cambia colore per comunicare e regolare la temperatura. Occhi indipendenti, lingua ‘a molla’.",
-    sociality: "Territoriale e solitario; interazioni soprattutto in stagione riproduttiva.",
-    reproduction: "Uova deposte nel terreno soffice; piccoli già indipendenti alla nascita.",
-    feeding: "Colpo di lingua appiccicosa velocissimo per catturare insetti.",
-    interactions: "Predato da serpenti e rapaci; confida molto nell’immobilità.",
-    human: "Minacciato dalla perdita di habitat e dal prelievo illegale in alcune aree.",
-    fun: "Ogni occhio guarda altrove: due telecamere in testa.",
-    facts: ["Lingua a proiettile", "Occhi indipendenti", "Mimetismo notevole"]
+    description: "Maestro del mimetismo: cambia colore per comunicazione e per regolare la temperatura. Ha occhi che si muovono indipendentemente.",
+    sociality: "Territoriale e solitario; interazioni soprattutto in stagione degli accoppiamenti.",
+    reproduction: "Uova deposte nel terreno; i piccoli nascono indipendenti e si arrampicano da subito.",
+    feeding: "Cattura insetti con una lingua ‘a molla’ velocissima e appiccicosa.",
+    interactions: "Predato da serpenti e rapaci; si affida a immobilità e mimetismo.",
+    human: "La perdita di habitat e il commercio illegale minacciano alcune popolazioni.",
+    fun: "Ogni occhio guarda altrove: come due telecamere.",
+    facts: ["Lingua proiettile","Occhi indipendenti","Colori cangianti"]
   },
-  {
+  { // 10 Gatto
     name: "Gatto domestico",
     scientificName: "Felis catus",
     class: "Mammiferi",
     emoji: "🐱",
-    habitat: "Case, fattorie e ambienti urbani in tutto il mondo",
+    habitat: "Case, fattorie e città di tutto il mondo",
     diet: "Carnivoro facoltativo",
     lifespan: "12–18 anni",
     size: "3–6 kg (media)",
     conservation: "—",
-    description: "Agile, curioso e indipendente. Vista notturna, baffi sensibili e udito finissimo.",
-    sociality: "Vive da solo o in gruppo; comunica con fusa, miagolii e posture.",
-    reproduction: "Gestazione ~63 giorni; cucciolate multiple se non sterilizzato.",
-    feeding: "Preferisce proteine animali; attenzione all’obesità in casa.",
-    interactions: "Predatore di piccoli animali: va gestito con responsabilità all’aperto.",
-    human: "Compagno amatissimo; sterilizzazione e visite veterinarie sono fondamentali.",
-    fun: "Scatole, puntini laser e sonnellini al sole: il suo trio preferito.",
-    facts: ["Ottima visione crepuscolare", "Baffi sensori", "Grande cacciatore"]
+    description: "Agile, curioso e indipendente. Vista notturna, baffi come sensori, udito molto fine.",
+    sociality: "Vive da solo o in piccoli gruppi; comunica con fusa, miagolii e posture.",
+    reproduction: "Gestazione di circa 63 giorni; più cucciolate all'anno se non sterilizzato.",
+    feeding: "Preferisce proteine animali; in casa serve dieta bilanciata e gioco per evitare sovrappeso.",
+    interactions: "Ottimo predatore di piccoli animali: va gestito all'aperto per proteggere la fauna.",
+    human: "Compagno di vita diffuso; sterilizzazione e visite veterinarie sono essenziali.",
+    fun: "Scatole, laser e sole: il trio della felicità felina.",
+    facts: ["Visione crepuscolare","Baffi sensori","Grande cacciatore"]
   }
 ];
 
-/* ==========================
-   UTILITÀ & INDICIZZAZIONE
-   ========================== */
+// ==========================
+// INDICIZZAZIONE & UTIL
+// ==========================
 const slug = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
 ANIMALS.forEach(a=>{ a.id = slug(a.name); a._hay = [a.name,a.scientificName,a.habitat,a.diet,a.class,(a.facts||[]).join(" ")].join(" ").toLowerCase(); });
 const by = key => (a,b)=> (a[key]||"").localeCompare(b[key]||"");
@@ -366,9 +362,9 @@ const qs = sel => document.querySelector(sel);
 const qsa = sel => [...document.querySelectorAll(sel)];
 const state = { q:"", cls:"", route:"/home" };
 
-/* ==========================
-   HABITAT → classi card & tema pagina
-   ========================== */
+// ==========================
+// HABITAT → classi card & tema pagina
+// ==========================
 const habClass = (hab='')=>{
   const h = hab.toLowerCase();
   if(h.includes('bambù')||h.includes('foreste')||h.includes('foresta')) return 'hab-foresta';
@@ -386,88 +382,44 @@ const toTheme = (hc)=>({
 }[hc]||'theme-prateria');
 const THEMES = ['theme-foresta','theme-savana','theme-oceano','theme-montagna','theme-ghiaccio','theme-deserto','theme-prateria'];
 
-/* ==========================
-   PALETTE/PATTERN VARIABILI PER SFONDI
-   ========================== */
+// ===== Palette/pattern variabili per sfondi (semplici e compatibili) =====
 function pickThemeVars(theme){
-  // helper per schiarire/scurire lievemente via HSL (basta per piccole variazioni)
   const tweak = (hex, delta=0) => {
     const c = hex.replace('#','');
     const r = parseInt(c.slice(0,2),16), g = parseInt(c.slice(2,4),16), b = parseInt(c.slice(4,6),16);
-    const rn=r/255, gn=g/255, bn=b/255;
-    const max=Math.max(rn,gn,bn), min=Math.min(rn,gn,bn);
-    let h,s,l=(max+min)/2, d=max-min;
-    if(d===0){ h=0; s=0; }
-    else{
-      s = d/(1-Math.abs(2*l-1));
-      switch(max){
-        case rn: h=((gn-bn)/d)%6; break;
-        case gn: h=(bn-rn)/d+2; break;
-        default: h=(rn-gn)/d+4;
-      }
-      h*=60; if(h<0)h+=360;
-    }
-    l=Math.min(1,Math.max(0,l + delta));
-    const C=(1-Math.abs(2*l-1))*s, X=C*(1-Math.abs(((h/60)%2)-1)), m=l-C/2;
-    let rr,gg,bb;
-    if(0<=h&&h<60){ rr=C; gg=X; bb=0; }
-    else if(60<=h&&h<120){ rr=X; gg=C; bb=0; }
-    else if(120<=h&&h<180){ rr=0; gg=C; bb=X; }
-    else if(180<=h&&h<240){ rr=0; gg=X; bb=C; }
-    else if(240<=h&&h<300){ rr=X; gg=0; bb=C; }
-    else { rr=C; gg=0; bb=X; }
+    const rn=r/255, gn=g/255, bn=b/255; const max=Math.max(rn,gn,bn), min=Math.min(rn,gn,bn);
+    let h,s,l=(max+min)/2, d=max-min; if(d===0){ h=0; s=0; } else { s=d/(1-Math.abs(2*l-1)); switch(max){case rn:h=((gn-bn)/d)%6;break;case gn:h=(bn-rn)/d+2;break;default:h=(rn-gn)/d+4;} h*=60; if(h<0)h+=360; }
+    l=Math.min(1,Math.max(0,l+delta)); const C=(1-Math.abs(2*l-1))*s, X=C*(1-Math.abs(((h/60)%2)-1)), m=l-C/2; let rr,gg,bb;
+    if(0<=h&&h<60){rr=C;gg=X;bb=0;} else if(60<=h&&h<120){rr=X;gg=C;bb=0;} else if(120<=h&&h<180){rr=0;gg=C;bb=X;} else if(180<=h&&h<240){rr=0;gg=X;bb=C;} else if(240<=h&&h<300){rr=X;gg=0;bb=C;} else {rr=C;gg=0;bb=X;}
     const R=Math.round((rr+m)*255), G=Math.round((gg+m)*255), B=Math.round((bb+m)*255);
     return `#${R.toString(16).padStart(2,'0')}${G.toString(16).padStart(2,'0')}${B.toString(16).padStart(2,'0')}`;
   };
-
   const sets = {
-    "theme-foresta": {
-      base0:"#f0fdf4", base1:"#dcfce7",
-      patterns:[
-        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' opacity='0.08'><g fill='none' stroke='%231a6e2a' stroke-width='1'><path d='M10 200c30-30 90-30 120 0'/><path d='M0 160c30-30 90-30 120 0'/></g><g fill='%231a6e2a'><circle cx='30' cy='40' r='5'/><circle cx='150' cy='90' r='4'/></g></svg>",
-        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' opacity='0.06'><path d='M0 200l30-50 20 35 25-40 25 45' fill='none' stroke='%231f7a3b'/></svg>"
-      ]
-    },
-    "theme-savana": {
-      base0:"#fffbeb", base1:"#fef9c3",
-      patterns:[
-        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' opacity='0.07'><path d='M0 180c40-12 80-12 240 0' fill='none' stroke='%236b4f1d'/><path d='M0 140c40-12 80-12 240 0' fill='none' stroke='%23865e1d'/></svg>"
-      ]
-    },
-    "theme-oceano": {
-      base0:"#f0f9ff", base1:"#e0f2fe",
-      patterns:[
-        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' opacity='0.08'><path d='M0 60q40 25 80 0t80 0t80 0' fill='none' stroke='%231084b3'/><path d='M0 120q40 25 80 0t80 0t80 0' fill='none' stroke='%230d5b8f'/></svg>"
-      ]
-    },
-    "theme-montagna": {
-      base0:"#f8fafc", base1:"#e2e8f0",
-      patterns:[
-        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='160' opacity='0.06'><path d='M0 120L40 80l20 20 20-25 40 45H0z' fill='%23cbd5e1'/></svg>"
-      ]
-    },
-    "theme-ghiaccio": {
-      base0:"#f8fafc", base1:"#e0f2fe",
-      patterns:[
-        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' opacity='0.06'><g fill='none' stroke='%230e7490' stroke-width='1'><path d='M100 0v200M0 100h200'/><path d='M50 0v200M0 50h200'/></g></svg>"
-      ]
-    },
-    "theme-deserto": {
-      base0:"#fff7ed", base1:"#ffedd5",
-      patterns:[
-        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' opacity='0.06'><path d='M0 180c50-20 100-20 240 0' fill='none' stroke='%23a16207'/></svg>"
-      ]
-    },
-    "theme-prateria": {
-      base0:"#ecfeff", base1:"#d1fae5",
-      patterns:[
-        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' opacity='0.06'><path d='M0 200l10-20 10 20 10-25 10 25 10-18 10 18 10-22 10 22 10-19 10 19' fill='none' stroke='%230f766e'/></svg>"
-      ]
-    }
+    "theme-foresta": { base0:"#f0fdf4", base1:"#dcfce7", patterns:[
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' opacity='0.08'><g fill='none' stroke='%231a6e2a' stroke-width='1'><path d='M10 200c30-30 90-30 120 0'/><path d='M0 160c30-30 90-30 120 0'/></g><g fill='%231a6e2a'><circle cx='30' cy='40' r='5'/><circle cx='150' cy='90' r='4'/></g></svg>",
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' opacity='0.06'><path d='M0 200l30-50 20 35 25-40 25 45' fill='none' stroke='%231f7a3b'/></svg>"
+    ]},
+    "theme-savana": { base0:"#fffbeb", base1:"#fef9c3", patterns:[
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' opacity='0.07'><path d='M0 180c40-12 80-12 240 0' fill='none' stroke='%236b4f1d'/><path d='M0 140c40-12 80-12 240 0' fill='none' stroke='%23865e1d'/></svg>"
+    ]},
+    "theme-oceano": { base0:"#f0f9ff", base1:"#e0f2fe", patterns:[
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' opacity='0.08'><path d='M0 60q40 25 80 0t80 0t80 0' fill='none' stroke='%231084b3'/><path d='M0 120q40 25 80 0t80 0t80 0' fill='none' stroke='%230d5b8f'/></svg>"
+    ]},
+    "theme-montagna": { base0:"#f8fafc", base1:"#e2e8f0", patterns:[
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='160' opacity='0.06'><path d='M0 120L40 80l20 20 20-25 40 45H0z' fill='%23cbd5e1'/></svg>"
+    ]},
+    "theme-ghiaccio": { base0:"#f8fafc", base1:"#e0f2fe", patterns:[
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' opacity='0.06'><g fill='none' stroke='%230e7490' stroke-width='1'><path d='M100 0v200M0 100h200'/><path d='M50 0v200M0 50h200'/></g></svg>"
+    ]},
+    "theme-deserto": { base0:"#fff7ed", base1:"#ffedd5", patterns:[
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' opacity='0.06'><path d='M0 180c50-20 100-20 240 0' fill='none' stroke='%23a16207'/></svg>"
+    ]},
+    "theme-prateria": { base0:"#ecfeff", base1:"#d1fae5", patterns:[
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' opacity='0.06'><path d='M0 200l10-20 10 20 10-25 10 25 10-18 10 18 10-22 10 22 10-19 10 19' fill='none' stroke='%230f766e'/></svg>"
+    ]}
   };
-
   const set = sets[theme] || sets["theme-prateria"];
-  const wiggle = (Math.random()*0.08)-0.04; // lieve variazione luminosità (-4%..+4%)
+  const wiggle = (Math.random()*0.08)-0.04; // -4%..+4%
   const t0 = tweak(set.base0, wiggle);
   const t1 = tweak(set.base1, -wiggle/2);
   const pat = set.patterns[Math.floor(Math.random()*set.patterns.length)];
@@ -483,9 +435,9 @@ function applyTheme(theme){
   document.documentElement.style.setProperty('--pattern', `url("${pat}")`);
 }
 
-/* ==========================
-   TEMPLATES
-   ========================== */
+// ==========================
+// TEMPLATES — home e scheda tipo enciclopedia
+// ==========================
 function cardTpl(a){
   const hc = habClass(a.habitat);
   return `
@@ -504,34 +456,61 @@ function listTpl(){
   const cards = items.map(cardTpl).join('');
   return `<div class="grid">${cards || emptyTpl()}</div>`;
 }
+function quickFacts(a){
+  return `
+  <div class="panel pad quick">
+    <h3 style="margin-top:0">Scheda rapida</h3>
+    <div class="kv">
+      <div class="meta">Nome scientifico</div><div><i>${a.scientificName||'—'}</i></div>
+      <div class="meta">Classe</div><div>${a.class||'—'}</div>
+      <div class="meta">Habitat</div><div>${a.habitat||'—'}</div>
+      <div class="meta">Dieta</div><div>${a.diet||'—'}</div>
+      <div class="meta">Vita media</div><div>${a.lifespan||'—'}</div>
+      <div class="meta">Dimensioni</div><div>${a.size||'—'}</div>
+      <div class="meta">Conservazione</div><div>${a.conservation||'—'}</div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px">
+      ${(a.facts||[]).slice(0,4).map(f=>`<span class="chip">${f}</span>`).join('')}
+    </div>
+  </div>`;
+}
 function detailTpl(a){
+  const hc = habClass(a.habitat);
   const facts = (a.facts||[]).map(f=>`<li>${f}</li>`).join('');
   return `
   <div class="detail">
-    <a class="back" href="#/home">← Torna alla home</a>
-    <div class="panel pad">
-      <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap">
-        <div class="thumb ${habClass(a.habitat)}" style="width:140px; height:140px; font-size:64px"><div class="emoji">${a.emoji||'🧬'}</div></div>
-        <div style="flex:1; min-width:240px">
-          <h2 style="margin:0 0 6px">${a.name}</h2>
-          <div class="meta"><i>${a.scientificName}</i></div>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px" class="meta">
-            <span>Habitat: <b>${a.habitat}</b></span> ·
-            <span>Dieta: <b>${a.diet}</b></span> ·
-            <span>Vita media: <b>${a.lifespan}</b></span>
+    <div>
+      <div class="hero-animal panel">
+        <div class="banner ${hc}"><div class="emoji">${a.emoji||'🧬'}</div></div>
+        <div class="head">
+          <div style="flex:1;min-width:240px">
+            <h2>${a.name}</h2>
+            <div class="meta"><i>${a.scientificName}</i></div>
+            <div class="toc" aria-label="vai a sezione">
+              <a href="#desc">Descrizione</a>
+              <a href="#soc">Socialità</a>
+              <a href="#feed">Alimentazione</a>
+              <a href="#repr">Riproduzione</a>
+              <a href="#eco">Ruolo ecologico</a>
+              <a href="#hum">Rapporto con l'uomo</a>
+              <a href="#facts">Curiosità</a>
+            </div>
+          </div>
+          <div>
+            <a class="btn" href="#/home">← Torna all'elenco</a>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="panel pad"><h3 style="margin-top:0">Descrizione</h3><p>${a.description||'—'}</p></div>
-    <div class="panel pad"><h3 style="margin-top:0">Socialità</h3><p>${a.sociality||'—'}</p></div>
-    <div class="panel pad"><h3 style="margin-top:0">Riproduzione</h3><p>${a.reproduction||'—'}</p></div>
-    <div class="panel pad"><h3 style="margin-top:0">Alimentazione / Caccia</h3><p>${a.feeding||'—'}</p></div>
-    <div class="panel pad"><h3 style="margin-top:0">Interazioni ecologiche</h3><p>${a.interactions||'—'}</p></div>
-    <div class="panel pad"><h3 style="margin-top:0">Rapporto con l'uomo</h3><p>${a.human||'—'}</p></div>
-    ${facts?`<div class="panel pad"><h3 style="margin-top:0">Curiosità</h3><ul>${facts}</ul></div>`:''}
-    <div><a class="btn" href="#/animali">Torna all'elenco</a></div>
+      <div id="desc" class="panel pad section"><h3>Descrizione generale</h3><p>${a.description||'—'}</p></div>
+      <div id="soc"  class="panel pad section"><h3>Socialità e comportamento</h3><p>${a.sociality||'—'}</p></div>
+      <div id="feed" class="panel pad section"><h3>Alimentazione e caccia</h3><p>${a.feeding||'—'}</p></div>
+      <div id="repr" class="panel pad section"><h3>Riproduzione e crescita</h3><p>${a.reproduction||'—'}</p></div>
+      <div id="eco"  class="panel pad section"><h3>Ruolo ecologico e predatori</h3><p>${a.interactions||'—'}</p></div>
+      <div id="hum"  class="panel pad section"><h3>Rapporto con l'uomo</h3><p>${a.human||'—'}</p></div>
+      ${facts?`<div id="facts" class="panel pad section"><h3>Curiosità</h3><ul>${facts}</ul></div>`:''}
+    </div>
+    ${quickFacts(a)}
   </div>`;
 }
 function curiositaTpl(){
@@ -544,9 +523,9 @@ function contattiTpl(){ return `<div class="panel pad"><h2 style="margin-top:0">
 function notFoundTpl(){ return `<div class="panel pad"><h2>Ops!</h2><p>Animale non trovato.</p></div>` }
 function emptyTpl(){ return `<div class="panel pad"><p>Nessun risultato. Prova a cambiare ricerca o filtro.</p></div>` }
 
-/* ==========================
-   RENDER & ROUTER
-   ========================== */
+// ==========================
+// RENDER & ROUTER
+// ==========================
 function filteredItems(){
   const q = (state.q||'').trim().toLowerCase();
   return ANIMALS
@@ -572,9 +551,9 @@ function render(){
   container.innerHTML = listTpl();
 }
 
-/* ==========================
-   INTERAZIONE
-   ========================== */
+// ==========================
+// INTERAZIONE
+// ==========================
 function showToast(msg){ const t = qs('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(showToast._t); showToast._t = setTimeout(()=> t.classList.remove('show'), 2000); }
 function goRandom(){ const items = filteredItems(); if(!items.length) return; const pick = items[Math.floor(Math.random()*items.length)]; location.hash = `#/animal/${pick.id}`; showToast(`Hai pescato: ${pick.name}! 🎲`); }
 
@@ -582,10 +561,7 @@ function setupControls(){
   qs('#q').addEventListener('input', e=>{ state.q = e.target.value; render(); });
   qs('#filterClass').addEventListener('change', e=>{ state.cls = e.target.value; render(); });
   const br = qs('#btnRandom'); if(br) br.addEventListener('click', goRandom);
-  window.addEventListener('keydown', (e)=>{ if(e.key && e.key.toLowerCase()==='r' && !e.metaKey && !e.ctrlKey && !e.altKey){
-    const active = document.activeElement; if(active && (active.tagName==='INPUT' || active.tagName==='TEXTAREA')) return;
-    e.preventDefault(); goRandom();
-  }});
+  window.addEventListener('keydown', (e)=>{ if(e.key && e.key.toLowerCase()==='r' && !e.metaKey && !e.ctrlKey && !e.altKey){ const active = document.activeElement; if(active && (active.tagName==='INPUT' || active.tagName==='TEXTAREA')) return; e.preventDefault(); goRandom(); }});
 }
 
 window.addEventListener('hashchange', render);
