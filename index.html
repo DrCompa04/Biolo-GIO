@@ -3,58 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Biolo‑Gio | Enciclopedia giocosa degli animali</title>
-  <meta name="description" content="Biolo‑Gio: scopri specie, habitat, dieta, conservazione e curiosità — veloce e semplice su GitHub Pages." />
+  <title>Biolo-Gio | Enciclopedia degli animali</title>
+  <meta name="description" content="Biolo-Gio: scopri specie, habitat, dieta, conservazione e curiosità — semplice e veloce su GitHub Pages." />
   <style>
     :root{
-      --bg:#f8fafc; --panel:#ffffff; --muted:#475569; --text:#0f172a; --brand:#06b6d4; --brand-2:#8b5cf6; --accent:#10b981; --card:#ffffff; --ring:#22d3ee55; --radius:18px;
+      --bg:#f8fafc; --panel:#ffffff; --muted:#475569; --text:#0f172a;
+      --brand:#06b6d4; --brand-2:#8b5cf6; --card:#ffffff; --ring:#22d3ee55; --radius:18px;
+      /* colori/pattern che cambiano a ogni visita, impostati via JS */
+      --t0:#ffffff; --t1:#f1f5f9; --pattern:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'/>");
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif; color:var(--text); background:#f1f5f9; line-height:1.6; transition: background 400ms ease;}
-
-    /* Temi habitat con dettagli SVG sottili */
-    body.theme-foresta{background:
-      radial-gradient(1200px 800px at 10% -10%, #bbf7d0, transparent),
-      radial-gradient(900px 700px at 110% 0%, #86efac, transparent),
-      linear-gradient(180deg, #f0fdf4, #dcfce7 60%),
-      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" opacity="0.07"><g fill="none" stroke="%231A6E2A" stroke-width="1"><path d="M0 140l20-40 20 35 20-45 20 50 20-30 20 30"/></g><g fill="%231A6E2A" opacity="0.08"><circle cx="30" cy="30" r="6"/><circle cx="120" cy="70" r="5"/></g></svg>'); background-attachment:fixed;}
-    body.theme-savana{background:
-      radial-gradient(1200px 800px at 10% -10%, #fde68a, transparent),
-      radial-gradient(900px 700px at 110% 0%, #fef3c7, transparent),
-      linear-gradient(180deg, #fffbeb, #fef9c3 60%),
-      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" opacity="0.06"><path d="M0 150c40-12 80-12 200 0" fill="none" stroke="%236B4F1D"/><path d="M0 110c40-12 80-12 200 0" fill="none" stroke="%23865E1D"/></svg>'); background-attachment:fixed;}
-    body.theme-oceano{background:
-      radial-gradient(1200px 800px at 10% -10%, #bae6fd, transparent),
-      radial-gradient(900px 700px at 110% 0%, #a5f3fc, transparent),
-      linear-gradient(180deg, #f0f9ff, #e0f2fe 60%),
-      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" opacity="0.07"><path d="M0 60q40 25 80 0t80 0t80 0" fill="none" stroke="%231084B3"/><path d="M0 120q40 25 80 0t80 0t80 0" fill="none" stroke="%230D5B8F"/></svg>'); background-attachment:fixed;}
-    body.theme-montagna{background:
-      radial-gradient(1200px 800px at 10% -10%, #e2e8f0, transparent),
-      radial-gradient(900px 700px at 110% 0%, #cbd5e1, transparent),
-      linear-gradient(180deg, #f8fafc, #e2e8f0 60%),
-      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140" opacity="0.07"><path d="M0 120L40 80l20 20 20-25 40 45H0z" fill="%23cbd5e1"/></svg>'); background-attachment:fixed;}
-    body.theme-ghiaccio{background:
-      radial-gradient(1200px 800px at 10% -10%, #e0f2fe, transparent),
-      radial-gradient(900px 700px at 110% 0%, #f1f5f9, transparent),
-      linear-gradient(180deg, #f8fafc, #e0f2fe 60%),
-      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" opacity="0.06"><g fill="none" stroke="%230e7490" stroke-width="1"><path d="M80 0v160M0 80h160"/><path d="M40 0v160M0 40h160"/></g></svg>'); background-attachment:fixed;}
-    body.theme-deserto{background:
-      radial-gradient(1200px 800px at 10% -10%, #fed7aa, transparent),
-      radial-gradient(900px 700px at 110% 0%, #ffedd5, transparent),
-      linear-gradient(180deg, #fff7ed, #ffedd5 60%),
-      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" opacity="0.06"><path d="M0 150c50-20 100-20 200 0" fill="none" stroke="%23a16207"/></svg>'); background-attachment:fixed;}
-    body.theme-prateria{background:
-      radial-gradient(1200px 800px at 10% -10%, #a7f3d0, transparent),
-      radial-gradient(900px 700px at 110% 0%, #d1fae5, transparent),
-      linear-gradient(180deg, #ecfeff, #d1fae5 60%),
-      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" opacity="0.06"><path d="M0 140l10-20 10 20 10-25 10 25 10-18 10 18 10-22 10 22 10-19 10 19" fill="none" stroke="%230f766e"/></svg>'); background-attachment:fixed;}
-
-    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(120%) blur(10px); background:linear-gradient(180deg, #ffffffee, #ffffffcc); border-bottom:1px solid #e2e8f0}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+      color:var(--text); background:#f1f5f9; line-height:1.6; transition: background 400ms ease;
+    }
+    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(120%) blur(10px);
+      background:linear-gradient(180deg, #ffffffee, #ffffffcc); border-bottom:1px solid #e2e8f0}
     .wrap{max-width:1100px; margin:auto; padding:16px}
     .topbar{display:flex; align-items:center; gap:16px}
     .logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text)}
-    .logo .mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center; background: conic-gradient(from 210deg, var(--brand), var(--brand-2) 40%, var(--accent)); box-shadow:0 0 0 4px #00000005 inset, 0 10px 30px #0001;}
+    .logo .mark{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+      background: conic-gradient(from 210deg, var(--brand), var(--brand-2) 40%, #10b981);
+      box-shadow:0 0 0 4px #00000005 inset, 0 10px 30px #0001;}
     .logo b{font-size:20px; letter-spacing:.3px}
     nav{margin-left:auto; display:flex; gap:14px; flex-wrap:wrap}
     nav a{color:var(--muted); text-decoration:none; padding:8px 12px; border-radius:10px}
@@ -79,6 +50,8 @@
     .card:hover{transform:translateY(-4px); box-shadow:0 12px 30px #00000014}
     .thumb{height:140px; display:grid; place-items:center; font-size:60px; position:relative; overflow:hidden}
     .thumb .emoji{position:relative; z-index:1; filter: drop-shadow(0 2px 6px rgba(0,0,0,.12));}
+
+    /* gradiente delicato per le card, legato all'habitat */
     .hab-foresta{background: linear-gradient(135deg,#dcfce7,#bbf7d0)}
     .hab-savana{background: linear-gradient(135deg,#fef9c3,#fde68a)}
     .hab-oceano{background: linear-gradient(135deg,#e0f2fe,#bae6fd)}
@@ -101,15 +74,42 @@
     .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(40px);background:linear-gradient(135deg,var(--brand),var(--brand-2));color:white;padding:10px 18px;border-radius:12px;box-shadow:0 8px 30px #00000026;opacity:0;pointer-events:none;transition:opacity .35s, transform .35s;z-index:9999}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+    footer{margin:30px 0 60px; color:var(--muted)}
+    footer a{color:var(--brand)}
     @media (max-width:700px){ .controls{grid-template-columns:1fr} }
+
+    /* ===== Temi habitat (BACKGROUND DI PAGINA) con pattern e variazione ===== */
+    @keyframes drift {
+      0%   { background-position: 0 0, 0 0, 0 0, 0 0; }
+      100% { background-position: 0 0, 0 0, 0 0, 200px 200px; }
+    }
+    /* base comune: 2 gradienti + 1 pattern (impostati via var) */
+    body[class*="theme-"]{
+      background-attachment: fixed;
+      background-image:
+        radial-gradient(1200px 800px at 10% -10%, color-mix(in oklab, var(--t0) 70%, transparent), transparent),
+        radial-gradient(900px 700px  at 110% 0%,  color-mix(in oklab, var(--t1) 70%, transparent), transparent),
+        linear-gradient(180deg, var(--t0), var(--t1) 60%),
+        var(--pattern);
+      background-size: auto, auto, auto, 220px 220px;
+      animation: drift 90s linear infinite; /* movimento lentissimo */
+    }
+    /* classi "marker" usate dal JS per scegliere palette/pattern */
+    body.theme-foresta{}
+    body.theme-savana{}
+    body.theme-oceano{}
+    body.theme-montagna{}
+    body.theme-ghiaccio{}
+    body.theme-deserto{}
+    body.theme-prateria{}
   </style>
 </head>
 <body>
 <header>
   <div class="wrap topbar">
-    <a class="logo" href="#/home" aria-label="Biolo‑Gio home">
+    <a class="logo" href="#/home" aria-label="Biolo-Gio home">
       <div class="mark">🧬</div>
-      <b>Biolo‑Gio</b>
+      <b>Biolo-Gio</b>
     </a>
     <nav>
       <a href="#/home">Home</a>
@@ -123,13 +123,13 @@
 <main class="wrap">
   <section class="hero">
     <h1>Enciclopedia degli animali, a misura di curiosità.</h1>
-    <p>Scopri specie, habitat, dieta, stato di conservazione e perle zoologiche. 100% GitHub Pages friendly.</p>
+    <p>Testi chiari, tante informazioni, sfondi che richiamano l’habitat. 100% GitHub Pages friendly.</p>
   </section>
 
   <section class="panel pad" id="controls">
     <div class="controls">
       <label class="search">
-        <input id="q" placeholder="Cerca per nome, habitat, dieta… (es. panda, savana, onnivoro)" autocomplete="off" />
+        <input id="q" placeholder="Cerca per nome, habitat, dieta… (es. wombat, savana, insettivoro)" autocomplete="off" />
         <span class="icon">🔎</span>
       </label>
       <label>
@@ -152,53 +152,55 @@
 
   <section id="view"></section>
 
-  <footer style="margin:30px 0 60px; color:var(--muted)">
-    <p>Progetto <b>Biolo‑Gio</b>. Un solo file, massima semplicità. Pubblica su GitHub Pages e diffondi la meraviglia del regno animale.</p>
+  <footer>
+    <p>Progetto <b>Biolo-Gio</b>. Un solo file, massima semplicità. Pubblica su GitHub Pages e diffondi la meraviglia del regno animale.</p>
   </footer>
 </main>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
-// ==========================
-// DATI (ridotti per esempio; pronti ad espandersi)
-// ==========================
+/* ==========================
+   DATI: 10 animali (testi chiari e ricchi)
+   ========================== */
 const ANIMALS = [
   {
     name: "Wombat",
     scientificName: "Vombatus ursinus",
     class: "Mammiferi",
     emoji: "🪵",
-    habitat: "Praterie e foreste aperte dell'Australia sud‑orientale",
+    habitat: "Praterie e foreste aperte dell'Australia sud-orientale",
     diet: "Erbivoro (erbe, cortecce, radici)",
-    lifespan: "10–15 anni (in natura)",
-    size: "20–35 kg; lungo ~1 m",
-    conservation: "Least Concern (LC)",
-    description: "Il wombat è un marsupiale tozzo e scavatori professionista. Ha zampe robuste e artigli per costruire lunghe tane sotterranee, dove la temperatura resta stabile. Il suo metabolismo è lento: digerisce le fibre per molte ore, come una piccola mucca con la pala in mano.",
-    sociality: "In genere è solitario e notturno. Condivide talvolta i cunicoli con altri wombat, ma mantiene piccole aree territoriali segnate con odori.",
-    reproduction: "La femmina partorisce un piccolo che resta nel marsupio (aperto verso dietro, così non entra terra) per circa 6–7 mesi. Diventa indipendente attorno all'anno di età.",
-    feeding: "Bruca erbe dure e cortecce. L’apparato digerente estrae il massimo dalle fibre, motivo per cui le feci sono famose: cubiche! Così non rotolano, e possono marcare meglio il territorio.",
-    interactions: "Scavando crea micro‑habitat per altri animali che sfruttano le tane. In caso di predatori, si rifugia nel tunnel e può chiudere l’accesso col posteriore osseo come uno ‘scudo’.",
-    human: "Può danneggiare recinzioni ma è amato dai locali. La perdita di habitat e le strade sono i rischi principali.",
-    fun: "Le sue feci a forma di cubo sono un’icona del web naturalista."
+    lifespan: "10–15 anni",
+    size: "20–35 kg; ~1 m",
+    conservation: "Least Concern",
+    description: "Marsupiale tozzo e fortissimo nello scavare: costruisce lunghe tane fresche d’estate e tiepide d’inverno.",
+    sociality: "Perlopiù solitario e notturno; può condividere cunicoli con altri wombat.",
+    reproduction: "Un piccolo che resta nel marsupio (aperto verso dietro) per 6–7 mesi, poi segue la madre.",
+    feeding: "Bruca erbe dure e cortecce con digestione lenta: sfrutta al massimo le fibre.",
+    interactions: "Le tane offrono rifugio a molti altri animali. Se minacciato, blocca il tunnel col posteriore osseo.",
+    human: "Rischi principali: strade e perdita di habitat.",
+    fun: "Famoso per le feci a forma di cubo: non rotolano e “segnano” meglio il territorio.",
+    facts: ["Tane lunghe decine di metri", "Attivo soprattutto di notte", "Feci… cubiche!"]
   },
   {
     name: "Falco pellegrino",
     scientificName: "Falco peregrinus",
     class: "Uccelli",
     emoji: "🪶",
-    habitat: "Scogliere, città, montagne; distribuzione quasi globale",
+    habitat: "Scogliere, città, montagne; quasi globale",
     diet: "Carnivoro (uccelli in volo)",
     lifespan: "~15 anni",
     size: "Apertura alare 80–120 cm",
-    conservation: "Least Concern (LC)",
-    description: "È l’animale più veloce del pianeta: in picchiata supera i 300 km/h. Corpo aerodinamico, ali appuntite e vista eccezionale lo rendono un cacciatore formidabile.",
-    sociality: "Vive in coppie territoriali durante la stagione riproduttiva; al di fuori è solitario. Nelle città usa palazzi e campanili come ‘scogliere’ moderne.",
-    reproduction: "Nidifica su cenge o edifici; depone 2–4 uova. I piccoli imparano presto il volo e la caccia con inseguimenti spettacolari.",
-    feeding: "Colpisce uccelli in aria con la picchiata, stordendoli con l’impatto del becco ‘a dente’. Prede comuni: piccioni, storni, limicoli.",
-    interactions: "Predatore apicale degli uccelli di città; può entrare in competizione con corvidi e gabbiani.",
-    human: "È tornato nelle città dopo i divieti su pesticidi dannosi. Molti progetti urbani proteggono nidi su torri e grattacieli.",
-    fun: "Radar naturale: insegue un piccione tra i palazzi come un jet tra canyon."
+    conservation: "Least Concern",
+    description: "L’animale più veloce del mondo: in picchiata supera i 300 km/h. Vista eccellente e corpo aerodinamico.",
+    sociality: "In coppie territoriali in stagione riproduttiva; altrimenti solitario. In città usa campanili e grattacieli come scogliere.",
+    reproduction: "Nidifica su cenge/edifici; 2–4 uova. I giovani apprendono la caccia con inseguimenti spettacolari.",
+    feeding: "Colpisce in picchiata uccelli in volo (piccioni, storni, limicoli).",
+    interactions: "Predatore apicale degli uccelli urbani; competizione con gabbiani/corvidi.",
+    human: "È tornato in molte città dopo lo stop ai pesticidi più dannosi; progetti urbani proteggono i nidi.",
+    fun: "Un “jet” con le piume: radar naturale per inseguimenti tra i palazzi.",
+    facts: [">300 km/h in picchiata", "Nidifica volentieri in città", "Vista finissima"]
   },
   {
     name: "Corvo comune",
@@ -207,16 +209,17 @@ const ANIMALS = [
     emoji: "🐦",
     habitat: "Campagne, città, boschi aperti in Europa e Asia",
     diet: "Onnivoro opportunista",
-    lifespan: "10–15 anni (più in cattività)",
+    lifespan: "10–15 anni",
     size: "45–50 cm; apertura alare ~1 m",
-    conservation: "Least Concern (LC)",
-    description: "Intelligente, curioso e adattabile. I corvi riconoscono volti, risolvono problemi e sanno usare semplici ‘attrezzi’. Neri e lucidi, hanno un verso caratteristico e ‘commentano’ spesso quello che vedono.",
-    sociality: "Spesso in coppie stabili; si aggregano in dormitori serali rumorosi. Giovani in gruppi imparano tecniche di foraggiamento.",
-    reproduction: "Nido in alto su alberi o strutture; 3–6 uova. Entrambi i genitori partecipano alle cure.",
-    feeding: "Di tutto un po’: insetti, cereali, frutta, carcasse, scarti urbani. Grande memoria dei luoghi con cibo.",
-    interactions: "Spazzini utili: ripuliscono carcasse e rifiuti organici. Possono rubare cibo ad altri uccelli (cleptoparassitismo leggero).",
-    human: "In città imparano i nostri ritmi e orari. A volte considerati ‘molesti’, ma svolgono un servizio ecologico.",
-    fun: "Possono ricordarsi di chi li ha trattati bene (o male) per anni."
+    conservation: "Least Concern",
+    description: "Intelligente e curioso. Riconosce volti, risolve problemi e usa semplici ‘attrezzi’.",
+    sociality: "Coppie stabili; grandi dormitori serali con centinaia di individui.",
+    reproduction: "Nido su alberi o strutture; 3–6 uova; cure condivise.",
+    feeding: "Insetti, cereali, frutta, carcasse e scarti urbani: sa adattarsi.",
+    interactions: "Spazzino utilissimo: ripulisce rifiuti organici e carcasse.",
+    human: "In città impara i nostri ritmi e si avvicina senza timore.",
+    fun: "Può ricordare per anni chi lo ha trattato bene… o male.",
+    facts: ["Memoria a lungo termine", "Usa piccoli attrezzi", "Vive bene in città"]
   },
   {
     name: "Pinguino imperatore",
@@ -226,15 +229,16 @@ const ANIMALS = [
     habitat: "Antartide: piattaforme di ghiaccio e acque gelide",
     diet: "Pesci, krill, calamari",
     lifespan: "15–20 anni",
-    size: "Alto fino a 120 cm; 20–40 kg",
-    conservation: "Near Threatened (NT)",
-    description: "Vive e si riproduce nel pieno dell’inverno polare. Sulla terra sembra goffo, ma in acqua è un nuotatore elegante che resiste a freddo estremo e grandi profondità.",
-    sociality: "Colonie enormi; durante le bufere si stringono in gruppo ruotando lentamente per scaldarsi a turno.",
-    reproduction: "La femmina depone un solo uovo e lo affida al maschio, che lo tiene sui piedi per settimane, digiuno, fino al ritorno della compagna.",
-    feeding: "Tuffi anche oltre i 500 m, apnea di 15–20 minuti. Pesci e krill sono il menu quotidiano.",
-    interactions: "Prede di foche leopardo e orche; indicatori dello stato del ghiaccio marino.",
-    human: "Specie simbolo del cambiamento climatico; protetta in aree antartiche.",
-    fun: "Scivolano sulla pancia per fare chilometri risparmiando energie."
+    size: "Fino a 120 cm; 20–40 kg",
+    conservation: "Near Threatened",
+    description: "Si riproduce nel pieno dell’inverno polare. Goffo a terra, ma in acqua è un nuotatore elegante e instancabile.",
+    sociality: "Colonie enormi; durante le bufere si stringono e ruotano per scaldarsi a turno.",
+    reproduction: "La femmina depone un uovo; il maschio lo cova sui piedi per settimane, a digiuno, finché lei torna dal mare.",
+    feeding: "Tuffi anche oltre 500 m e apnea di 15–20 minuti.",
+    interactions: "Predato da foche leopardo e orche; sensibile ai cambiamenti del ghiaccio marino.",
+    human: "Specie simbolo del clima polare; ampiamente protetta.",
+    fun: "Scivola sulla pancia per fare chilometri risparmiando energie.",
+    facts: ["Colonie di migliaia", "Uovo covato sui piedi", "Immersioni profonde"]
   },
   {
     name: "Gallina domestica",
@@ -243,16 +247,17 @@ const ANIMALS = [
     emoji: "🐔",
     habitat: "Aree rurali e urbane in tutto il mondo",
     diet: "Onnivora (semi, insetti, erbe)",
-    lifespan: "5–10 anni (variabile)",
-    size: "Molto variabile per razza",
-    conservation: "— (domestica)",
-    description: "Uccello domestico diffusissimo. Scava col becco e con le zampe per cercare semi e insetti. Communica con una varietà di vocalizzi, non solo il famoso ‘coccodè’.",
-    sociality: "Vive in gruppi con gerarchie semplici (‘ordine di beccata’). Le chiocce proteggono e guidano i pulcini.",
-    reproduction: "Depone uova con regolarità; se cova, le uova schiudono in circa 21 giorni. Pulcini precoci e indipendenti.",
-    feeding: "Semi, erbe, insetti e avanzi; becchetta tutto il giorno.",
-    interactions: "Attratta dai luoghi abitati dall’uomo: pollai, cortili, orti.",
-    human: "Fondamentale per alimentazione e cultura rurale. Cresce l’interesse per benessere e allevamenti all’aperto.",
-    fun: "Riconosce i membri del gruppo e può imparare piccole routine."
+    lifespan: "5–10 anni",
+    size: "Variabile per razza",
+    conservation: "—",
+    description: "Uccello domestico diffusissimo. Becchetta e razzola tutto il giorno in cerca di semi e insetti.",
+    sociality: "Vive in gruppo con gerarchie semplici (‘ordine di beccata’). Le chiocce proteggono i pulcini.",
+    reproduction: "Depone uova regolarmente; se cova, schiudono in ~21 giorni.",
+    feeding: "Semi, erbe, insetti e avanzi; molto adattabile.",
+    interactions: "Si integra bene con orti e cortili; attira insetti e piccoli predatori.",
+    human: "Fondamentale per alimentazione e tradizioni rurali; cresce l’attenzione al benessere.",
+    fun: "Riconosce i membri del gruppo e impara routine quotidiane.",
+    facts: ["21 giorni di cova", "Ordine di beccata", "Molte razze diverse"]
   },
   {
     name: "Coccodrillo del Nilo",
@@ -263,14 +268,15 @@ const ANIMALS = [
     diet: "Carnivoro (pesci e grandi vertebrati)",
     lifespan: "40+ anni",
     size: "Fino a >5 m",
-    conservation: "Least Concern (LC), tutele locali",
-    description: "Massiccio e potente, passa ore immobile a scaldarsi al sole o in agguato in acqua. Mascelle fortissime e corpo corazzato.",
-    sociality: "Spesso diversi individui condividono i migliori punti del fiume. Non di rado si vedono ‘file’ di coccodrilli lungo le rive.",
-    reproduction: "La femmina costruisce un nido nella sabbia e custodisce uova e piccoli. I neonati comunicano dal guscio con pigolii.",
-    feeding: "Pesci, antilopi, zebre: afferra e trascina in acqua per annegare la preda. Denti per afferrare, non per masticare.",
-    interactions: "Predatore al vertice delle catene fluviali; può competere con grossi varani e rapaci.",
-    human: "Temuto ma protetto in molte aree; regola popolazioni e mantiene sano l’ecosistema acquatico.",
-    fun: "Può restare quasi immobile per ore: pazienza tattica da maestro."
+    conservation: "Least Concern (tutele locali)",
+    description: "Massiccio e corazzato. Alterna lunghe attese immobili a scatti velocissimi.",
+    sociality: "Più individui possono condividere gli stessi tratti di fiume.",
+    reproduction: "Nido di sabbia; la madre vigila uova e piccoli, che pigolano già nel guscio.",
+    feeding: "Pesci, antilopi, zebre: trascina in acqua e affoga la preda.",
+    interactions: "Predatore al vertice delle catene fluviali.",
+    human: "Temuto ma protetto in molte aree: essenziale per l’equilibrio degli ecosistemi.",
+    fun: "Può restare quasi immobile per ore aspettando il momento giusto.",
+    facts: ["Morsi potentissimi", "Apnea prolungata", "Cura parentale insospettata"]
   },
   {
     name: "Aquila reale",
@@ -281,14 +287,15 @@ const ANIMALS = [
     diet: "Carnivoro (predatore)",
     lifespan: "20–30 anni",
     size: "Apertura alare fino a 2,3 m",
-    conservation: "Least Concern (LC)",
-    description: "Grande rapace dalla vista acutissima. Vola in cerchi sfruttando le correnti calde e si lancia in picchiate fulminee.",
-    sociality: "Di solito in coppia stabile e territoriale; i nidi vengono riutilizzati per anni.",
-    reproduction: "Depone 1–3 uova; il piccolo più forte spesso prevale. I genitori si alternano nella cura.",
-    feeding: "Preda lepri, marmotte e uccelli di medie dimensioni. In inverno può nutrirsi anche di carcasse.",
+    conservation: "Least Concern",
+    description: "Grande rapace dalla vista eccezionale. Sfrutta le correnti ascensionali e piomba sulla preda.",
+    sociality: "Di solito in coppia; nidi monumentali riutilizzati per anni.",
+    reproduction: "1–3 uova; spesso il piccolo più forte prevale (siblicidio).",
+    feeding: "Lepri, marmotte e uccelli; in inverno anche carcasse.",
     interactions: "Competizione con corvi e altri rapaci su carogne e territori.",
     human: "Specie simbolo delle montagne; sensibile al disturbo vicino ai nidi.",
-    fun: "Veleggia per ore senza quasi battere le ali."
+    fun: "Può veleggiare per ore quasi senza battere le ali.",
+    facts: ["Fovea ‘da supervista’", "Nidi riusati per anni", "Picchiate fulminee"]
   },
   {
     name: "Salamandra pezzata",
@@ -299,14 +306,15 @@ const ANIMALS = [
     diet: "Insettivora (vermi, larve, piccoli invertebrati)",
     lifespan: "Fino a 20 anni",
     size: "15–25 cm",
-    conservation: "Varia per area; rischio malattie emergenti",
-    description: "Corpo nero lucidissimo con macchie gialle ben visibili: un cartello ‘non mangiarmi’. È attiva soprattutto dopo la pioggia e di notte.",
-    sociality: "Timida e solitaria, si rifugia sotto tronchi e pietre umide.",
-    reproduction: "In molte popolazioni le femmine partoriscono larve in acqua limpida; i piccoli completano la metamorfosi in poche settimane.",
-    feeding: "Caccia lentamente ciò che si muove vicino al suolo: vermi, lumache e insetti.",
-    interactions: "Le ghiandole cutanee secernono sostanze urticanti: i predatori imparano a evitarla.",
-    human: "Specie indicatrice di acque e boschi sani; sensibile all’inquinamento.",
-    fun: "Dopo un temporale è il momento migliore per incontrarla in cammino nel bosco."
+    conservation: "Varia per area",
+    description: "Corpo nero lucido con macchie gialle: segnale ‘non toccarmi’. Attiva dopo la pioggia e di notte.",
+    sociality: "Timida e solitaria; rifugi sotto tronchi e pietre umide.",
+    reproduction: "Molte popolazioni partoriscono larve in acque pulite; metamorfosi in poche settimane.",
+    feeding: "Caccia lenta: vermi, lumache e insetti vicino al suolo.",
+    interactions: "Secrezioni cutanee urticanti: i predatori imparano a evitarla.",
+    human: "Indicatrice di ambienti sani; soffre l’inquinamento.",
+    fun: "Dopo un temporale è il momento migliore per incontrarla.",
+    facts: ["Colori di avviso (aposematismo)", "Notturna", "Sensibile alla qualità dell’acqua"]
   },
   {
     name: "Camaleonte comune",
@@ -318,64 +326,166 @@ const ANIMALS = [
     lifespan: "4–7 anni",
     size: "20–35 cm (con coda)",
     conservation: "Varia localmente",
-    description: "Maestro del mimetismo: cambia colore per comunicare e regolare la temperatura. Occhi indipendenti e lingua ‘a molla’ velocissima.",
+    description: "Maestro del mimetismo: cambia colore per comunicare e regolare la temperatura. Occhi indipendenti, lingua ‘a molla’.",
     sociality: "Territoriale e solitario; interazioni soprattutto in stagione riproduttiva.",
-    reproduction: "La femmina depone uova nel terreno soffice; i piccoli nascono già indipendenti.",
-    feeding: "Cattura insetti con un colpo di lingua appiccicosa che scatta come una fionda.",
-    interactions: "Predato da serpenti e rapaci; confida molto nell’immobilità e nel mimetismo.",
+    reproduction: "Uova deposte nel terreno soffice; piccoli già indipendenti alla nascita.",
+    feeding: "Colpo di lingua appiccicosa velocissimo per catturare insetti.",
+    interactions: "Predato da serpenti e rapaci; confida molto nell’immobilità.",
     human: "Minacciato dalla perdita di habitat e dal prelievo illegale in alcune aree.",
-    fun: "Ogni occhio guarda altrove: è come avere due telecamere sul cavalletto."
+    fun: "Ogni occhio guarda altrove: due telecamere in testa.",
+    facts: ["Lingua a proiettile", "Occhi indipendenti", "Mimetismo notevole"]
   },
   {
     name: "Gatto domestico",
     scientificName: "Felis catus",
     class: "Mammiferi",
     emoji: "🐱",
-    habitat: "Case, fattorie e ambienti urbani di tutto il mondo",
+    habitat: "Case, fattorie e ambienti urbani in tutto il mondo",
     diet: "Carnivoro facoltativo",
-    lifespan: "12–18 anni (media)",
+    lifespan: "12–18 anni",
     size: "3–6 kg (media)",
-    conservation: "— (domestica)",
-    description: "Agile, curioso e indipendente. Ha sensi finissimi: vista notturna, baffi sensibili e udito teso anche ai suoni molto acuti.",
-    sociality: "Può vivere da solo o in gruppo; comunica con posture, fusa, miagolii e odori.",
-    reproduction: "Gestazione di ~63 giorni; cucciolate multiple all’anno se non sterilizzato.",
-    feeding: "Preferisce proteine animali; attenzione all’obesità in vita domestica.",
-    interactions: "Ottimo predatore di piccoli animali; va gestito con responsabilità per tutelare la fauna locale.",
-    human: "Compagno di casa amatissimo; richiede cure veterinarie, sterilizzazione e arricchimento ambientale.",
-    fun: "Scatole, laser e sonnellini al sole: la triade del benessere felino."
+    conservation: "—",
+    description: "Agile, curioso e indipendente. Vista notturna, baffi sensibili e udito finissimo.",
+    sociality: "Vive da solo o in gruppo; comunica con fusa, miagolii e posture.",
+    reproduction: "Gestazione ~63 giorni; cucciolate multiple se non sterilizzato.",
+    feeding: "Preferisce proteine animali; attenzione all’obesità in casa.",
+    interactions: "Predatore di piccoli animali: va gestito con responsabilità all’aperto.",
+    human: "Compagno amatissimo; sterilizzazione e visite veterinarie sono fondamentali.",
+    fun: "Scatole, puntini laser e sonnellini al sole: il suo trio preferito.",
+    facts: ["Ottima visione crepuscolare", "Baffi sensori", "Grande cacciatore"]
   }
 ];
 
-// ==========================
-// UTILITÀ & TEMA
-// ==========================
+/* ==========================
+   UTILITÀ & INDICIZZAZIONE
+   ========================== */
 const slug = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
-ANIMALS.forEach(a=>{ a.id = slug(a.name); a._hay = [a.name,a.scientificName,a.habitat,a.diet,a.class].join(" ").toLowerCase(); });
+ANIMALS.forEach(a=>{ a.id = slug(a.name); a._hay = [a.name,a.scientificName,a.habitat,a.diet,a.class,(a.facts||[]).join(" ")].join(" ").toLowerCase(); });
 const by = key => (a,b)=> (a[key]||"").localeCompare(b[key]||"");
 const qs = sel => document.querySelector(sel);
 const qsa = sel => [...document.querySelectorAll(sel)];
 const state = { q:"", cls:"", route:"/home" };
 
+/* ==========================
+   HABITAT → classi card & tema pagina
+   ========================== */
 const habClass = (hab='')=>{
   const h = hab.toLowerCase();
   if(h.includes('bambù')||h.includes('foreste')||h.includes('foresta')) return 'hab-foresta';
   if(h.includes('savana')||h.includes('prateria')) return 'hab-savana';
   if(h.includes('antart')||h.includes('ghiaccio')||h.includes('polo')) return 'hab-ghiaccio';
-  if(h.includes('mare')||h.includes('oceano')||h.includes('coste')) return 'hab-oceano';
+  if(h.includes('mare')||h.includes('oceano')||h.includes('coste')||h.includes('acque')) return 'hab-oceano';
   if(h.includes('montagne')||h.includes('scogliere')||h.includes('alp')) return 'hab-montagna';
   if(h.includes('deserto')||h.includes('arido')) return 'hab-deserto';
   if(h.includes('prateria')||h.includes('steppe')) return 'hab-prateria';
   return 'hab-prateria';
 };
-const toTheme = (habClass)=>({
-  'hab-foresta':'theme-foresta','hab-savana':'theme-savana','hab-ghiaccio':'theme-ghiaccio','hab-oceano':'theme-oceano','hab-montagna':'theme-montagna','hab-deserto':'theme-deserto','hab-prateria':'theme-prateria'
-}[habClass]||'theme-prateria');
+const toTheme = (hc)=>({
+  'hab-foresta':'theme-foresta','hab-savana':'theme-savana','hab-ghiaccio':'theme-ghiaccio',
+  'hab-oceano':'theme-oceano','hab-montagna':'theme-montagna','hab-deserto':'theme-deserto','hab-prateria':'theme-prateria'
+}[hc]||'theme-prateria');
 const THEMES = ['theme-foresta','theme-savana','theme-oceano','theme-montagna','theme-ghiaccio','theme-deserto','theme-prateria'];
-function applyTheme(theme){ document.body.classList.remove(...THEMES); if(theme) document.body.classList.add(theme); }
 
-// ==========================
-// TEMPLATES
-// ==========================
+/* ==========================
+   PALETTE/PATTERN VARIABILI PER SFONDI
+   ========================== */
+function pickThemeVars(theme){
+  // helper per schiarire/scurire lievemente via HSL (basta per piccole variazioni)
+  const tweak = (hex, delta=0) => {
+    const c = hex.replace('#','');
+    const r = parseInt(c.slice(0,2),16), g = parseInt(c.slice(2,4),16), b = parseInt(c.slice(4,6),16);
+    const rn=r/255, gn=g/255, bn=b/255;
+    const max=Math.max(rn,gn,bn), min=Math.min(rn,gn,bn);
+    let h,s,l=(max+min)/2, d=max-min;
+    if(d===0){ h=0; s=0; }
+    else{
+      s = d/(1-Math.abs(2*l-1));
+      switch(max){
+        case rn: h=((gn-bn)/d)%6; break;
+        case gn: h=(bn-rn)/d+2; break;
+        default: h=(rn-gn)/d+4;
+      }
+      h*=60; if(h<0)h+=360;
+    }
+    l=Math.min(1,Math.max(0,l + delta));
+    const C=(1-Math.abs(2*l-1))*s, X=C*(1-Math.abs(((h/60)%2)-1)), m=l-C/2;
+    let rr,gg,bb;
+    if(0<=h&&h<60){ rr=C; gg=X; bb=0; }
+    else if(60<=h&&h<120){ rr=X; gg=C; bb=0; }
+    else if(120<=h&&h<180){ rr=0; gg=C; bb=X; }
+    else if(180<=h&&h<240){ rr=0; gg=X; bb=C; }
+    else if(240<=h&&h<300){ rr=X; gg=0; bb=C; }
+    else { rr=C; gg=0; bb=X; }
+    const R=Math.round((rr+m)*255), G=Math.round((gg+m)*255), B=Math.round((bb+m)*255);
+    return `#${R.toString(16).padStart(2,'0')}${G.toString(16).padStart(2,'0')}${B.toString(16).padStart(2,'0')}`;
+  };
+
+  const sets = {
+    "theme-foresta": {
+      base0:"#f0fdf4", base1:"#dcfce7",
+      patterns:[
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' opacity='0.08'><g fill='none' stroke='%231a6e2a' stroke-width='1'><path d='M10 200c30-30 90-30 120 0'/><path d='M0 160c30-30 90-30 120 0'/></g><g fill='%231a6e2a'><circle cx='30' cy='40' r='5'/><circle cx='150' cy='90' r='4'/></g></svg>",
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' opacity='0.06'><path d='M0 200l30-50 20 35 25-40 25 45' fill='none' stroke='%231f7a3b'/></svg>"
+      ]
+    },
+    "theme-savana": {
+      base0:"#fffbeb", base1:"#fef9c3",
+      patterns:[
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' opacity='0.07'><path d='M0 180c40-12 80-12 240 0' fill='none' stroke='%236b4f1d'/><path d='M0 140c40-12 80-12 240 0' fill='none' stroke='%23865e1d'/></svg>"
+      ]
+    },
+    "theme-oceano": {
+      base0:"#f0f9ff", base1:"#e0f2fe",
+      patterns:[
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' opacity='0.08'><path d='M0 60q40 25 80 0t80 0t80 0' fill='none' stroke='%231084b3'/><path d='M0 120q40 25 80 0t80 0t80 0' fill='none' stroke='%230d5b8f'/></svg>"
+      ]
+    },
+    "theme-montagna": {
+      base0:"#f8fafc", base1:"#e2e8f0",
+      patterns:[
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='160' opacity='0.06'><path d='M0 120L40 80l20 20 20-25 40 45H0z' fill='%23cbd5e1'/></svg>"
+      ]
+    },
+    "theme-ghiaccio": {
+      base0:"#f8fafc", base1:"#e0f2fe",
+      patterns:[
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' opacity='0.06'><g fill='none' stroke='%230e7490' stroke-width='1'><path d='M100 0v200M0 100h200'/><path d='M50 0v200M0 50h200'/></g></svg>"
+      ]
+    },
+    "theme-deserto": {
+      base0:"#fff7ed", base1:"#ffedd5",
+      patterns:[
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' opacity='0.06'><path d='M0 180c50-20 100-20 240 0' fill='none' stroke='%23a16207'/></svg>"
+      ]
+    },
+    "theme-prateria": {
+      base0:"#ecfeff", base1:"#d1fae5",
+      patterns:[
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' opacity='0.06'><path d='M0 200l10-20 10 20 10-25 10 25 10-18 10 18 10-22 10 22 10-19 10 19' fill='none' stroke='%230f766e'/></svg>"
+      ]
+    }
+  };
+
+  const set = sets[theme] || sets["theme-prateria"];
+  const wiggle = (Math.random()*0.08)-0.04; // lieve variazione luminosità (-4%..+4%)
+  const t0 = tweak(set.base0, wiggle);
+  const t1 = tweak(set.base1, -wiggle/2);
+  const pat = set.patterns[Math.floor(Math.random()*set.patterns.length)];
+  return { t0, t1, pat };
+}
+
+function applyTheme(theme){
+  document.body.classList.remove(...THEMES);
+  document.body.classList.add(theme);
+  const { t0, t1, pat } = pickThemeVars(theme);
+  document.documentElement.style.setProperty('--t0', t0);
+  document.documentElement.style.setProperty('--t1', t1);
+  document.documentElement.style.setProperty('--pattern', `url("${pat}")`);
+}
+
+/* ==========================
+   TEMPLATES
+   ========================== */
 function cardTpl(a){
   const hc = habClass(a.habitat);
   return `
@@ -434,12 +544,15 @@ function contattiTpl(){ return `<div class="panel pad"><h2 style="margin-top:0">
 function notFoundTpl(){ return `<div class="panel pad"><h2>Ops!</h2><p>Animale non trovato.</p></div>` }
 function emptyTpl(){ return `<div class="panel pad"><p>Nessun risultato. Prova a cambiare ricerca o filtro.</p></div>` }
 
-// ==========================
-// RENDER & ROUTER
-// ==========================
+/* ==========================
+   RENDER & ROUTER
+   ========================== */
 function filteredItems(){
   const q = (state.q||'').trim().toLowerCase();
-  return ANIMALS.filter(a => (!q || a._hay.includes(q))).filter(a => (!state.cls || a.class===state.cls)).sort(by('name'));
+  return ANIMALS
+    .filter(a => (!q || a._hay.includes(q)))
+    .filter(a => (!state.cls || a.class===state.cls))
+    .sort(by('name'));
 }
 function render(){
   const container = qs('#view');
@@ -459,9 +572,9 @@ function render(){
   container.innerHTML = listTpl();
 }
 
-// ==========================
-// INTERAZIONE
-// ==========================
+/* ==========================
+   INTERAZIONE
+   ========================== */
 function showToast(msg){ const t = qs('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(showToast._t); showToast._t = setTimeout(()=> t.classList.remove('show'), 2000); }
 function goRandom(){ const items = filteredItems(); if(!items.length) return; const pick = items[Math.floor(Math.random()*items.length)]; location.hash = `#/animal/${pick.id}`; showToast(`Hai pescato: ${pick.name}! 🎲`); }
 
@@ -469,7 +582,10 @@ function setupControls(){
   qs('#q').addEventListener('input', e=>{ state.q = e.target.value; render(); });
   qs('#filterClass').addEventListener('change', e=>{ state.cls = e.target.value; render(); });
   const br = qs('#btnRandom'); if(br) br.addEventListener('click', goRandom);
-  window.addEventListener('keydown', (e)=>{ if(e.key && e.key.toLowerCase()==='r' && !e.metaKey && !e.ctrlKey && !e.altKey){ const active = document.activeElement; if(active && (active.tagName==='INPUT' || active.tagName==='TEXTAREA')) return; e.preventDefault(); goRandom(); }});
+  window.addEventListener('keydown', (e)=>{ if(e.key && e.key.toLowerCase()==='r' && !e.metaKey && !e.ctrlKey && !e.altKey){
+    const active = document.activeElement; if(active && (active.tagName==='INPUT' || active.tagName==='TEXTAREA')) return;
+    e.preventDefault(); goRandom();
+  }});
 }
 
 window.addEventListener('hashchange', render);
