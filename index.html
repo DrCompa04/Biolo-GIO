@@ -216,6 +216,16 @@
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
+// ===== DEBUG NON INVASIVO: mostra un messaggio se c'è un errore JS =====
+(function(){
+  const box = document.createElement('div');
+  box.id = 'fatal';
+  box.style.cssText = 'position:fixed;bottom:12px;right:12px;max-width:460px;background:#fee2e2;color:#7f1d1d;border:1px solid #fecaca;border-radius:10px;padding:10px 12px;box-shadow:0 6px 18px rgba(0,0,0,.12);font:14px system-ui;z-index:99999;display:none;';
+  document.addEventListener('DOMContentLoaded',()=>document.body.appendChild(box));
+  function show(msg){ box.innerHTML = '⚠️ <b>Errore JavaScript:</b> ' + msg + '<br><small>Controlla che l\'array ANIMALS sia chiuso con <code>]</code> e che ogni scheda sia separata da una virgola <code>,</code>.</small>'; box.style.display='block'; }
+  window.addEventListener('error', (e)=>{ show(e.message); });
+  window.addEventListener('unhandledrejection', (e)=>{ show((e.reason&&e.reason.message)||'Promise rejection'); });
+})();
 // ==========================
 // DATI IN-LINEA (modifica qui per aggiungere animali!)
 // ==========================
@@ -695,7 +705,21 @@ function setupControls(){
 }
 
 window.addEventListener('hashchange', render);
-window.addEventListener('DOMContentLoaded', ()=>{ setupControls(); render(); });
+window.addEventListener('DOMContentLoaded', ()=>{ 
+  try{
+    setupControls(); 
+    render();
+    // Autotest: se non vediamo card, prova a forzare la home
+    if(!document.querySelector('.grid')){
+      location.hash = '/home';
+      render();
+    }
+  }catch(err){
+    const evt = new Event('error');
+    evt.message = err.message;
+    window.dispatchEvent(evt);
+  }
+}); render(); });
 </script>
 </body>
 </html>
