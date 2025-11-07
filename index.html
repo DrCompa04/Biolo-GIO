@@ -265,7 +265,7 @@ const ANIMALS = [
       "Ottima nuotatrice: può attraversare lunghi corsi d'acqua.",
       "Ruggito udibile fino a 3 km."
     ]
-  }
+  },
   {
     name: "Polpo comune",
     scientificName: "Octopus vulgaris",
@@ -288,7 +288,7 @@ const ANIMALS = [
       "Capace di risolvere puzzle e aprire barattoli.",
       "Mimetismo sofisticato grazie a cromatofori e papille."
     ]
-  }
+  },
   {
     name: "Aquila reale",
     scientificName: "Aquila chrysaetos",
@@ -311,7 +311,7 @@ const ANIMALS = [
       "Vista eccezionale, 4–5 volte più acuta dell'umano.",
       "Nidi (aeree) riutilizzati e ampliati per anni."
     ]
-  }
+  },
   {
     name: "Rana freccia velenosa",
     scientificName: "Dendrobates tinctorius",
@@ -334,7 +334,7 @@ const ANIMALS = [
       "Tossine derivate dalla dieta di artropodi.",
       "Cure parentali: trasporto dei girini sulle spalle."
     ]
-  }
+  },
   {
     name: "Cane domestico",
     scientificName: "Canis familiaris",
@@ -357,7 +357,7 @@ const ANIMALS = [
       "Capace di comprendere decine di parole/comandi.",
       "Addomesticamento da almeno 15.000 anni."
     ]
-  }
+  },
   {
     name: "Pinguino imperatore",
     scientificName: "Aptenodytes forsteri",
@@ -380,7 +380,7 @@ const ANIMALS = [
       "Immersioni oltre 500 m trattenendo il respiro per 20 min.",
       "Fitta plumatura e grasso per isolamento termico."
     ]
-  }
+  },
   {
     name: "Squalo balena",
     scientificName: "Rhincodon typus",
@@ -403,7 +403,7 @@ const ANIMALS = [
       "Macchie uniche come un'impronta.",
       "Gentile gigante, spesso curioso verso i sub."
     ]
-  }
+  },
   {
     name: "Tartaruga marina verde",
     scientificName: "Chelonia mydas",
@@ -426,7 +426,7 @@ const ANIMALS = [
       "Determinazione del sesso dipende dalla temperatura del nido.",
       "Ritorno alla spiaggia natale per deporre."
     ]
-  }
+  },
   {
     name: "Api da miele",
     scientificName: "Apis mellifera",
@@ -464,15 +464,6 @@ const state = { q:"", cls:"", route:"/home" };
 
 const habClass = (hab='')=>{
   const h = hab.toLowerCase();
-  if(h.includes('bambù')||h.includes('foreste')||h.includes('foresta')) return 'hab-foresta';
-  if(h.includes('savana')||h.includes('prateria')) return 'hab-savana';
-  if(h.includes('antart')||h.includes('ghiaccio')||h.includes('polo')) return 'hab-ghiaccio';
-  if(h.includes('mare')||h.includes('oceano')||h.includes('coste')||h.includes('tropicali')) return 'hab-oceano';
-  if(h.includes('montagne')||h.includes('scogliere')||h.includes('alp')) return 'hab-montagna';
-  if(h.includes('deserto')||h.includes('arido')) return 'hab-deserto';
-  if(h.includes('prateria')||h.includes('steppe')) return 'hab-prateria';
-  return '';
-};
 const toTheme = (habClass)=>{
   switch(habClass){
     case 'hab-foresta': return 'theme-foresta';
@@ -516,9 +507,6 @@ function render(){
     container.innerHTML = a ? detailTpl(a) : notFoundTpl();
     return;
   }
-  if(hash==='/curiosita') {
-    applyTheme(THEMES[Math.floor(Math.random()*THEMES.length)]);
-    container.innerHTML = curiositaTpl(); return; }
   if(hash==='/contatti')  { applyTheme(''); container.innerHTML = contattiTpl();  return; }
 
   // Home / elenco → sfondo habitat casuale
