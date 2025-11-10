@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Biolo-Gio | Enciclopedia (v7: foto auto)</title>
-<meta name="description" content="Enciclopedia degli animali con foto auto, habitat e schede discorsive. Ricerca, filtri, emoji fallback." />
+<title>Biolo-Gio | Enciclopedia (v7.1 foto auto)</title>
+<meta name="description" content="Enciclopedia degli animali con foto automatiche o emoji, habitat e schede discorsive. Ricerca, filtri, texture soft." />
 <style>
   :root{
     --panel:#fff; --muted:#475569; --text:#0f172a; --ring:#22d3ee55; --radius:18px;
@@ -120,8 +120,8 @@
 
 <main class="wrap">
   <section class="hero">
-    <h1>Biolo-Gio v7 — foto auto (con interruttore) + emoji fallback</h1>
-    <p>Foto da Unsplash Source con query sul nome scientifico. Se non c’è rete o la foto non è perfetta, tornano le emoji.</p>
+    <h1>Biolo-Gio v7.1 — foto auto + emoji fallback</h1>
+    <p>Foto da Unsplash Source via nome scientifico. Interruttore per attivarle/disattivarle.</p>
   </section>
 
   <section class="panel pad" id="controls">
@@ -198,7 +198,6 @@ const toTheme = hc=>({ 'hab-foresta':'theme-foresta','hab-savana':'theme-savana'
 /* ===== FOTO AUTO (Unsplash Source) ===== */
 function unsplashBySciName(sci, w=800, h=600){
   const q = encodeURIComponent((sci||"animal")+" animal");
-  // Unsplash Source: no API key, immagine casuale coerente con la query
   return `https://source.unsplash.com/${w}x${h}/?${q}`;
 }
 function photoURL(a, kind='card'){
@@ -226,10 +225,7 @@ function expandLite([name, scientificName, cls, emoji, habitat, diet]){
     facts:["Adattabile","Ruolo ecologico rilevante","Convivenza possibile"] };
 }
 
-/* ===== DATASET (riassunto v6; abbastanza per riempire la griglia) ===== */
-/* Per brevità mostro un sottoinsieme: il codice funziona con TUTTE le specie che avevi già.
-   Se hai incollato v6 prima di questo, la lista qui sotto è comunque ampia. Puoi aggiungere altre
-   righe nello stesso formato senza toccare il resto. */
+/* ===== DATASET (sintesi; aggiungi righe se vuoi) ===== */
 const BASE_BULK = [
   ["Leone","Panthera leo","Mammiferi","🦁","savana africana","carnivoro (ungulati)"],
   ["Tigre","Panthera tigris","Mammiferi","🐯","foreste e paludi asiatiche","carnivoro"],
@@ -252,11 +248,10 @@ const BASE_BULK = [
   ["Pellicano bianco","Pelecanus onocrotalus","Uccelli","🦢","laghi e delta","piscivoro"],
   ["Pappagallo cenerino","Psittacus erithacus","Uccelli","🦜","foreste africane","frugivoro"],
   ["Cormorano grande","Phalacrocorax carbo","Uccelli","🖤","laghi e coste","piscivoro"],
-  ["Squalo martello","Sphyrna lewini","Pesci","🔨","mari tropicali","carnivoro"],
-  /* …(tutte le altre che avevamo restano uguali: puoi continuare ad aggiungere righe qui) */
+  ["Squalo martello","Sphyrna lewini","Pesci","🔨","mari tropicali","carnivoro"]
 ];
 
-/* ===== PREMIUM (riassunto): unisco quelle lunghe che avevamo in v6 ===== */
+/* ===== PREMIUM (esempio: Gatto + Cobra; puoi aggiungere le altre premium lunghe qui) ===== */
 const PREMIUM = [
   {name:"Gatto domestico",scientificName:"Felis catus",class:"Mammiferi",emoji:"🐱",
    habitat:"Ambienti urbani e rurali (prossimità umana)",diet:"Carnivoro opportunista",
@@ -278,7 +273,6 @@ const PREMIUM = [
    interactions:"Apicale fra i rettili; controlla altri ofidi.",
    human:"Evitiamo il confronto: rimozione esperta e tutela habitat.",
    facts:["Serpente velenoso più lungo","Nido sorvegliato","Neurotossine"]}
-  /* …(tutte le altre premium lunghe v6 rimangono, puoi incollarle qui se vuoi più testo per specie) */
 ];
 
 /* ===== COSTRUZIONE LISTA COMPLETA ===== */
@@ -395,24 +389,28 @@ function filteredItems(){
     .filter(a => (!state.cls || a.class===state.cls))
     .sort(by('name'));
 }
-const THEMES = ['theme-foresta','theme-savana','theme-oceano','theme-montagna','theme-ghiaccio','theme-deserto','theme-prateria'];
 function applyRandomTheme(){ const t = THEMES[Math.floor(Math.random()*THEMES.length)]; applyTheme(t); }
 function render(){
-  const container = qs('#view');
-  const hash = location.hash.replace('#','') || '/home';
-  state.route = hash;
-  if(hash.startsWith('/animal/')){
-    const id = hash.split('/')[2];
-    const a = ANIMALS.find(x=>x.id===id);
-    if(a) applyTheme(toTheme(habClass(a.habitat||"")));
-    container.innerHTML = a ? detailTpl(a) : `<div class="panel pad"><h2>Ops!</h2><p>Animale non trovato.</p></div>`;
-    if(a) bindTocLinks();
-    return;
+  try{
+    const container = qs('#view');
+    const hash = location.hash.replace('#','') || '/home';
+    state.route = hash;
+    if(hash.startsWith('/animal/')){
+      const id = hash.split('/')[2];
+      const a = ANIMALS.find(x=>x.id===id);
+      if(a) applyTheme(toTheme(habClass(a.habitat||"")));
+      container.innerHTML = a ? detailTpl(a) : `<div class="panel pad"><h2>Ops!</h2><p>Animale non trovato.</p></div>`;
+      if(a) bindTocLinks();
+      return;
+    }
+    if(hash==='/curiosita'){ applyRandomTheme(); container.innerHTML = curiositaTpl(); return; }
+    if(hash==='/contatti'){ applyTheme('theme-prateria'); container.innerHTML = contattiTpl(); return; }
+    if(hash==='/animali' || hash==='/home'){ applyRandomTheme(); container.innerHTML = listTpl(); return; }
+    applyRandomTheme(); container.innerHTML = listTpl();
+  }catch(err){
+    console.error(err);
+    qs('#view').innerHTML = `<div class="panel pad"><h2>Errore</h2><p>${String(err)}</p><p>Controlla che il copia/incolla sia completo.</p></div>`;
   }
-  if(hash==='/curiosita'){ applyRandomTheme(); container.innerHTML = curiositaTpl(); return; }
-  if(hash==='/contatti'){ applyTheme('theme-prateria'); container.innerHTML = contattiTpl(); return; }
-  if(hash==='/animali' || hash==='/home'){ applyRandomTheme(); container.innerHTML = listTpl(); return; }
-  applyRandomTheme(); container.innerHTML = listTpl();
 }
 
 /* ===== INTERAZIONE ===== */
