@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Biolo-Gio | Enciclopedia degli animali</title>
-<meta name="description" content="Schede divulgative ricche ma chiare su animali, habitat, dieta, comportamento, riproduzione, ruolo ecologico e curiosità. Perfetto per GitHub Pages." />
+<meta name="description" content="Schede divulgative chiare e ricche su animali, habitat, dieta, comportamento, riproduzione, ruolo ecologico e curiosità. Perfetto per GitHub Pages." />
 <style>
   :root{
     --bg:#f8fafc; --panel:#ffffff; --muted:#475569; --text:#0f172a;
@@ -112,7 +112,7 @@
       radial-gradient(900px 700px at 110% 0%, rgba(255,255,255,.45), transparent),
       var(--pattern),
       var(--grain);
-    background-size:auto, auto, 140px 140px, 80px 80px; /* pattern + grana */
+    background-size:auto, auto, 140px 140px, 80px 80px;
     background-blend-mode: normal, normal, normal, overlay;
     animation: drift 120s linear infinite;
   }
@@ -175,8 +175,7 @@
 
 <script>
 /* ==========================
-   DATI — 10 specie, testi più discorsivi
-   (ogni campo è in paragrafi; niente elenchi lunghi)
+   DATI — 10 specie (testi discorsivi)
    ========================== */
 const ANIMALS = [
   { // 1 Wombat
@@ -422,7 +421,7 @@ const ANIMALS = [
 ];
 
 /* ==========================
-   INDICIZZAZIONE & UTIL
+   UTIL & STATO
    ========================== */
 const slug = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
 ANIMALS.forEach(a=>{ a.id = slug(a.name); a._hay = [a.name,a.scientificName,a.habitat,a.diet,a.class,(a.facts||[]).join(" ")].join(" ").toLowerCase(); });
@@ -431,7 +430,7 @@ const qs = sel => document.querySelector(sel);
 const state = { q:"", cls:"", route:"/home" };
 
 /* ==========================
-   HABITAT → classi card & tema pagina
+   HABITAT → classi & tema
    ========================== */
 const habClass = (hab='')=>{
   const h = hab.toLowerCase();
@@ -451,7 +450,7 @@ const toTheme = (hc)=>({
 const THEMES = ['theme-foresta','theme-savana','theme-oceano','theme-montagna','theme-ghiaccio','theme-deserto','theme-prateria'];
 
 /* ==========================
-   SFONDI: palette/pattern evidenti
+   SFONDI
    ========================== */
 function pickThemeVars(theme){
   const tweak = (hex, delta=0) => {
@@ -623,7 +622,7 @@ function render(){
     const a = ANIMALS.find(x=>x.id===id);
     if(a) applyTheme(toTheme(habClass(a.habitat)));
     container.innerHTML = a ? detailTpl(a) : notFoundTpl();
-    if(a) bindTocLinks(); // attiva i chip indice
+    if(a) bindTocLinks();
     return;
   }
   if(hash==='/curiosita'){ applyTheme(THEMES[Math.floor(Math.random()*THEMES.length)]); container.innerHTML = curiositaTpl(); return; }
@@ -650,9 +649,21 @@ function bindTocLinks(){
     });
   });
 }
-
 function setupControls(){
   document.querySelector('#q').addEventListener('input', e=>{ state.q = e.target.value; render(); });
   document.querySelector('#filterClass').addEventListener('change', e=>{ state.cls = e.target.value; render(); });
   const br = document.querySelector('#btnRandom'); if(br) br.addEventListener('click', goRandom);
-  window.addEventListener('keydown', (e)=>{ if(e.key && e.key.toLowerCase()==='r' && !e.metaKey && !e.ctrlKey && !e.altKey){ const a = document.activeElement; if(a && (a.tagName==='INPUT' || a.tagName==='TEXT
+  window.addEventListener('keydown', (e)=>{
+    if(e.key && e.key.toLowerCase()==='r' && !e.metaKey && !e.ctrlKey && !e.altKey){
+      const a = document.activeElement;
+      if(a && (a.tagName==='INPUT' || a.tagName==='TEXTAREA' || a.isContentEditable)) return;
+      e.preventDefault(); goRandom();
+    }
+  });
+}
+
+window.addEventListener('hashchange', render);
+window.addEventListener('DOMContentLoaded', ()=>{ setupControls(); render(); });
+</script>
+</body>
+</html>
