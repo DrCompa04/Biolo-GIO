@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Biolo-Gio | Enciclopedia (v7.3 foto da Wikipedia)</title>
-<meta name="description" content="Enciclopedia degli animali con immagini automatiche da Wikipedia/Wikimedia, habitat tematici e schede discorsive." />
+<title>Biolo-Gio | Enciclopedia (v7.4 banner intelligente)</title>
+<meta name="description" content="Enciclopedia degli animali con immagini automatiche da Wikipedia/Wikimedia, habitat tematici e banner che si adatta alla foto." />
 <style>
   :root{ --panel:#fff; --muted:#475569; --text:#0f172a; --ring:#22d3ee55; --radius:18px; --t0:#ffffff; --t1:#f1f5f9; }
   *{box-sizing:border-box} html,body{height:100%}
   body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif; color:var(--text); background:#f1f5f9; line-height:1.6;}
+
   header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(120%) blur(10px); background:linear-gradient(180deg,#ffffffee,#ffffffcc); border-bottom:1px solid #e2e8f0}
   .wrap{max-width:1180px; margin:auto; padding:16px}
   .topbar{display:flex; align-items:center; gap:16px}
@@ -65,9 +66,17 @@
 
   .detail{margin-top:24px; display:grid; grid-template-columns:1.6fr 0.9fr; gap:18px}
   .hero-animal{border-radius:16px; overflow:hidden; position:relative; border:1px solid #e2e8f0}
-  .hero-animal .banner{height:240px; display:grid; place-items:center; font-size:0; position:relative}
-  .hero-animal .banner img.photo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:saturate(1.05) contrast(1.03)}
-  .hero-animal .banner .overlay{position:absolute; inset:0; mix-blend-mode:multiply; opacity:.85}
+
+  /* Banner più alto e reattivo */
+  .hero-animal .banner{height:clamp(220px, 28vw, 340px); display:grid; place-items:center; font-size:0; position:relative; cursor:zoom-in}
+  .hero-animal .banner img.photo{
+    position:absolute; inset:0; width:100%; height:100%; display:block; filter:saturate(1.05) contrast(1.03);
+    object-position:center;
+  }
+  /* Modalità di adattamento selezionabili */
+  .fit-cover{object-fit:cover;}
+  .fit-contain{object-fit:contain; background:#f8fafc;}
+  .hero-animal .banner .overlay{position:absolute; inset:0; mix-blend-mode:multiply; opacity:.85; pointer-events:none}
   .hero-animal .head{position:relative; display:flex; gap:16px; align-items:center; padding:12px 16px}
   .quick{position:sticky; top:90px; align-self:start}
   .quick .kv{display:grid; grid-template-columns:auto 1fr; gap:8px 12px; font-size:14px}
@@ -115,8 +124,8 @@
 
 <main class="wrap">
   <section class="hero">
-    <h1>Biolo-Gio v7.3 — foto da Wikipedia/Wikimedia</h1>
-    <p>Le immagini vengono richieste ai server di Wikipedia (it/en) tramite API pubbliche. Se non disponibili, vedi l’emoji.</p>
+    <h1>Biolo-Gio v7.4 — banner che si adatta alla foto</h1>
+    <p>Foto auto da Wikipedia/Wikimedia. Il banner passa automaticamente tra <i>cover</i> e <i>contain</i>.</p>
   </section>
 
   <section class="panel pad" id="controls">
@@ -146,7 +155,7 @@
   <section id="view"></section>
 
   <footer class="wrap" style="margin:30px 0 60px; color:#475569">
-    Immagini via <a href="https://www.wikipedia.org/" target="_blank" rel="noopener">Wikipedia/Wikimedia</a> — licenze libere. Attribution automatica nel dettaglio quando disponibile.
+    Immagini via <a href="https://www.wikipedia.org/" target="_blank" rel="noopener">Wikipedia/Wikimedia</a> — licenze libere. Attribution nel dettaglio quando disponibile.
   </footer>
 </main>
 
@@ -207,7 +216,6 @@ async function wikiSummary(title, lang='it'){
   }catch(e){ return null; }
 }
 async function findWikiImage(titles){
-  // prova it → en per ciascun titolo
   for(const t of titles){
     let j = await wikiSummary(t, 'it');
     if(j && j.thumbnail && j.thumbnail.source) return {src:j.thumbnail.source, credit:j.titles?.normalized || t, lang:'it', page:j.content_urls?.desktop?.page};
@@ -243,7 +251,7 @@ function expandLite([name, scientificName, cls, emoji, habitat, diet]){
     facts:["Adattabile","Ruolo ecologico rilevante","Convivenza possibile"] };
 }
 
-/* ===== DATASET (stesso formato di prima, estratto) ===== */
+/* ===== DATASET (estratto) ===== */
 const BASE_BULK = [
   ["Leone","Panthera leo","Mammiferi","🦁","savana africana","carnivoro (ungulati)"],
   ["Tigre","Panthera tigris","Mammiferi","🐯","foreste e paludi asiatiche","carnivoro"],
@@ -276,7 +284,6 @@ ANIMALS.forEach(a=>{ a.id = slug(a.name); a._hay = [a.name,a.scientificName,a.ha
 /* ===== UI ===== */
 function cardTpl(a){
   const hc = habClass(a.habitat||"");
-  // l'img parte vuota, poi JS la riempie con la thumb trovata via Wikipedia
   const img = state.photos ? `<img referrerpolicy="no-referrer" loading="lazy" alt="${a.name}" data-wiki="${titlesFor(a).map(t=>t.replace(/"/g,'&quot;')).join('|')}" />` : '';
   return `<article class="card" aria-label="${a.name}">
     <div class="thumb ${hc}">
@@ -318,12 +325,11 @@ function detailTpl(a){
   const hc = habClass(a.habitat||"");
   const facts = (a.facts||[]).map(f=>`<li>${f}</li>`).join('');
   const finale = (a.facts && a.facts[0]) ? a.facts[0] : "Questo animale riserva sempre sorprese.";
-  // banner img da Wikipedia (riempito dopo il render)
-  const banner = state.photos ? `<img class="photo" referrerpolicy="no-referrer" alt="${a.name}" data-wiki="${titlesFor(a).map(t=>t.replace(/"/g,'&quot;')).join('|')}" />` : '';
+  const banner = state.photos ? `<img class="photo fit-cover" referrerpolicy="no-referrer" alt="${a.name}" data-wiki="${titlesFor(a).map(t=>t.replace(/"/g,'&quot;')).join('|')}" />` : '';
   return `<div class="detail">
     <div>
       <div class="hero-animal panel">
-        <div class="banner ${hc}">
+        <div class="banner ${hc}" id="bannerBox">
           ${banner}
           <div class="overlay ${hc}"></div>
         </div>
@@ -339,6 +345,9 @@ function detailTpl(a){
               <a href="#" data-target="#eco">Ruolo ecologico</a>
               <a href="#" data-target="#hum">Rapporto con l'uomo</a>
               <a href="#" data-target="#facts">Curiosità</a>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+              <button class="btn" id="fitToggle" type="button">🖼️ Adatta immagine: Cover</button>
             </div>
             <div class="src" id="img-credit"></div>
           </div>
@@ -392,6 +401,49 @@ function render(){
 }
 
 /* ===== IMMAGINI: IDRATAZIONE POST-RENDER ===== */
+async function wikiSummary(title, lang='it'){
+  try{
+    const r = await fetch(`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`, {mode:'cors', referrerPolicy:'no-referrer'});
+    if(!r.ok) throw new Error(r.status);
+    return await r.json();
+  }catch(e){ return null; }
+}
+async function findWikiImage(titles){
+  for(const t of titles){
+    let j = await wikiSummary(t, 'it');
+    if(j && j.thumbnail && j.thumbnail.source) return {src:j.thumbnail.source, credit:j.titles?.normalized || t, lang:'it', page:j.content_urls?.desktop?.page};
+    j = await wikiSummary(t, 'en');
+    if(j && j.thumbnail && j.thumbnail.source) return {src:j.thumbnail.source, credit:j.titles?.normalized || t, lang:'en', page:j.content_urls?.desktop?.page};
+  }
+  return null;
+}
+function titlesFor(a){
+  const arr = [];
+  if(a.scientificName) arr.push(a.scientificName);
+  if(a.name) arr.push(a.name);
+  if(COMMON_EN[a.name]) arr.push(COMMON_EN[a.name]);
+  return Array.from(new Set(arr));
+}
+
+function decideFitMode(img){
+  // Se l'immagine è “stretta” rispetto al box, usa contain.
+  const box = img.closest('.banner');
+  if(!box) return;
+  const rect = box.getBoundingClientRect();
+  const arBox = rect.width / rect.height;
+  const arImg  = img.naturalWidth / img.naturalHeight;
+  // soglia: se l'immagine è molto meno panoramica del box → contain
+  if(arImg < arBox * 0.9){ // più “verticale” del box
+    img.classList.remove('fit-cover');
+    img.classList.add('fit-contain');
+    return 'contain';
+  }else{
+    img.classList.remove('fit-contain');
+    img.classList.add('fit-cover');
+    return 'cover';
+  }
+}
+
 async function hydrateImages(root=document, currentAnimal=null){
   if(!state.photos) return;
   const imgs = Array.from(root.querySelectorAll('img[data-wiki]'));
@@ -401,22 +453,50 @@ async function hydrateImages(root=document, currentAnimal=null){
     if(info && info.src){
       img.src = info.src;
       img.dataset.page = info.page || '';
-      // se siamo nella pagina dettaglio, scrivo attribution
+      // Banner: decidi fit al load
+      img.addEventListener('load', ()=>{
+        const mode = decideFitMode(img);
+        const btn = root.querySelector('#fitToggle');
+        if(btn){ btn.textContent = `🖼️ Adatta immagine: ${mode==='contain'?'Intera':'Cover'}`; }
+      }, {once:true});
+      // Clic sul banner → apri Wikipedia
+      const banner = img.closest('.banner');
+      if(banner){
+        banner.addEventListener('click', ()=>{
+          const url = img.dataset.page || info.src;
+          window.open(url, '_blank', 'noopener');
+        }, {once:true});
+      }
+      // Attribution
       if(currentAnimal){
         const creditBox = root.querySelector('#img-credit');
         if(creditBox){
-          const pageUrl = info.page ? `<a href="${info.page}" target="_blank" rel="noopener">pagina ${info.lang}.wikipedia</a>` : 'Wikipedia/Wikimedia';
+          const pageUrl = info.page ? `<a href="${info.page}" target="_blank" rel="noopener">Wikipedia (${info.lang})</a>` : 'Wikipedia/Wikimedia';
           creditBox.innerHTML = `Immagine: ${info.credit} — ${pageUrl}`;
         }
       }
     }else{
-      // fallback: mostra emoji (l'immagine resta vuota)
       const th = img.closest('.thumb, .banner');
-      if(th){
-        const em = th.querySelector('.emoji');
-        if(em) em.style.display = 'grid';
-      }
+      if(th){ const em = th.querySelector('.emoji'); if(em) em.style.display = 'grid'; }
     }
+  }
+
+  // Gestione interruttore manuale Cover/Intera nel dettaglio
+  const toggle = root.querySelector('#fitToggle');
+  const bannerImg = root.querySelector('.banner img.photo');
+  if(toggle && bannerImg){
+    toggle.addEventListener('click', ()=>{
+      if(bannerImg.classList.contains('fit-contain')){
+        bannerImg.classList.remove('fit-contain'); bannerImg.classList.add('fit-cover');
+        toggle.textContent = '🖼️ Adatta immagine: Cover';
+      }else{
+        bannerImg.classList.remove('fit-cover'); bannerImg.classList.add('fit-contain');
+        toggle.textContent = '🖼️ Adatta immagine: Intera';
+      }
+    });
+    // Ricalcola su resize per mantenere la scelta intelligente
+    const ro = new ResizeObserver(()=> decideFitMode(bannerImg));
+    ro.observe(bannerImg.closest('.banner'));
   }
 }
 
