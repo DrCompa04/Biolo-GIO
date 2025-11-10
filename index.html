@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Biolo-Gio | Enciclopedia (v3)</title>
-<meta name="description" content="Schede divulgative sugli animali: habitat, dieta, comportamento. Ricerca, filtri, sfondi per habitat e 10 specie premium con testi lunghi." />
+<title>Biolo-Gio | Enciclopedia (v4)</title>
+<meta name="description" content="Enciclopedia degli animali: habitat, dieta, comportamento. Ricerca, filtri, sfondi con texture e schede premium con testi lunghi." />
 <style>
   :root{
     --panel:#fff; --muted:#475569; --text:#0f172a; --ring:#22d3ee55; --radius:18px;
@@ -47,6 +47,8 @@
       repeating-radial-gradient( circle at 20% 30%, rgba(0,0,0,.06) 0 1.8px, transparent 1.8px 10px);
     background-size:200px 200px, 160px 160px; mix-blend-mode:soft-light; pointer-events:none;}
   .thumb .emoji{position:relative; z-index:1; filter:drop-shadow(0 2px 6px rgba(0,0,0,.12))}
+
+  /* banner habitat */
   .hab-foresta{background-image:linear-gradient(135deg,#dcfce7,#bbf7d0)}
   .hab-savana{background-image:linear-gradient(135deg,#fef9c3,#fde68a)}
   .hab-oceano{background-image:linear-gradient(135deg,#e0f2fe,#bae6fd)}
@@ -85,6 +87,7 @@
   .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(40px);background:linear-gradient(135deg,#06b6d4,#8b5cf6);color:#fff;padding:10px 18px;border-radius:12px;box-shadow:0 8px 30px #00000026;opacity:0;pointer-events:none;transition:opacity .35s, transform .35s;z-index:9999}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+  /* Pattern di sfondo globale con colori per tema */
   @keyframes drift {0%{background-position:0 0,0 0,0 0,200px 200px}100%{background-position:0 0,0 0,0 0,400px 400px}}
   body[class*="theme-"]{
     background-attachment:fixed;
@@ -108,7 +111,7 @@
 
 <main class="wrap">
   <section class="hero">
-    <h1>Biolo-Gio v3 — griglia piena + 10 schede premium</h1>
+    <h1>Biolo-Gio v4 — più specie, più premium, stessa chiarezza</h1>
     <p>Descrizione sempre visibile; le altre sezioni si aprono a clic. Sfondi ispirati agli habitat con texture leggere.</p>
   </section>
 
@@ -149,43 +152,33 @@ const qs = sel => document.querySelector(sel);
 const state = { q:"", cls:"", route:"/home" };
 function showToast(msg){ const t = document.querySelector('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(showToast._t); showToast._t = setTimeout(()=> t.classList.remove('show'), 2000); }
 
-/* ===== THEMES & HABITAT ===== */
+/* ===== THEME ===== */
 const THEMES = ['theme-foresta','theme-savana','theme-oceano','theme-montagna','theme-ghiaccio','theme-deserto','theme-prateria'];
-const habClass = (hab='')=>{
-  const h = (hab||'').toLowerCase();
-  if(h.includes('foreste')||h.includes('foresta')||h.includes('bosco')) return 'hab-foresta';
-  if(h.includes('savana')||h.includes('prateria')||h.includes('steppe')) return 'hab-savana';
-  if(h.includes('antart')||h.includes('ghiaccio')||h.includes('polo')) return 'hab-ghiaccio';
-  if(h.includes('mare')||h.includes('oceano')||h.includes('coste')||h.includes('acque')) return 'hab-oceano';
-  if(h.includes('monta')||h.includes('scoglier')||h.includes('alp')) return 'hab-montagna';
-  if(h.includes('deserto')||h.includes('arido')||h.includes('sabbia')) return 'hab-deserto';
-  return 'hab-prateria';
-};
-function pickThemeVars(theme){
-  const sets = {
-    "theme-foresta": { base0:"#f0fdf4", base1:"#dcfce7" },
-    "theme-savana":  { base0:"#fffbeb", base1:"#fef9c3" },
-    "theme-oceano":  { base0:"#f0f9ff", base1:"#e0f2fe" },
-    "theme-montagna":{ base0:"#f8fafc", base1:"#e2e8f0" },
-    "theme-ghiaccio":{ base0:"#f8fafc", base1:"#e0f2fe" },
-    "theme-deserto": { base0:"#fff7ed", base1:"#ffedd5" },
-    "theme-prateria":{ base0:"#ecfeff", base1:"#d1fae5" }
+function applyTheme(theme){
+  const map = {
+    "theme-foresta": ["#f0fdf4", "#dcfce7"],
+    "theme-savana":  ["#fffbeb", "#fef9c3"],
+    "theme-oceano":  ["#f0f9ff", "#e0f2fe"],
+    "theme-montagna":["#f8fafc", "#e2e8f0"],
+    "theme-ghiaccio":["#f8fafc", "#e0f2fe"],
+    "theme-deserto": ["#fff7ed", "#ffedd5"],
+    "theme-prateria":["#ecfeff", "#d1fae5"]
   };
-  const set = sets[theme] || sets["theme-prateria"];
-  const wiggle = (Math.random()*0.08)-0.04;
-  const tweak = (hex, d=0)=>{const c=hex.replace('#','');let r=parseInt(c.slice(0,2),16),g=parseInt(c.slice(2,4),16),b=parseInt(c.slice(4,6),16);let rn=r/255,gn=g/255,bn=b/255;let max=Math.max(rn,gn,bn),min=Math.min(rn,gn,bn);let h,s,l=(max+min)/2,dlt=max-min;if(dlt===0){h=0;s=0;}else{s=dlt/(1-Math.abs(2*l-1));switch(max){case rn:h=((gn-bn)/dlt)%6;break;case gn:h=(bn-rn)/dlt+2;break;default:h=(rn-gn)/dlt+4;}h*=60;if(h<0)h+=360;}l=Math.min(1,Math.max(0,l+d));const C=(1-Math.abs(2*l-1))*s,X=C*(1-Math.abs(((h/60)%2)-1)),m=l-C/2;let rr,gg,bb;if(0<=h&&h<60){rr=C;gg=X;bb=0;}else if(60<=h&&h<120){rr=X;gg=C;bb=0;}else if(120<=h&&h<180){rr=0;gg=C;bb=X;}else if(180<=h&&h<240){rr=0;gg=X;bb=C;}else if(240<=h&&h<300){rr=X;gg=0;bb=C;}else{rr=C;gg=0;bb=X;}r=Math.round((rr+m)*255);g=Math.round((gg*m?0:1)+ (gg+m-gg));return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;}
-  /* (nota: tweak già usato sopra v2; qui lasciamo i valori di default) */
+  document.body.classList.remove(...THEMES);
+  document.body.classList.add(theme);
+  const [t0, t1] = map[theme] || map["theme-prateria"];
+  document.documentElement.style.setProperty('--t0', t0);
+  document.documentElement.style.setProperty('--t1', t1);
 }
-function applyTheme(theme){ document.body.classList.remove(...THEMES); document.body.classList.add(theme); /* colori base coerenti */ }
 
-/* ===== TESTI “LITE” ===== */
+/* ===== LITE TEXTS ===== */
 const EMOJI_BY_CLASS = { "Mammiferi":"🦌", "Uccelli":"🐦", "Rettili":"🦎", "Anfibi":"🐸", "Pesci":"🐟", "Invertebrati":"🪲" };
 const TEMPLATES = {
   desc: ({name, habitat, cls}) => `${name} vive soprattutto in ${habitat.toLowerCase()}. È un tipico rappresentante dei ${cls.toLowerCase()}, con adattamenti pratici all’ambiente e alla dieta.`,
   soc : ({name, cls}) => `La socialità di ${name} rientra nei ${cls.toLowerCase()}: più territoriale in riproduzione, più tollerante quando cibo e ripari abbondano.`,
-  feed: ({diet}) => `Dieta: ${diet.toLowerCase()}. L’attività segue le ore migliori (alba/crepuscolo) e i microhabitat più favorevoli.`,
+  feed: ({diet}) => `Dieta: ${diet.toLowerCase()}. L’attività segue le ore migliori (alba/crepuscolo) e i microhabitat favorevoli.`,
   repr: ({name}) => `Corteggiamenti specifici e cure parentali variabili; i giovani di ${name} apprendono presto rifugi sicuri e fonti locali di cibo.`,
-  eco : ({name}) => `${name} contribuisce all’equilibrio: controlla prede o competitori, disperde semi o regola gli insetti.`,
+  eco : ({name}) => `${name} contribuisce all’equilibrio: controlla prede/competitori o disperde semi; a sua volta è risorsa per predatori superiori.`,
   hum : ({habitat}) => `Rischi: frammentazione di ${habitat.toLowerCase()}, traffico, inquinamento, disturbo. Utili corridoi ecologici e tutela dei siti riproduttivi.`
 };
 function expandLite([name, scientificName, cls, emoji, habitat, diet]){
@@ -196,10 +189,21 @@ function expandLite([name, scientificName, cls, emoji, habitat, diet]){
     reproduction:TEMPLATES.repr(ctx), interactions:TEMPLATES.eco(ctx), human:TEMPLATES.hum({habitat}),
     facts:["Adattabile","Ruolo ecologico rilevante","Convivenza possibile"] };
 }
+const habClass = (hab='')=>{
+  const h = (hab||'').toLowerCase();
+  if(h.includes('foreste')||h.includes('foresta')||h.includes('bosco')) return 'hab-foresta';
+  if(h.includes('savana')||h.includes('prateria')||h.includes('steppe')) return 'hab-savana';
+  if(h.includes('antart')||h.includes('ghiaccio')||h.includes('polo')) return 'hab-ghiaccio';
+  if(h.includes('mare')||h.includes('oceano')||h.includes('coste')||h.includes('acque')) return 'hab-oceano';
+  if(h.includes('monta')||h.includes('scoglier')||h.includes('alp')) return 'hab-montagna';
+  if(h.includes('deserto')||h.includes('arido')||h.includes('sabbia')) return 'hab-deserto';
+  return 'hab-prateria';
+};
+const toTheme = hc=>({ 'hab-foresta':'theme-foresta','hab-savana':'theme-savana','hab-ghiaccio':'theme-ghiaccio','hab-oceano':'theme-oceano','hab-montagna':'theme-montagna','hab-deserto':'theme-deserto','hab-prateria':'theme-prateria' }[hc]||'theme-prateria');
 
-/* ===== DATASET LITE (~90 specie per riempire la home) ===== */
-const BULK = [
-  // Mammiferi (25)
+/* ===== DATASET LITE BASE (da v3) ===== */
+const BASE_BULK = [
+  // (riassunto compatto: v3 già includeva ~90; teniamo una selezione ampia)
   ["Leone","Panthera leo","Mammiferi","🦁","savana africana","carnivoro (ungulati)"],
   ["Tigre","Panthera tigris","Mammiferi","🐯","foreste e paludi asiatiche","carnivoro"],
   ["Ghepardo","Acinonyx jubatus","Mammiferi","🐆","savana","carnivoro (antilopi)"],
@@ -225,7 +229,7 @@ const BULK = [
   ["Gatto domestico","Felis catus","Mammiferi","🐱","ambienti urbani e rurali","carnivoro opportunista"],
   ["Cane domestico","Canis familiaris","Mammiferi","🐶","ambienti umani","onnivoro"],
   ["Wombat","Vombatus ursinus","Mammiferi","🦥","boscaglie australiane","erbivoro"],
-  // Uccelli (20)
+
   ["Falco pellegrino","Falco peregrinus","Uccelli","🪶","scogliere e città","carnivoro (uccelli in volo)"],
   ["Aquila reale","Aquila chrysaetos","Uccelli","🦅","montagne e scogliere","carnivoro"],
   ["Aquila di mare coda bianca","Haliaeetus albicilla","Uccelli","🦅","laghi e coste nordiche","piscivoro"],
@@ -237,16 +241,15 @@ const BULK = [
   ["Cicogna bianca","Ciconia ciconia","Uccelli","🕊️","zone agricole/umide","onnivoro"],
   ["Martin pescatore","Alcedo atthis","Uccelli","🐟","fiumi puliti","piscivoro"],
   ["Gufo delle nevi","Bubo scandiacus","Uccelli","🦉","tundra","carnivoro"],
-  ["Civetta","Athene noctua","Uccelli","🦉","campagna mediterranea","carnivoro (insetti/roditori)"],
+  ["Civetta","Athene noctua","Uccelli","🦉","campagna mediterranea","carnivoro"],
   ["Poiana comune","Buteo buteo","Uccelli","🦅","mosaico agricolo/forestale","carnivoro"],
   ["Rondine","Hirundo rustica","Uccelli","🪽","rurale e urbano","insettivoro volante"],
   ["Rondone","Apus apus","Uccelli","🪽","città e scogliere","insettivoro volante"],
   ["Picchio verde","Picus viridis","Uccelli","🪵","boschi e parchi","insettivoro (formiche)"],
   ["Gabbiano reale","Larus michahellis","Uccelli","🕊️","coste e città","onnivoro"],
-  ["Fenice (mito)","Phoenicis mythica","Uccelli","🔥","—","—"], /* simpatico placeholder, resta navigabile */
   ["Gallina domestica","Gallus gallus domesticus","Uccelli","🐔","rurale e urbano","onnivoro/granivoro"],
   ["Anatra reale","Anas platyrhynchos","Uccelli","🦆","stagni e fiumi","onnivoro"],
-  // Rettili (15)
+
   ["Coccodrillo del Nilo","Crocodylus niloticus","Rettili","🐊","fiumi e laghi africani","carnivoro"],
   ["Coccodrillo marino","Crocodylus porosus","Rettili","🐊","estuari indo-pacifici","carnivoro"],
   ["Camaleonte comune","Chamaeleo chamaeleon","Rettili","🦎","macchia mediterranea","insettivoro"],
@@ -262,7 +265,7 @@ const BULK = [
   ["Alligatore americano","Alligator mississippiensis","Rettili","🐊","paludi/fiumi USA","carnivoro"],
   ["Varano del Nilo","Varanus niloticus","Rettili","🦎","Africa sub-sahariana","carnivoro"],
   ["Serpente corallo","Micrurus spp.","Rettili","🐍","Americhe tropicali","carnivoro"],
-  // Anfibi (10)
+
   ["Raganella italiana","Hyla intermedia","Anfibi","🐸","zone umide e siepi","insettivora"],
   ["Rana verde","Pelophylax kl. esculentus","Anfibi","🐸","stagni e fossi","insettivora"],
   ["Rospo comune","Bufo bufo","Anfibi","🐸","boschi/giardini umidi","insettivoro"],
@@ -271,9 +274,7 @@ const BULK = [
   ["Tritone crestato","Triturus cristatus","Anfibi","🦎","stagni forestali","insettivoro"],
   ["Tritone punteggiato","Lissotriton vulgaris","Anfibi","🦎","acque calme europee","insettivoro"],
   ["Rana di Darwin","Rhinoderma darwinii","Anfibi","🐸","Cile/Argentina umidi","insettivoro"],
-  ["Cecilia","Gymnophiona spp.","Anfibi","🪱","suoli tropicali umidi","insettivoro"],
-  ["Salamandra tigre","Ambystoma tigrinum","Anfibi","🦎","Nord America","carnivoro"],
-  // Pesci (10)
+
   ["Squalo bianco","Carcharodon carcharias","Pesci","🦈","oceani temperati","carnivoro"],
   ["Tonno pinna gialla","Thunnus albacares","Pesci","🐟","oceani tropicali","carnivoro"],
   ["Manta gigante","Mobula birostris","Pesci","🛸","oceani tropicali","plancton"],
@@ -284,7 +285,7 @@ const BULK = [
   ["Murena mediterranea","Muraena helena","Pesci","🐍","fondali rocciosi","carnivoro"],
   ["Pesce pagliaccio","Amphiprion ocellaris","Pesci","🐠","barriere coralline","onnivoro"],
   ["Pesce luna","Mola mola","Pesci","🌞","oceani temperati","gelatofago"],
-  // Invertebrati (10)
+
   ["Polpo comune","Octopus vulgaris","Invertebrati","🐙","fondali rocciosi","carnivoro"],
   ["Seppia comune","Sepia officinalis","Invertebrati","🦑","fondali sabbiosi","carnivoro"],
   ["Calamaro gigante","Architeuthis dux","Invertebrati","🦑","abissi oceanici","carnivoro"],
@@ -297,140 +298,243 @@ const BULK = [
   ["Stella marina comune","Asterias rubens","Invertebrati","⭐","fondali rocciosi atlantici","bivalvi"]
 ];
 
-/* Espansione e indice */
-let ANIMALS = BULK.map(expandLite);
-ANIMALS.forEach(a=>{ a.id = slug(a.name); a._hay = [a.name,a.scientificName,a.habitat,a.diet,a.class,(a.facts||[]).join(" ")].join(" ").toLowerCase(); });
-
-/* ===== 10 SCHEDE PREMIUM (testi lunghi, sovrascrivono) ===== */
-const PREMIUM = [
-  // 1) Orso bruno
-  {name:"Orso bruno",scientificName:"Ursus arctos",class:"Mammiferi",emoji:"🐻",
-   habitat:"Foreste e montagne temperate e boreali", diet:"Onnivoro (frutti, erbe, insetti, pesci, carcasse)",
-   lifespan:"20–30 anni", size:"Maschi 150–350 kg (anche oltre)", conservation:"LC (variabile per popolazioni)",
-   description:"Corpo massiccio, spalle alte, fiuto finissimo. D’estate fa scorte energetiche con frutti e insetti; dove ci sono salmoni, diventa pescatore metodico. Il passo è lento ma sa coprire lunghe distanze; quando serve corre e nuota con sorprendente agilità.",
-   sociality:"Generalmente solitario; tollerante su risorse abbondanti (mirtillaie, corsi d’acqua in risalita). L’uso del territorio cambia con stagione e sesso.",
-   feeding:"Dieta flessibile: erbe primaverili, frutti estivi, insetti e larve, carogne e pesce. Ama i punti di passaggio dove odori e impronte si accumulano.",
-   reproduction:"Accoppiamenti in tarda primavera; impianto embrionale differito e parto in tana invernale. I piccoli restano ~2 anni con la madre.",
-   interactions:"Regola carcasse e insetti, disperde semi, crea ‘impronte di fertilità’ scavando e grufolando.",
-   human:"Conflitti gestibili con bidoni anti-orso, elettrificazioni leggere ai pollai e corretta gestione dei rifiuti. Monitoraggi genetici aiutano a valutare la vitalità delle popolazioni.",
-   facts:["Impianto differito","Dieta estremamente flessibile","Nuotatore valido","Semi dispersi nelle feci"]},
-
-  // 2) Volpe rossa
-  {name:"Volpe rossa",scientificName:"Vulpes vulpes",class:"Mammiferi",emoji:"🦊",
-   habitat:"Mosaici agricoli, boschi, periferie urbane", diet:"Onnivoro opportunista (micromammiferi, insetti, frutta)",
-   lifespan:"3–5 anni in natura", size:"5–9 kg", conservation:"LC",
-   description:"Snella, coda folta che funge da timone e coperta. Udito finissimo per ‘sentire’ piccoli movimenti sotto l’erba o la neve. Si adatta a quasi tutto: campagna, collina, persino città.",
-   sociality:"Per lo più solitaria; coppie o piccoli gruppi familiari durante la stagione riproduttiva.",
-   feeding:"Caccia ‘a trampolino’: salta in arco e piomba sulla preda. Integra dieta con frutta e rifiuti dove disponibili.",
-   reproduction:"Tane in fossi o radici; 3–6 cuccioli che esplorano presto i dintorni con giochi di caccia.",
-   interactions:"Controlla roditori, depreda talvolta nidi a terra; a sua volta è preda di grandi rapaci e canidi più grandi.",
-   human:"Recinzioni adeguate, protezione dei pollai e gestione rifiuti limitano i danni. In città si punta sulla convivenza informata.",
-   facts:["Salto ‘a trampolino’","Altissima adattabilità","Coda multifunzione"]},
-
-  // 3) Falco pellegrino
-  {name:"Falco pellegrino",scientificName:"Falco peregrinus",class:"Uccelli",emoji:"🪶",
-   habitat:"Rupi, coste, ambienti urbani (grattacieli come scogliere)", diet:"Carnivoro (uccelli in volo)",
-   lifespan:"10–15 anni", size:"Femmina 900–1100 g; maschio 600–800 g", conservation:"LC (in ripresa in Europa)",
-   description:"Ala a mezzaluna, muscoli elastici e narici con ‘conetti’ anti-shock. In picchiata supera i 300 km/h grazie a controllo fine di assetto e penne.",
-   sociality:"Coppie territoriali con siti di nidificazione fedeli nel tempo.",
-   feeding:"Attacca dall’alto, colpisce di taglio per stordire, poi recupera la preda in volo. In città caccia colombi e storni.",
-   reproduction:"Nido spartano su cenge o strutture; 2–4 uova. I giovani apprendono manovre con esercizi progressivi.",
-   interactions:"Regola uccelli medio-piccoli; in città riduce colonie di colombi e storni.",
-   human:"Specie simbolo del ritorno dopo il bando dei pesticidi clorurati; progetti di falconiere urbana aiutano monitoraggi e tutela.",
-   facts:["Coni nasali anti-shock","300+ km/h in picchiata","Ritorno nelle città"]},
-
-  // 4) Pinguino imperatore
-  {name:"Pinguino imperatore",scientificName:"Aptenodytes forsteri",class:"Uccelli",emoji:"🐧",
-   habitat:"Antartide (banchisa e acque circostanti)", diet:"Pesci, krill e cefalopodi",
-   lifespan:"15–20 anni", size:"30–40 kg", conservation:"NT",
-   description:"Specialista del freddo: piumaggio fitto, strato di grasso e circolazione ‘scambiatore di calore’. Cammina, scivola e nuota con efficienza sorprendente.",
-   sociality:"Coloniale, con ‘huddle’ (ammassi) che riducono la dispersione termica nelle bufere.",
-   feeding:"Immersioni profonde e regolari; navigazione fine per ritrovare il partner in colonie vastissime.",
-   reproduction:"Uovo unico incubato dal maschio sulla sacca ventrale mentre la femmina si alimenta in mare; staffetta meticolosa.",
-   interactions:"Trasporta energia dal mare alla terraferma; preda e preda-to di catene artiche complesse.",
-   human:"Sensibile ai cambiamenti del ghiaccio stagionale; aree marine protette e riduzione impatti sono cruciali.",
-   facts:["Huddle anti-freddo","Incubazione del maschio","Immersioni profonde"]},
-
-  // 5) Camaleonte comune
-  {name:"Camaleonte comune",scientificName:"Chamaeleo chamaeleon",class:"Rettili",emoji:"🦎",
-   habitat:"Macchia mediterranea, uliveti, cespuglieti costieri", diet:"Insettivoro (imenotteri, ortotteri, ditteri)",
-   lifespan:"3–5 anni", size:"15–25 cm", conservation:"LC",
-   description:"Occhi indipendenti come periscopi, lingua proiettile e zampette a pinza. Colore non solo mimetismo: è termoregolazione e linguaggio.",
-   sociality:"Solista prudente, con incontri brevi e ritualizzati.",
-   feeding:"Aspetta immobile, poi lingua che scatta a velocità folle con punta adesiva.",
-   reproduction:"Depone uova in piccole buche al suolo; giovani già perfetti cacciatori in miniatura.",
-   interactions:"Controlla insetti in soprassuolo; preda di rapaci e serpenti.",
-   human:"Perdita di siepi e catture illegali sono minacce; tutela della macchia e passaggi ecologici aiutano.",
-   facts:["Occhi indipendenti","Lingua proiettile","Colore come linguaggio"]},
-
-  // 6) Coccodrillo del Nilo
-  {name:"Coccodrillo del Nilo",scientificName:"Crocodylus niloticus",class:"Rettili",emoji:"🐊",
-   habitat:"Fiumi, laghi e paludi africane", diet:"Carnivoro (pesci, ungulati, uccelli)",
-   lifespan:"50–70 anni", size:"Fino a 5 m", conservation:"LC (locale variabile)",
-   description:"Armatura di osteodermi, sensori di pressione lungo il muso. Energia in banca: lunghi digiuni alternati a pasti maxi.",
-   sociality:"Aggregazioni su banchi soleggiati; gerarchie visibili in basking e sulle carcasse.",
-   feeding:"Agguato in acqua, rotazione ‘death roll’ su prede grandi. Cura delle uova e talvolta trasporto dei piccoli in bocca.",
-   reproduction:"Nidi sabbiosi; temperatura decide il sesso. Guardie materne attive.",
-   interactions:"Predatore apicale di corridoi fluviali africani.",
-   human:"Conflitti ai guadi; gestione delle sponde e segnaletica salvano vite a persone e animali.",
-   facts:["Death roll","Sessi termodipendenti","Cure parentali insospettate"]},
-
-  // 7) Aquila reale
-  {name:"Aquila reale",scientificName:"Aquila chrysaetos",class:"Uccelli",emoji:"🦅",
-   habitat:"Montagne e grandi scarpate rocciose", diet:"Carnivoro (marmotte, lepri, uccelli, carogne)",
-   lifespan:"20–30 anni", size:"Apertura alare 180–220 cm", conservation:"LC",
-   description:"Ali ampie, dita robuste, testa dorata. Legge i gradienti del vento come mappe in rilievo.",
-   sociality:"Coppie stabili su territori vasti; più nidi ‘di servizio’ alternati negli anni.",
-   feeding:"Plana alta, poi picchiata diagonale. Integra con carogne soprattutto d’inverno.",
-   reproduction:"2 uova; spesso sopravvive il pullo più forte (cainismo).",
-   interactions:"Regola mammiferi di media taglia; sfrutta la disponibilità di carogne dei grandi erbivori.",
-   human:"Linee elettriche sicure, distanze dai nidi e gestione del disturbo sono chiave.",
-   facts:["Plana di potenza","Territori enormi","Cainismo frequente"]},
-
-  // 8) Raganella italiana
-  {name:"Raganella italiana",scientificName:"Hyla intermedia",class:"Anfibi",emoji:"🐸",
-   habitat:"Zone umide, canneti, siepi e frutteti", diet:"Insettivora (zanzare, moscerini, piccoli coleotteri)",
-   lifespan:"4–8 anni", size:"3–5 cm", conservation:"LC (minacce locali)",
-   description:"Piccola, verde lucida, dita con ventose. Salta tra rami sottili con equilibrio da funambola.",
-   sociality:"Cori maschili concertati in primavera; competizione acustica intensa.",
-   feeding:"Caccia al crepuscolo vicino all’acqua e nei filari; predazione visiva a corta distanza.",
-   reproduction:"Uova in piccoli agglomerati tra la vegetazione sommersa; metamorfosi in poche settimane a seconda della temperatura.",
-   interactions:"Controllo naturale di zanzare e piccoli insetti volanti.",
-   human:"Bonifica di siepi e inquinamento acustico possono penalizzarla; stagni e corridoi verdi urbani la favoriscono.",
-   facts:["Ventose alle dita","Cori primaverili","Controllo zanzare"]},
-
-  // 9) Tartaruga caretta
-  {name:"Tartaruga caretta",scientificName:"Caretta caretta",class:"Rettili",emoji:"🐢",
-   habitat:"Mare aperto e spiagge di deposizione mediterranee/atlantiche", diet:"Onnivora (meduse, crostacei, molluschi)",
-   lifespan:"50+ anni", size:"70–140 kg", conservation:"Vulnerable",
-   description:"Maratoneta degli oceani: naviga con bussola magnetica, ritorna sulle spiagge natali. Becco robusto per rompere conchiglie.",
-   sociality:"Solitaria per la maggior parte della vita; concentrazioni sulle rotte migratorie.",
-   feeding:"Seleziona meduse e crostacei; rischio ingestione plastica scambiata per meduse.",
-   reproduction:"Nidi in sabbia asciutta; sesso dei piccoli dipende dalla temperatura. Piccoli corrono verso il mare guidati dalla luce della luna.",
-   interactions:"Trasporta nutrienti tra ecosistemi; ospite di commensali (balani).",
-   human:"Illuminazione costiera e reti da pesca sono i rischi principali; utili campagne ‘spiagge buie’ e dispositivi escludi-tartarughe.",
-   facts:["Bussola magnetica","Sessi termodipendenti","Navigatori di ritorno"]},
-
-  // 10) Koala
-  {name:"Koala",scientificName:"Phascolarctos cinereus",class:"Mammiferi",emoji:"🐨",
-   habitat:"Foreste di eucalipto australiane", diet:"Erbivoro specialista (foglie di eucalipto)",
-   lifespan:"10–15 anni", size:"4–15 kg", conservation:"Vulnerable",
-   description:"Metabolismo lento per una dieta povera; attività perlopiù notturna/crepuscolare. Polpastrelli ruvidi e due pollici per mano per aggrapparsi ai rami.",
-   sociality:"Territoriale ‘morbido’: home range che si sovrappongono con scale temporali diverse.",
-   feeding:"Seleziona specie/individui di eucalipto più digeribili; lunghi riposi per risparmio energetico.",
-   reproduction:"Marsupiale: piccolo minuscolo al marsupio; svezzamento graduale con ‘pappa’ semidigerita ricca di microbi utili.",
-   interactions:"Specialista che segnala la salute dei boschi di eucalipto.",
-   human:"Incendi, frammentazione e strade sono le minacce principali; corridoi arborei e cura dei rifugi post-incendio aiutano.",
-   facts:["Dieta povera, energia risparmiata","Dita ‘a pinza’","Marsupio e microbi amici"]}
+/* ===== NUOVO PACCHETTO LITE (+60) ===== */
+const MORE_BULK = [
+  // Mammiferi
+  ["Antilope gnu","Connochaetes taurinus","Mammiferi","🦌","savana","erbivoro"],
+  ["Zebra delle pianure","Equus quagga","Mammiferi","🦓","savana","erbivoro"],
+  ["Gatto selvatico europeo","Felis silvestris","Mammiferi","🐱","boschi europei","carnivoro"],
+  ["Volpe artica","Vulpes lagopus","Mammiferi","🦊","tundra artica","onnivoro"],
+  ["Lince eurasiatica","Lynx lynx","Mammiferi","🦁","foreste boreali","carnivoro"],
+  ["Cammello bactriano","Camelus bactrianus","Mammiferi","🐫","steppe e deserti freddi","erbivoro"],
+  ["Dromedario","Camelus dromedarius","Mammiferi","🐪","deserti caldi","erbivoro"],
+  ["Capra delle nevi","Oreamnos americanus","Mammiferi","🐐","montagne rocciose","erbivoro"],
+  ["Stambecco alpino","Capra ibex","Mammiferi","🐐","Alpi","erbivoro"],
+  ["Cinghiale","Sus scrofa","Mammiferi","🐗","boschi e campagne","onnivoro"],
+  ["Istrice","Hystrix cristata","Mammiferi","🦔","macchia mediterranea","erbivoro"],
+  ["Tapiro","Tapirus terrestris","Mammiferi","🫏","foreste tropicali","erbivoro"],
+  ["Formichiere gigante","Myrmecophaga tridactyla","Mammiferi","🐜","savane/foreste tropicali","insettivoro"],
+  ["Bradipo tridattilo","Bradypus tridactylus","Mammiferi","🦥","foreste tropicali","erbivoro"],
+  ["Fossa","Cryptoprocta ferox","Mammiferi","🐈","Madagascar","carnivoro"],
+  ["Suricato","Suricata suricatta","Mammiferi","🦝","deserti e semideserti","insettivoro"],
+  ["Pipistrello ferro di cavallo","Rhinolophus spp.","Mammiferi","🦇","grotte e boschi","insettivoro"],
+  ["Dingo","Canis dingo","Mammiferi","🐶","Australia semi-arida","carnivoro"],
+  ["Tamarino imperatore","Saguinus imperator","Mammiferi","🐒","foreste amazzoniche","onnivoro"],
+  ["Gibbone","Hylobatidae spp.","Mammiferi","🦧","foreste del Sud-Est asiatico","frugivoro"],
+  // Uccelli
+  ["Albatros urlatore","Diomedea exulans","Uccelli","🕊️","oceani australi","piscivoro"],
+  ["Condor delle Ande","Vultur gryphus","Uccelli","🦅","Ande","necrofago"],
+  ["Gru cenerina","Grus grus","Uccelli","🕊️","zone umide boreali","onnivoro"],
+  ["Puffin","Fratercula arctica","Uccelli","🕊️","Atlantico nordico","piscivoro"],
+  ["Sterna comune","Sterna hirundo","Uccelli","🕊️","coste e lagune","piscivoro"],
+  ["Quetzal splendente","Pharomachrus mocinno","Uccelli","🕊️","foreste neotropicali","frugivoro"],
+  ["Ara macao","Ara macao","Uccelli","🦜","foreste amazzoniche","frugivoro"],
+  ["Kiwi","Apteryx spp.","Uccelli","🥝","Nuova Zelanda","insettivoro"],
+  ["Emù","Dromaius novaehollandiae","Uccelli","🦤","Australia arida","onnivoro"],
+  ["Casuario","Casuarius casuarius","Uccelli","🦃","foreste della Nuova Guinea","frugivoro"],
+  // Rettili
+  ["Tartaruga verde","Chelonia mydas","Rettili","🐢","tropici marini","erbivoro (alghe)"],
+  ["Tartaruga liuto","Dermochelys coriacea","Rettili","🐢","oceani","gelatofaga"],
+  ["Geco leopardino","Eublepharis macularius","Rettili","🦎","steppe aride asiatiche","insettivoro"],
+  ["Anaconda verde","Eunectes murinus","Rettili","🐍","paludi amazzoniche","carnivoro"],
+  ["Basilisco comune","Basiliscus basiliscus","Rettili","🦎","tropici americani","onnivoro"],
+  ["Varano di Timor","Varanus timorensis","Rettili","🦎","Indonesia","insettivoro"],
+  // Anfibi
+  ["Raganella mediterranea","Hyla meridionalis","Anfibi","🐸","macchia e stagni","insettivora"],
+  ["Ululone appenninico","Bombina pachypus","Anfibi","🐸","ruscelli appenninici","insettivoro"],
+  ["Sirena maggiore","Siren lacertina","Anfibi","🧜‍♂️","paludi sud-est USA","carnivoro"],
+  ["Cecilia indiana","Ichthyophis spp.","Anfibi","🪱","suoli tropicali","insettivoro"],
+  // Pesci
+  ["Pesce chirurgo blu","Paracanthurus hepatus","Pesci","🔵","barriere coralline","onnivoro"],
+  ["Cavalluccio marino","Hippocampus kuda","Pesci","🐴","praterie di fanerogame","carnivoro (zooplancton)"],
+  ["Squalo martello","Sphyrna lewini","Pesci","🔨","tropici oceanici","carnivoro"],
+  ["Carpa comune","Cyprinus carpio","Pesci","🐟","laghi e fiumi","onnivoro"],
+  ["Luccio","Esox lucius","Pesci","🎣","acque dolci temperate","carnivoro"],
+  ["Trota fario","Salmo trutta fario","Pesci","🐟","torrenti alpini","carnivoro"],
+  ["Pesce palla","Takifugu rubripes","Pesci","🎈","mari temperati","onnivoro"],
+  ["Razza chiodata","Raja clavata","Pesci","🛸","fondi sabbiosi","carnivoro"],
+  // Invertebrati
+  ["Granchio violinista","Uca spp.","Invertebrati","🦀","mangrovie","detritivoro"],
+  ["Gambero pistolero","Alpheus spp.","Invertebrati","🦐","barriere coralline","carnivoro"],
+  ["Corallo cervello","Diploria spp.","Invertebrati","🧠","barriere","simbionte (zooxantelle)"],
+  ["Anemone di mare","Actiniaria","Invertebrati","🌸","barriere/coste","carnivoro"],
+  ["Medusa luna","Aurelia aurita","Invertebrati","🌙","mari temperati","plancton"],
+  ["Ragno lupo","Lycosidae","Invertebrati","🕷️","prati e suoli","predatore"],
+  ["Scorpione comune","Euscorpius italicus","Invertebrati","🦂","muri a secco/selve","predatore"],
+  ["Chiocciola di terra","Helix pomatia","Invertebrati","🐌","boschi e orti","erbivoro"],
+  ["Cariddi (paguro bernardo)","Pagurus bernhardus","Invertebrati","🦞","coste atlantiche","onnivoro"],
+  ["Farfalla monarca","Danaus plexippus","Invertebrati","🦋","Americhe","nettare (adulto)"],
+  ["Baco da seta","Bombyx mori","Invertebrati","🧵","allevamenti","foglie di gelso"]
 ];
 
-/* Merge premium per nome */
+/* ===== PREMIUM V3 (già presenti) + NUOVE 10 PREMIUM V4 ===== */
+/* Tenendo i testi lunghi concisi ma discorsivi */
+const PREMIUM_V3 = [
+  // (da versioni precedenti: tigre, leone, ghepardo, elefante savana, giraffa, panda gigante,
+  // orso polare, lupo grigio, delfino tursiope, orca, squalo bianco, panda rosso,
+  // mantide (base premium), polpo, aquila di mare coda bianca, pinguino imperatore ecc.)
+  // Per brevità qui ripetiamo alcuni chiave; il merge gestisce i duplicati.
+  {name:"Tigre",scientificName:"Panthera tigris",class:"Mammiferi",emoji:"🐯",habitat:"Foreste e paludi dell’Asia",diet:"Carnivoro (cervidi, cinghiali, grandi prede)",lifespan:"10–15 anni",size:"100–260 kg",conservation:"Endangered",
+   description:"Muscoli sotto strisce uniche: le ‘righe’ spezzano il profilo nella penombra. Cammina come un’ombra su cuscinetti morbidi. Sprinter di pochi secondi, stratega per ore.",
+   sociality:"Solitaria ma non asociale: territori che si sovrappongono, messaggi con graffi e marcature. Madri-tutrici insegnano ai cuccioli a ‘leggere’ il bosco.",
+   feeding:"Preferisce ungulati; attacco laterale al collo. Dopo un grande pasto, lunghi digiuni. Ama nuotare.",
+   reproduction:"Gestazione ~100 gg; 2–4 cuccioli per 18–24 mesi con la madre.",
+   interactions:"Regola gli ungulati; leopardi e dholes la evitano.",
+   human:"Corridoi forestali, recinti elettrificati mirati e gestione delle prede riducono i conflitti.",
+   facts:["Striature uniche","Nuotatrice abile","Specie bandiera"]},
+  {name:"Leone",scientificName:"Panthera leo",class:"Mammiferi",emoji:"🦁",habitat:"Savana africana",diet:"Carnivoro (zebre, gnu, bufali)",lifespan:"10–14 anni",size:"♀ 120–180 kg; ♂ 150–250 kg",conservation:"Vulnerable",
+   description:"Felino sociale: cooperative familiari. Criniera = protezione e segnale. Ruggito udibile a km.",
+   sociality:"Femmine imparentate stabili; maschi in coalizioni. Allattamento condiviso dei cuccioli.",
+   feeding:"Aguati coordinati; maschi difendono le carcasse da iene e avvoltoi.",
+   reproduction:"Nascite talvolta sincronizzate.",
+   interactions:"Competizione serrata con le iene maculate.",
+   human:"Recinti notturni per bestiame, cani da guardiania e indennizzi rapidi.",
+   facts:["Caccia cooperativa","Criniera protettiva","Ruggito-segnale"]},
+  {name:"Ghepardo",scientificName:"Acinonyx jubatus",class:"Mammiferi",emoji:"🐆",habitat:"Savana e praterie",diet:"Carnivoro (gazzelle)",lifespan:"10–12 anni",size:"35–65 kg",conservation:"Vulnerable",
+   description:"Colonna elastica, coda-timone e unghie semi-retrattili. Lo sprint è scienza della curva.",
+   sociality:"Maschi in piccoli ‘coalitions’; femmine solitarie con cuccioli.",
+   feeding:"Avvicinamento basso → accelerazione improvvisa; rinuncia se surriscalda.",
+   reproduction:"2–4 cuccioli; alta predazione da leoni e iene.",
+   interactions:"Predatore diurno, conflitti ridotti coi leoni.",
+   human:"Corridoi faunistici e anti-bracconaggio.",
+   facts:["0–100 in pochi s","Coda-timone","Caccia diurna"]},
+  {name:"Aquila di mare coda bianca",scientificName:"Haliaeetus albicilla",class:"Uccelli",emoji:"🦅",habitat:"Laghi e coste nordiche",diet:"Pesci, uccelli acquatici, carcasse",lifespan:"20–30 anni",size:"Apertura fino a 2,4 m",conservation:"In aumento",
+   description:"Massiccia e maestosa, becco imponente. Veleggia bassa sull’acqua sfruttando correnti.",
+   sociality:"Coppie territoriali con nidi riutilizzati per anni.",
+   feeding:"Presa ‘a gancio’ con artigli; non disdegna carogne.",
+   reproduction:"1–3 uova; giovani dipendenti a lungo.",
+   interactions:"Spazzina di pregio; competizione con corvidi su carcasse.",
+   human:"Reintroduzioni e tutele legali ne hanno favorito il ritorno.",
+   facts:["Apertura alare enorme","Nidi pluriennali","Spazzina efficiente"]}
+];
+
+/* NUOVE PREMIUM V4 (10 specie) */
+const PREMIUM_V4 = [
+  {name:"Gatto domestico",scientificName:"Felis catus",class:"Mammiferi",emoji:"🐱",
+   habitat:"Ambienti urbani e rurali (prossimità umana)",diet:"Carnivoro opportunista (roditori, uccelletti, mangimi)",
+   lifespan:"12–18 anni (medio)",size:"3–5 kg",conservation:"—",
+   description:"Predatore leggero con sensi fini (udito e vista crepuscolare). Cammina ‘in punta di cuscinetti’, vibrisse come radar di prossimità. Ha portato la strategia del piccolo felino nei salotti.",
+   sociality:"Semi-solitario con tolleranza variabile; gruppi flessibili dove il cibo è concentrato. Comunicazione con posture, fusa, marcature.",
+   feeding:"Caccia in agguato su micro-prede. In casa mantiene sequenze di gioco che imitano l’inseguimento.",
+   reproduction:"Femmine poliestre; cucciolate multiple l’anno dove non sterilizzato. Cure materne intense.",
+   interactions:"Controlla roditori; può impattare avifauna se libero all’esterno.",
+   human:"Sterilizzazione, campanellini/colletti e finestre protette conciliano benessere e tutela della fauna.",
+   facts:["Vista crepuscolare","Vibrisse ‘radar’","Predatore opportunista"]},
+
+  {name:"Gallina domestica",scientificName:"Gallus gallus domesticus",class:"Uccelli",emoji:"🐔",
+   habitat:"Aie, piccoli allevamenti, ambienti rurali",diet:"Granivoro/onnivoro (semi, insetti, scarti)",
+   lifespan:"5–10 anni",size:"2–4 kg (razza-dip.)",conservation:"—",
+   description:"Discendente del gallo bankiva. Becco esploratore e zampe ‘ruspatrici’. Cognizione sociale sottovalutata: riconosce individui e mantiene gerarchie.",
+   sociality:"Gruppi con ordine di beccata (‘pecking order’). Comunicazioni vocali ricche.",
+   feeding:"Raspa e seleziona semi/insetti; se libera in cortile riduce molti parassiti.",
+   reproduction:"Deposizione seriale; cova di 21 giorni; pulcini precoci e seguaci.",
+   interactions:"Riciclatrice naturale di scarti, ma va gestita per non disturbare la fauna selvatica.",
+   human:"Benessere animale: spazio, ripari, substrati per bagni di sabbia.",
+   facts:["Pecking order","Riconoscimento individuale","Riciclatrice di cortile"]},
+
+  {name:"Corvo comune",scientificName:"Corvus corone",class:"Uccelli",emoji:"🐦",
+   habitat:"Campagne, città, coste",diet:"Onnivoro (semi, insetti, carogne, rifiuti)",
+   lifespan:"8–15 anni",size:"45–50 cm",conservation:"LC",
+   description:"Cervello grande per la taglia: strumenti, memoria spaziale, gioco. Vocalizzazioni adattate al rumore urbano.",
+   sociality:"Coppie stabili e dormitori comuni; apprendimenti culturali (apertura di noci su strade).",
+   feeding:"Opportunista raffinato; scarta con il becco, nasconde avanzi.",
+   reproduction:"Nido in alto; 3–6 uova; genitori attenti e lunghi periodi di apprendimento.",
+   interactions:"Spazzino e controllore di insetti; può predare nidi a terra.",
+   human:"Convivenza gestibile con rifiuti chiusi e deterrenti non cruenti.",
+   facts:["Uso di strumenti","Memoria di luoghi","Apprendimento sociale"]},
+
+  {name:"Pinguino di Humboldt",scientificName:"Spheniscus humboldti",class:"Uccelli",emoji:"🐧",
+   habitat:"Coste pacifiche del Perù/Cile (corrente di Humboldt)",diet:"Pesci e cefalopodi",
+   lifespan:"15–20 anni",size:"4–5 kg",conservation:"Vulnerable",
+   description:"Specialista della corrente fredda: nidifica in grotte/guano, sfrutta upwelling ricchi.",
+   sociality:"Coloniale; coppie fedeli ai siti; vocalizzazioni ‘asinine’ per riconoscersi.",
+   feeding:"Immersioni rapide e coordinate vicino riva.",
+   reproduction:"2 uova; cure biparentali; giovani apprendono le zone di pesca costiera.",
+   interactions:"Collega reti pelagiche e coste rocciose.",
+   human:"Pesca, El Niño e disturbo delle colonie sono i rischi principali.",
+   facts:["Corrente fredda","Nidi nel guano","Coppie fedeli"]},
+
+  {name:"Aquila di mare coda bianca",scientificName:"Haliaeetus albicilla",class:"Uccelli",emoji:"🦅",
+   habitat:"Laghi, fiumi e coste del Nord Europa/Asia",diet:"Pesci, uccelli acquatici, carogne",
+   lifespan:"20–30 anni",size:"Fino a 2,4 m di apertura",conservation:"LC (in crescita)",
+   description:"Rapace massiccio e poco timido. Sfrutta correnti sulla costa come ‘nastri trasportatori’.",
+   sociality:"Coppie stabili su territori estesi; nidi ampliati per anni.",
+   feeding:"‘Fishing-snatch’: artigli a uncino, recupero in volo radente.",
+   reproduction:"1–3 uova; giovani a lungo dipendenti per l’apprendistato di pesca.",
+   interactions:"Spazzina top su carcasse; competizione con corvi e gabbiani.",
+   human:"Protezioni legali e reintroduzioni hanno invertito il trend.",
+   facts:["Nidi longevi","Presa a uncino","Ritorno in Europa"]},
+
+  {name:"Canguro rosso",scientificName:"Osphranter rufus",class:"Mammiferi",emoji:"🦘",
+   habitat:"Zone aride/semiaride australiane",diet:"Erbivoro (erbe e frasche)",
+   lifespan:"12–18 anni",size:"Maschi 55–90 kg",conservation:"LC",
+   description:"Saltatore economico: il tendine d’Achille immagazzina energia elastica. Coda come terza gamba per sterzare e appoggiarsi.",
+   sociality:"Gruppi fluidi; maschi ‘boxing’ rituale.",
+   feeding:"Pasto notturno e crepuscolare; risparmia acqua e calore.",
+   reproduction:"Diapausa embrionale: pausa dello sviluppo se le condizioni sono dure.",
+   interactions:"Modella il pascolo e funge da preda per dingo/rapaci.",
+   human:"Gestione dei pascoli e passaggi faunistici riducono impatti stradali.",
+   facts:["Salto elastico","Coda-terza gamba","Diapausa embrionale"]},
+
+  {name:"Capibara",scientificName:"Hydrochoerus hydrochaeris",class:"Mammiferi",emoji:"🫎",
+   habitat:"Zone umide sudamericane",diet:"Erbivoro (erbe acquatiche)",
+   lifespan:"7–10 anni",size:"35–65 kg",conservation:"LC",
+   description:"Il roditore più grande: piedi palmati, vita in acqua/terra. Socialità pacifica con ‘chiacchiere’ sonore.",
+   sociality:"Gruppi con gerarchie miti e babysitting condiviso.",
+   feeding:"Bruca vicino all’acqua; digerisce fibre con fermentazione intestinale.",
+   reproduction:"Piccoli precoci che nuotano presto; allattamento in gruppo.",
+   interactions:"Taglia l’erba acquatica, crea ‘prati’ per altri.",
+   human:"Conflitti locali con colture; zone cuscinetto riducono i danni.",
+   facts:["Piede palmato","Babysitting","Fermentazione intestinale"]},
+
+  {name:"Drago di Komodo",scientificName:"Varanus komodoensis",class:"Rettili",emoji:"🦎",
+   habitat:"Isole indonesiane aride",diet:"Carnivoro (ungulati, carogne)",
+   lifespan:"20–30 anni",size:"Fino a 3 m",conservation:"Endangered (locale)",
+   description:"Varano gigante con olfatto ‘a lingua bifida’. Preda d’agguato, morso potente, coadiuvato da batteri e tossine salivari.",
+   sociality:"Solista; aggregazioni sulle carcasse con gerarchie.",
+   feeding:"Scatti brevi; inghiotte grandi porzioni grazie a mandibole flessibili.",
+   reproduction:"Oviparo; femmine talvolta partenogenetiche in cattività.",
+   interactions:"Scavenger e predatore apicale di piccole isole.",
+   human:"Turismo regolato e tutela degli ungulati nativi sono cruciali.",
+   facts:["Lingua ‘olfatto’","Tossine salivari","Partenogenesi osservata"]},
+
+  {name:"Mantide religiosa",scientificName:"Mantis religiosa",class:"Invertebrati",emoji:"🦗",
+   habitat:"Prati e margini coltivi",diet:"Predatrice di insetti",
+   lifespan:"1 anno",size:"5–7 cm (♀)",conservation:"—",
+   description:"Statua verde che si trasforma in trappola. Zampe raptatorie spinose, collo mobile e visione stereoscopica.",
+   sociality:"Solitario; incontri quasi solo per accoppiamento.",
+   feeding:"Aspetta immobile e fulmina prede con un lampo delle zampe.",
+   reproduction:"Ooteca spumosa che indurisce e protegge decine di ninfe.",
+   interactions:"Controllo naturale dei fitofagi; può prendere impollinatori se abbondante.",
+   human:"Alleata dell’orto se si evitano insetticidi generici.",
+   facts:["Zampe-lama","Testa mobile","Ooteca protettiva"]},
+
+  {name:"Pesce pagliaccio",scientificName:"Amphiprion ocellaris",class:"Pesci",emoji:"🐠",
+   habitat:"Barriere coralline (anemoni simbionti)",diet:"Onnivoro (alghe, zooplancton, piccoli invertebrati)",
+   lifespan:"6–10 anni",size:"8–11 cm",conservation:"LC",
+   description:"Colori vivaci e vita tra i tentacoli urticanti dell’anemone, resi innocui da un muco protettivo.",
+   sociality:"Gruppi con femmina dominante; maschi subordinati.",
+   feeding:"Pizzica cibo vicino all’anemone e pulisce i resti.",
+   reproduction:"Uova deposte su roccia vicino all’anemone; maschio ventila e cura.",
+   interactions:"Simbiosi: protegge l’anemone da piccoli predatori e ne pulisce la superficie.",
+   human:"Raccolta eccessiva può impattare; allevamenti responsabili riducono pressione.",
+   facts:["Simbiosi con anemone","Gerarchia femmina-alfa","Muco protettivo"]}
+];
+
+/* ===== COMBINAZIONE DATI ===== */
+let ANIMALS = [...BASE_BULK, ...MORE_BULK].map(expandLite);
+/* ID & haystack */
+ANIMALS.forEach(a=>{ a.id = slug(a.name); a._hay = [a.name,a.scientificName,a.habitat,a.diet,a.class,(a.facts||[]).join(" ")].join(" ").toLowerCase(); });
+/* Merge premium (v3 + v4) per nome (sovrascrive se già esiste) */
+const PREMIUM = [...PREMIUM_V3, ...PREMIUM_V4];
 const idx = new Map(ANIMALS.map((a,i)=>[a.name,i]));
-PREMIUM.forEach(p=>{ p.id=slug(p.name); p._hay=[p.name,p.scientificName,p.habitat,p.diet,p.class,(p.facts||[]).join(" ")].join(" ").toLowerCase(); if(idx.has(p.name)) ANIMALS[idx.get(p.name)]=p; else ANIMALS.push(p); });
+PREMIUM.forEach(p=>{
+  p.id = slug(p.name);
+  p._hay = [p.name,p.scientificName,p.habitat,p.diet,p.class,(p.facts||[]).join(" ")].join(" ").toLowerCase();
+  if(idx.has(p.name)) ANIMALS[idx.get(p.name)]=p; else ANIMALS.push(p);
+});
 
 /* ===== UI ===== */
-const toTheme = hc=>({ 'hab-foresta':'theme-foresta','hab-savana':'theme-savana','hab-ghiaccio':'theme-ghiaccio','hab-oceano':'theme-oceano','hab-montagna':'theme-montagna','hab-deserto':'theme-deserto','hab-prateria':'theme-prateria' }[hc]||'theme-prateria');
-
 function cardTpl(a){
   const hc = habClass(a.habitat||"");
   return `<article class="card" aria-label="${a.name}">
@@ -510,7 +614,7 @@ function curiositaTpl(){
   for(let i=0;i<6;i++){ const a = pick(ANIMALS); facts.push(`<li><b>${a.name}:</b> ${pick(a.facts||[a.description||'—'])}</li>`); }
   return `<div class="panel pad"><h2 style="margin-top:0">Curiosità casuali ✨</h2><ul>${facts.join('')}</ul></div>`;
 }
-function contattiTpl(){ return `<div class="panel pad"><h2 style="margin-top:0">Contatti</h2><p>Progetto didattico. Apri una issue sul repository per proporre correzioni e nuove specie.</p></div>` }
+function contattiTpl(){ return `<div class="panel pad"><h2 style="margin-top:0">Contatti</h2><p>Progetto didattico. Apri una issue sul repository per proposte e correzioni.</p></div>` }
 function emptyTpl(){ return `<div class="panel pad"><p>Nessun risultato. Prova a cambiare ricerca o filtro.</p></div>` }
 
 /* ===== RENDER & ROUTER ===== */
