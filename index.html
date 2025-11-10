@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Biolo-Gio | Enciclopedia (v7.4 banner intelligente)</title>
-<meta name="description" content="Enciclopedia degli animali con immagini automatiche da Wikipedia/Wikimedia, habitat tematici e banner che si adatta alla foto." />
+<title>Biolo-Gio | Enciclopedia (v7.5 fit intelligente anche in Home)</title>
+<meta name="description" content="Enciclopedia degli animali con immagini automatiche da Wikipedia/Wikimedia, habitat tematici e adattamento foto sia nelle card sia nel banner." />
 <style>
   :root{ --panel:#fff; --muted:#475569; --text:#0f172a; --ring:#22d3ee55; --radius:18px; --t0:#ffffff; --t1:#f1f5f9; }
   *{box-sizing:border-box} html,body{height:100%}
@@ -39,10 +39,13 @@
   .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:16px; margin-top:16px}
   .card{background:#fff; border:1px solid #e2e8f0; border-radius:16px; overflow:hidden; transition:transform .15s, box-shadow .15s}
   .card:hover{transform:translateY(-4px); box-shadow:0 12px 30px #00000014}
+
+  /* THUMB: adesso con livello blur per riempire quando la foto è “contain” */
   .thumb{height:160px; position:relative; overflow:hidden; display:grid; place-items:center}
-  .thumb img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s ease; filter:saturate(1.05) contrast(1.02)}
-  .card:hover .thumb img{transform:scale(1.03)}
+  .thumb img{position:relative; width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s ease; filter:saturate(1.05) contrast(1.02); object-position:center}
+  .thumb .bg-blur{position:absolute; inset:0; background-size:cover; background-position:center; filter:blur(18px) saturate(1.1) brightness(.9); transform:scale(1.1); opacity:0; transition:opacity .25s; pointer-events:none}
   .thumb .emoji{position:absolute; font-size:72px; filter:drop-shadow(0 2px 6px rgba(0,0,0,.12))}
+  .card:hover .thumb img{transform:scale(1.03)}
   .thumb::after{content:""; position:absolute; inset:0; background-image:
     repeating-linear-gradient(45deg, rgba(255,255,255,.25) 0 8px, transparent 8px 16px),
     repeating-radial-gradient( circle at 20% 30%, rgba(0,0,0,.05) 0 1.8px, transparent 1.8px 10px);
@@ -64,16 +67,11 @@
   .btn{appearance:none; border:none; padding:10px 12px; border-radius:10px; background:#dbf4ff; color:#0c4a6e; cursor:pointer; text-decoration:none; display:inline-flex; gap:8px; align-items:center}
   .btn:hover{background:#bae6fd}
 
+  /* DETTAGLIO: banner smart (come v7.4) */
   .detail{margin-top:24px; display:grid; grid-template-columns:1.6fr 0.9fr; gap:18px}
   .hero-animal{border-radius:16px; overflow:hidden; position:relative; border:1px solid #e2e8f0}
-
-  /* Banner più alto e reattivo */
   .hero-animal .banner{height:clamp(220px, 28vw, 340px); display:grid; place-items:center; font-size:0; position:relative; cursor:zoom-in}
-  .hero-animal .banner img.photo{
-    position:absolute; inset:0; width:100%; height:100%; display:block; filter:saturate(1.05) contrast(1.03);
-    object-position:center;
-  }
-  /* Modalità di adattamento selezionabili */
+  .hero-animal .banner img.photo{position:absolute; inset:0; width:100%; height:100%; display:block; filter:saturate(1.05) contrast(1.03); object-position:center}
   .fit-cover{object-fit:cover;}
   .fit-contain{object-fit:contain; background:#f8fafc;}
   .hero-animal .banner .overlay{position:absolute; inset:0; mix-blend-mode:multiply; opacity:.85; pointer-events:none}
@@ -100,7 +98,7 @@
   .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(40px);background:linear-gradient(135deg,#06b6d4,#8b5cf6);color:#fff;padding:10px 18px;border-radius:12px;box-shadow:0 8px 30px #00000026;opacity:0;pointer-events:none;transition:opacity .35s, transform .35s;z-index:9999}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-  /* Pattern di sfondo globale con colori per tema */
+  /* Pattern di sfondo globale */
   @keyframes drift {0%{background-position:0 0,0 0,0 0,200px 200px}100%{background-position:0 0,0 0,0 0,400px 400px}}
   body[class*="theme-"]{
     background-attachment:fixed;
@@ -124,8 +122,8 @@
 
 <main class="wrap">
   <section class="hero">
-    <h1>Biolo-Gio v7.4 — banner che si adatta alla foto</h1>
-    <p>Foto auto da Wikipedia/Wikimedia. Il banner passa automaticamente tra <i>cover</i> e <i>contain</i>.</p>
+    <h1>Biolo-Gio v7.5 — foto smart anche nella Home</h1>
+    <p>Le card non tagliano più le immagini verticali: passano a “intera” con sfondo sfocato.</p>
   </section>
 
   <section class="panel pad" id="controls">
@@ -155,7 +153,7 @@
   <section id="view"></section>
 
   <footer class="wrap" style="margin:30px 0 60px; color:#475569">
-    Immagini via <a href="https://www.wikipedia.org/" target="_blank" rel="noopener">Wikipedia/Wikimedia</a> — licenze libere. Attribution nel dettaglio quando disponibile.
+    Immagini via <a href="https://www.wikipedia.org/" target="_blank" rel="noopener">Wikipedia/Wikimedia</a>. Attribution nel dettaglio quando disponibile.
   </footer>
 </main>
 
@@ -172,119 +170,38 @@ function showToast(msg){ const t = document.querySelector('#toast'); t.textConte
 /* ===== THEME / HABITAT ===== */
 const THEMES = ['theme-foresta','theme-savana','theme-oceano','theme-montagna','theme-ghiaccio','theme-deserto','theme-prateria'];
 function applyTheme(theme){
-  const map = {
-    "theme-foresta": ["#f0fdf4", "#dcfce7"],
-    "theme-savana":  ["#fffbeb", "#fef9c3"],
-    "theme-oceano":  ["#f0f9ff", "#e0f2fe"],
-    "theme-montagna":["#f8fafc", "#e2e8f0"],
-    "theme-ghiaccio":["#f8fafc", "#e0f2fe"],
-    "theme-deserto": ["#fff7ed", "#ffedd5"],
-    "theme-prateria":["#ecfeff", "#d1fae5"]
-  };
+  const map = {"theme-foresta":["#f0fdf4","#dcfce7"],"theme-savana":["#fffbeb","#fef9c3"],"theme-oceano":["#f0f9ff","#e0f2fe"],"theme-montagna":["#f8fafc","#e2e8f0"],"theme-ghiaccio":["#f8fafc","#e0f2fe"],"theme-deserto":["#fff7ed","#ffedd5"],"theme-prateria":["#ecfeff","#d1fae5"]};
   document.body.classList.remove(...THEMES);
   document.body.classList.add(theme);
-  const [t0, t1] = map[theme] || map["theme-prateria"];
+  const [t0,t1]=map[theme]||map["theme-prateria"];
   document.documentElement.style.setProperty('--t0', t0);
   document.documentElement.style.setProperty('--t1', t1);
 }
-const habClass = (hab='')=>{
-  const h = (hab||'').toLowerCase();
-  if(h.includes('foreste')||h.includes('foresta')||h.includes('bosco')) return 'hab-foresta';
-  if(h.includes('savana')||h.includes('prateria')||h.includes('steppe')) return 'hab-savana';
-  if(h.includes('antart')||h.includes('ghiaccio')||h.includes('polo')) return 'hab-ghiaccio';
-  if(h.includes('mare')||h.includes('oceano')||h.includes('coste')||h.includes('acque')) return 'hab-oceano';
-  if(h.includes('monta')||h.includes('scoglier')||h.includes('alp')) return 'hab-montagna';
-  if(h.includes('deserto')||h.includes('arido')||h.includes('sabbia')) return 'hab-deserto';
-  return 'hab-prateria';
-};
-const toTheme = hc=>({ 'hab-foresta':'theme-foresta','hab-savana':'theme-savana','hab-ghiaccio':'theme-ghiaccio','hab-oceano':'theme-oceano','hab-montagna':'theme-montagna','hab-deserto':'theme-deserto','hab-prateria':'theme-prateria' }[hc]||'theme-prateria');
+const habClass=(hab='')=>{const h=(hab||'').toLowerCase(); if(h.includes('foresta')||h.includes('bosco'))return'hab-foresta'; if(h.includes('savana')||h.includes('prateria')||h.includes('steppe'))return'hab-savana'; if(h.includes('ghiaccio')||h.includes('antart')||h.includes('polo'))return'hab-ghiaccio'; if(h.includes('mare')||h.includes('oceano')||h.includes('coste')||h.includes('acque'))return'hab-oceano'; if(h.includes('monta')||h.includes('scoglier')||h.includes('alp'))return'hab-montagna'; if(h.includes('deserto')||h.includes('arido')||h.includes('sabbia'))return'hab-deserto'; return'hab-prateria';};
+const toTheme=hc=>({'hab-foresta':'theme-foresta','hab-savana':'theme-savana','hab-ghiaccio':'theme-ghiaccio','hab-oceano':'theme-oceano','hab-montagna':'theme-montagna','hab-deserto':'theme-deserto','hab-prateria':'theme-prateria'}[hc]||'theme-prateria');
 
 /* ===== IMMAGINI DA WIKIPEDIA ===== */
-const COMMON_EN = {
-  "Leone":"Lion","Tigre":"Tiger","Ghepardo":"Cheetah","Lupo grigio":"Gray wolf","Gatto domestico":"Cat",
-  "Wombat":"Wombat","Capibara":"Capybara","Drago di Komodo":"Komodo dragon","Falco pellegrino":"Peregrine falcon",
-  "Aquila reale":"Golden eagle","Corvo comune":"Carrion crow","Pinguino di Humboldt":"Humboldt penguin",
-  "Cobra reale":"King cobra","Squalo balena":"Whale shark","Bue muschiato":"Muskox","Pangolino":"Pangolin",
-  "Alce":"Moose","Caribù/Renna":"Reindeer","Pellicano bianco":"Great white pelican",
-  "Pappagallo cenerino":"African grey parrot","Cormorano grande":"Great cormorant","Squalo martello":"Scalloped hammerhead"
-};
-async function wikiSummary(title, lang='it'){
-  try{
-    const r = await fetch(`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`, {mode:'cors', referrerPolicy:'no-referrer'});
-    if(!r.ok) throw new Error(r.status);
-    return await r.json();
-  }catch(e){ return null; }
-}
-async function findWikiImage(titles){
-  for(const t of titles){
-    let j = await wikiSummary(t, 'it');
-    if(j && j.thumbnail && j.thumbnail.source) return {src:j.thumbnail.source, credit:j.titles?.normalized || t, lang:'it', page:j.content_urls?.desktop?.page};
-    j = await wikiSummary(t, 'en');
-    if(j && j.thumbnail && j.thumbnail.source) return {src:j.thumbnail.source, credit:j.titles?.normalized || t, lang:'en', page:j.content_urls?.desktop?.page};
-  }
-  return null;
-}
-function titlesFor(a){
-  const arr = [];
-  if(a.scientificName) arr.push(a.scientificName);
-  if(a.name) arr.push(a.name);
-  if(COMMON_EN[a.name]) arr.push(COMMON_EN[a.name]);
-  return Array.from(new Set(arr));
-}
+const COMMON_EN={"Leone":"Lion","Tigre":"Tiger","Ghepardo":"Cheetah","Lupo grigio":"Gray wolf","Gatto domestico":"Cat","Wombat":"Wombat","Capibara":"Capybara","Drago di Komodo":"Komodo dragon","Falco pellegrino":"Peregrine falcon","Aquila reale":"Golden eagle","Corvo comune":"Carrion crow","Pinguino di Humboldt":"Humboldt penguin","Cobra reale":"King cobra","Squalo balena":"Whale shark","Bue muschiato":"Muskox","Pangolino":"Pangolin","Alce":"Moose","Caribù/Renna":"Reindeer","Pellicano bianco":"Great white pelican","Pappagallo cenerino":"African grey parrot","Cormorano grande":"Great cormorant","Squalo martello":"Scalloped hammerhead"};
+async function wikiSummary(title, lang='it'){try{const r=await fetch(`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`,{mode:'cors',referrerPolicy:'no-referrer'});if(!r.ok)throw new Error(r.status);return await r.json()}catch(e){return null}}
+async function findWikiImage(titles){for(const t of titles){let j=await wikiSummary(t,'it');if(j && j.thumbnail && j.thumbnail.source)return{src:j.thumbnail.source,credit:j.titles?.normalized||t,lang:'it',page:j.content_urls?.desktop?.page};j=await wikiSummary(t,'en');if(j && j.thumbnail && j.thumbnail.source)return{src:j.thumbnail.source,credit:j.titles?.normalized||t,lang:'en',page:j.content_urls?.desktop?.page}}return null}
+function titlesFor(a){const arr=[]; if(a.scientificName)arr.push(a.scientificName); if(a.name)arr.push(a.name); if(COMMON_EN[a.name])arr.push(COMMON_EN[a.name]); return Array.from(new Set(arr))}
 
 /* ===== TESTI “LITE” ===== */
-const EMOJI_BY_CLASS = { "Mammiferi":"🦌", "Uccelli":"🐦", "Rettili":"🦎", "Anfibi":"🐸", "Pesci":"🐟", "Invertebrati":"🪲" };
-const TEMPLATES = {
-  desc: ({name, habitat, cls}) => `${name} vive soprattutto in ${habitat.toLowerCase()}. È un tipico rappresentante dei ${cls.toLowerCase()}, con adattamenti pratici all’ambiente e alla dieta.`,
-  soc : ({name, cls}) => `La socialità di ${name} rientra nei ${cls.toLowerCase()}: più territoriale in riproduzione e più tollerante quando cibo e ripari abbondano.`,
-  feed: ({diet}) => `Dieta: ${diet.toLowerCase()}. L’attività segue le ore migliori (alba/crepuscolo) e i microhabitat favorevoli.`,
-  repr: ({name}) => `Corteggiamenti specifici e cure parentali variabili; i giovani di ${name} apprendono presto rifugi sicuri e fonti locali di cibo.`,
-  eco : ({name}) => `${name} contribuisce all’equilibrio: controlla prede/competitori o disperde semi; a sua volta è risorsa per predatori superiori.`,
-  hum : ({habitat}) => `Rischi: frammentazione di ${habitat.toLowerCase()}, traffico, inquinamento, disturbo. Utili corridoi ecologici e tutela dei siti riproduttivi.`
-};
-function expandLite([name, scientificName, cls, emoji, habitat, diet]){
-  const base = { name, scientificName, class:cls, emoji: emoji || EMOJI_BY_CLASS[cls] || "🧬", habitat, diet, lifespan:"—", size:"—", conservation:"—" };
-  const ctx = { name, habitat, cls };
-  return { ...base,
-    description:TEMPLATES.desc(ctx), sociality:TEMPLATES.soc(ctx), feeding:TEMPLATES.feed({diet}),
-    reproduction:TEMPLATES.repr(ctx), interactions:TEMPLATES.eco(ctx), human:TEMPLATES.hum({habitat}),
-    facts:["Adattabile","Ruolo ecologico rilevante","Convivenza possibile"] };
-}
+const EMOJI_BY_CLASS={"Mammiferi":"🦌","Uccelli":"🐦","Rettili":"🦎","Anfibi":"🐸","Pesci":"🐟","Invertebrati":"🪲"};
+const TEMPLATES={desc:({name,habitat,cls})=>`${name} vive soprattutto in ${habitat.toLowerCase()}. È un tipico rappresentante dei ${cls.toLowerCase()}, con adattamenti pratici all’ambiente e alla dieta.`,soc:({name,cls})=>`La socialità di ${name} rientra nei ${cls.toLowerCase()}: più territoriale in riproduzione e più tollerante quando cibo e ripari abbondano.`,feed:({diet})=>`Dieta: ${diet.toLowerCase()}. L’attività segue le ore migliori (alba/crepuscolo) e i microhabitat favorevoli.`,repr:({name})=>`Corteggiamenti specifici e cure parentali variabili; i giovani di ${name} apprendono presto rifugi sicuri e fonti locali di cibo.`,eco:({name})=>`${name} contribuisce all’equilibrio: controlla prede/competitori o disperde semi; a sua volta è risorsa per predatori superiori.`,hum:({habitat})=>`Rischi: frammentazione di ${habitat.toLowerCase()}, traffico, inquinamento, disturbo. Utili corridoi ecologici e tutela dei siti riproduttivi.`};
+function expandLite([name,scientificName,cls,emoji,habitat,diet]){const base={name,scientificName,class:cls,emoji:emoji||EMOJI_BY_CLASS[cls]||"🧬",habitat,diet,lifespan:"—",size:"—",conservation:"—"};const ctx={name,habitat,cls};return{...base,description:TEMPLATES.desc(ctx),sociality:TEMPLATES.soc(ctx),feeding:TEMPLATES.feed({diet}),reproduction:TEMPLATES.repr(ctx),interactions:TEMPLATES.eco(ctx),human:TEMPLATES.hum({habitat}),facts:["Adattabile","Ruolo ecologico rilevante","Convivenza possibile"]}}
 
 /* ===== DATASET (estratto) ===== */
-const BASE_BULK = [
-  ["Leone","Panthera leo","Mammiferi","🦁","savana africana","carnivoro (ungulati)"],
-  ["Tigre","Panthera tigris","Mammiferi","🐯","foreste e paludi asiatiche","carnivoro"],
-  ["Ghepardo","Acinonyx jubatus","Mammiferi","🐆","savana","carnivoro (antilopi)"],
-  ["Lupo grigio","Canis lupus","Mammiferi","🐺","foreste e tundre","carnivoro"],
-  ["Gatto domestico","Felis catus","Mammiferi","🐱","ambienti urbani e rurali","carnivoro opportunista"],
-  ["Wombat","Vombatus ursinus","Mammiferi","🦥","boscaglie australiane","erbivoro"],
-  ["Capibara","Hydrochoerus hydrochaeris","Mammiferi","🫎","zone umide sudamericane","erbivoro"],
-  ["Drago di Komodo","Varanus komodoensis","Rettili","🦎","isole indonesiane","carnivoro"],
-  ["Falco pellegrino","Falco peregrinus","Uccelli","🪶","scogliere e città","carnivoro"],
-  ["Aquila reale","Aquila chrysaetos","Uccelli","🦅","montagne e scogliere","carnivoro"],
-  ["Corvo comune","Corvus corone","Uccelli","🐦","campagne e città","onnivoro"],
-  ["Pinguino di Humboldt","Spheniscus humboldti","Uccelli","🐧","coste pacifiche sudamericane","piscivoro"],
-  ["Cobra reale","Ophiophagus hannah","Rettili","🐍","foreste asiatiche","ofiofago (serpenti)"],
-  ["Squalo balena","Rhincodon typus","Pesci","🛳️","tropici oceanici","planctofago"],
-  ["Bue muschiato","Ovibos moschatus","Mammiferi","🐮","tundra artica","erbivoro"],
-  ["Pangolino","Manis spp.","Mammiferi","🦔","foreste/savane tropicali","mirmecofago"],
-  ["Alce","Alces alces","Mammiferi","🫎","foreste boreali","erbivoro"],
-  ["Caribù/Renna","Rangifer tarandus","Mammiferi","🦌","tundra e taiga","erbivoro"],
-  ["Pellicano bianco","Pelecanus onocrotalus","Uccelli","🦢","laghi e delta","piscivoro"],
-  ["Pappagallo cenerino","Psittacus erithacus","Uccelli","🦜","foreste africane","frugivoro"],
-  ["Cormorano grande","Phalacrocorax carbo","Uccelli","🖤","laghi e coste","piscivoro"],
-  ["Squalo martello","Sphyrna lewini","Pesci","🔨","mari tropicali","carnivoro"]
-];
+const BASE_BULK=[["Leone","Panthera leo","Mammiferi","🦁","savana africana","carnivoro (ungulati)"],["Tigre","Panthera tigris","Mammiferi","🐯","foreste e paludi asiatiche","carnivoro"],["Ghepardo","Acinonyx jubatus","Mammiferi","🐆","savana","carnivoro (antilopi)"],["Lupo grigio","Canis lupus","Mammiferi","🐺","foreste e tundre","carnivoro"],["Gatto domestico","Felis catus","Mammiferi","🐱","ambienti urbani e rurali","carnivoro opportunista"],["Wombat","Vombatus ursinus","Mammiferi","🦥","boscaglie australiane","erbivoro"],["Capibara","Hydrochoerus hydrochaeris","Mammiferi","🫎","zone umide sudamericane","erbivoro"],["Drago di Komodo","Varanus komodoensis","Rettili","🦎","isole indonesiane","carnivoro"],["Falco pellegrino","Falco peregrinus","Uccelli","🪶","scogliere e città","carnivoro"],["Aquila reale","Aquila chrysaetos","Uccelli","🦅","montagne e scogliere","carnivoro"],["Corvo comune","Corvus corone","Uccelli","🐦","campagne e città","onnivoro"],["Pinguino di Humboldt","Spheniscus humboldti","Uccelli","🐧","coste pacifiche sudamericane","piscivoro"],["Cobra reale","Ophiophagus hannah","Rettili","🐍","foreste asiatiche","ofiofago (serpenti)"],["Squalo balena","Rhincodon typus","Pesci","🛳️","tropici oceanici","planctofago"],["Bue muschiato","Ovibos moschatus","Mammiferi","🐮","tundra artica","erbivoro"],["Pangolino","Manis spp.","Mammiferi","🦔","foreste/savane tropicali","mirmecofago"],["Alce","Alces alces","Mammiferi","🫎","foreste boreali","erbivoro"],["Caribù/Renna","Rangifer tarandus","Mammiferi","🦌","tundra e taiga","erbivoro"],["Pellicano bianco","Pelecanus onocrotalus","Uccelli","🦢","laghi e delta","piscivoro"],["Pappagallo cenerino","Psittacus erithacus","Uccelli","🦜","foreste africane","frugivoro"],["Cormorano grande","Phalacrocorax carbo","Uccelli","🖤","laghi e coste","piscivoro"],["Squalo martello","Sphyrna lewini","Pesci","🔨","mari tropicali","carnivoro"]];
 
-/* ===== COSTRUZIONE LISTA ===== */
-let ANIMALS = BASE_BULK.map(expandLite);
-ANIMALS.forEach(a=>{ a.id = slug(a.name); a._hay = [a.name,a.scientificName,a.habitat,a.diet,a.class,(a.facts||[]).join(" ")].join(" ").toLowerCase(); });
+let ANIMALS=BASE_BULK.map(expandLite);
+ANIMALS.forEach(a=>{a.id=slug(a.name); a._hay=[a.name,a.scientificName,a.habitat,a.diet,a.class,(a.facts||[]).join(" ")].join(" ").toLowerCase()});
 
-/* ===== UI ===== */
+/* ===== TEMPLATE UI ===== */
 function cardTpl(a){
-  const hc = habClass(a.habitat||"");
-  const img = state.photos ? `<img referrerpolicy="no-referrer" loading="lazy" alt="${a.name}" data-wiki="${titlesFor(a).map(t=>t.replace(/"/g,'&quot;')).join('|')}" />` : '';
+  const hc=habClass(a.habitat||"");
+  const titles=titlesFor(a).map(t=>t.replace(/"/g,'&quot;')).join('|');
+  const img=state.photos?`<div class="bg-blur" aria-hidden="true"></div><img class="fit-cover" referrerpolicy="no-referrer" loading="lazy" alt="${a.name}" data-wiki="${titles}" />`:'';
   return `<article class="card" aria-label="${a.name}">
     <div class="thumb ${hc}">
       ${img}
@@ -298,34 +215,23 @@ function cardTpl(a){
     </div>
   </article>`;
 }
-function listTpl(){
-  const items = filteredItems();
-  const cards = items.map(cardTpl).join('');
-  return `<div class="grid">${cards || emptyTpl()}</div>`;
-}
-function quickFacts(a){
-  return `<div class="panel pad quick">
-    <h3 style="margin-top:0">Scheda rapida</h3>
-    <div class="kv">
-      <div class="meta">Nome scientifico</div><div><i>${a.scientificName||'—'}</i></div>
-      <div class="meta">Classe</div><div>${a.class||'—'}</div>
-      <div class="meta">Habitat</div><div>${a.habitat||'—'}</div>
-      <div class="meta">Dieta</div><div>${a.diet||'—'}</div>
-      <div class="meta">Vita media</div><div>${a.lifespan||'—'}</div>
-      <div class="meta">Dimensioni</div><div>${a.size||'—'}</div>
-      <div class="meta">Conservazione</div><div>${a.conservation||'—'}</div>
-    </div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px">
-      ${(a.facts||[]).slice(0,6).map(f=>`<span class="chip">${f}</span>`).join('')}
-    </div>
-  </div>`;
-}
-function acc(id,t,html){ return `<details class="acc" id="${id}"><summary class="acc-sum"><span class="chev">▶</span> ${t}</summary><div class="acc-body">${html}</div></details>`; }
+function listTpl(){const items=filteredItems();const cards=items.map(cardTpl).join('');return `<div class="grid">${cards||emptyTpl()}</div>`}
+function quickFacts(a){return `<div class="panel pad quick"><h3 style="margin-top:0">Scheda rapida</h3><div class="kv">
+<div class="meta">Nome scientifico</div><div><i>${a.scientificName||'—'}</i></div>
+<div class="meta">Classe</div><div>${a.class||'—'}</div>
+<div class="meta">Habitat</div><div>${a.habitat||'—'}</div>
+<div class="meta">Dieta</div><div>${a.diet||'—'}</div>
+<div class="meta">Vita media</div><div>${a.lifespan||'—'}</div>
+<div class="meta">Dimensioni</div><div>${a.size||'—'}</div>
+<div class="meta">Conservazione</div><div>${a.conservation||'—'}</div>
+</div><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px">${(a.facts||[]).slice(0,6).map(f=>`<span class="chip">${f}</span>`).join('')}</div></div>`}
+function acc(id,t,html){return `<details class="acc" id="${id}"><summary class="acc-sum"><span class="chev">▶</span> ${t}</summary><div class="acc-body">${html}</div></details>`}
 function detailTpl(a){
-  const hc = habClass(a.habitat||"");
-  const facts = (a.facts||[]).map(f=>`<li>${f}</li>`).join('');
-  const finale = (a.facts && a.facts[0]) ? a.facts[0] : "Questo animale riserva sempre sorprese.";
-  const banner = state.photos ? `<img class="photo fit-cover" referrerpolicy="no-referrer" alt="${a.name}" data-wiki="${titlesFor(a).map(t=>t.replace(/"/g,'&quot;')).join('|')}" />` : '';
+  const hc=habClass(a.habitat||"");
+  const facts=(a.facts||[]).map(f=>`<li>${f}</li>`).join('');
+  const finale=(a.facts&&a.facts[0])?a.facts[0]:"Questo animale riserva sempre sorprese.";
+  const titles=titlesFor(a).map(t=>t.replace(/"/g,'&quot;')).join('|');
+  const banner=state.photos?`<img class="photo fit-cover" referrerpolicy="no-referrer" alt="${a.name}" data-wiki="${titles}" />`:'';
   return `<div class="detail">
     <div>
       <div class="hero-animal panel">
@@ -367,153 +273,92 @@ function detailTpl(a){
     ${quickFacts(a)}
   </div>`;
 }
-function curiositaTpl(){
-  const pick = arr=>arr[Math.floor(Math.random()*arr.length)];
-  const facts = [];
-  for(let i=0;i<6;i++){ const a = pick(ANIMALS); facts.push(`<li><b>${a.name}:</b> ${pick(a.facts||[a.description||'—'])}</li>`); }
-  return `<div class="panel pad"><h2 style="margin-top:0">Curiosità casuali ✨</h2><ul>${facts.join('')}</ul></div>`;
-}
-function contattiTpl(){ return `<div class="panel pad"><h2 style="margin-top:0">Contatti</h2><p>Progetto didattico. Apri una issue sul repository per proposte e correzioni.</p></div>` }
-function emptyTpl(){ return `<div class="panel pad"><p>Nessun risultato. Prova a cambiare ricerca o filtro.</p></div>` }
+function curiositaTpl(){const pick=arr=>arr[Math.floor(Math.random()*arr.length)];const facts=[];for(let i=0;i<6;i++){const a=pick(ANIMALS);facts.push(`<li><b>${a.name}:</b> ${pick(a.facts||[a.description||'—'])}</li>`)}return `<div class="panel pad"><h2 style="margin-top:0">Curiosità casuali ✨</h2><ul>${facts.join('')}</ul></div>`}
+function contattiTpl(){return `<div class="panel pad"><h2 style="margin-top:0">Contatti</h2><p>Progetto didattico. Apri una issue sul repository per proposte e correzioni.</p></div>`}
+function emptyTpl(){return `<div class="panel pad"><p>Nessun risultato. Prova a cambiare ricerca o filtro.</p></div>`}
 
-/* ===== RENDER & ROUTER ===== */
-function filteredItems(){
-  const q = (state.q||'').trim().toLowerCase();
-  return ANIMALS.filter(a => (!q || a._hay.includes(q))).filter(a => (!state.cls || a.class===state.cls)).sort(by('name'));
-}
-function applyRandomTheme(){ const t = THEMES[Math.floor(Math.random()*THEMES.length)]; applyTheme(t); }
-function render(){
-  const container = qs('#view');
-  const hash = location.hash.replace('#','') || '/home';
-  state.route = hash;
-  if(hash.startsWith('/animal/')){
-    const id = hash.split('/')[2];
-    const a = ANIMALS.find(x=>x.id===id);
-    if(a) applyTheme(toTheme(habClass(a.habitat||"")));
-    container.innerHTML = a ? detailTpl(a) : `<div class="panel pad"><h2>Ops!</h2><p>Animale non trovato.</p></div>`;
-    if(a) { bindTocLinks(); hydrateImages(container, a); }
-    return;
-  }
-  if(hash==='/curiosita'){ applyRandomTheme(); container.innerHTML = curiositaTpl(); return; }
-  if(hash==='/contatti'){ applyTheme('theme-prateria'); container.innerHTML = contattiTpl(); return; }
-  if(hash==='/animali' || hash==='/home'){ applyRandomTheme(); container.innerHTML = listTpl(); hydrateImages(container); return; }
-  applyRandomTheme(); container.innerHTML = listTpl(); hydrateImages(container);
-}
-
-/* ===== IMMAGINI: IDRATAZIONE POST-RENDER ===== */
-async function wikiSummary(title, lang='it'){
-  try{
-    const r = await fetch(`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`, {mode:'cors', referrerPolicy:'no-referrer'});
-    if(!r.ok) throw new Error(r.status);
-    return await r.json();
-  }catch(e){ return null; }
-}
-async function findWikiImage(titles){
-  for(const t of titles){
-    let j = await wikiSummary(t, 'it');
-    if(j && j.thumbnail && j.thumbnail.source) return {src:j.thumbnail.source, credit:j.titles?.normalized || t, lang:'it', page:j.content_urls?.desktop?.page};
-    j = await wikiSummary(t, 'en');
-    if(j && j.thumbnail && j.thumbnail.source) return {src:j.thumbnail.source, credit:j.titles?.normalized || t, lang:'en', page:j.content_urls?.desktop?.page};
-  }
-  return null;
-}
-function titlesFor(a){
-  const arr = [];
-  if(a.scientificName) arr.push(a.scientificName);
-  if(a.name) arr.push(a.name);
-  if(COMMON_EN[a.name]) arr.push(COMMON_EN[a.name]);
-  return Array.from(new Set(arr));
-}
-
+/* ===== FIT INTELLIGENTE (riuso per banner e card) ===== */
 function decideFitMode(img){
-  // Se l'immagine è “stretta” rispetto al box, usa contain.
-  const box = img.closest('.banner');
-  if(!box) return;
-  const rect = box.getBoundingClientRect();
-  const arBox = rect.width / rect.height;
-  const arImg  = img.naturalWidth / img.naturalHeight;
-  // soglia: se l'immagine è molto meno panoramica del box → contain
-  if(arImg < arBox * 0.9){ // più “verticale” del box
-    img.classList.remove('fit-cover');
-    img.classList.add('fit-contain');
+  const box=img.closest('.banner, .thumb'); if(!box) return 'cover';
+  const rect=box.getBoundingClientRect(); const arBox=rect.width/rect.height;
+  const arImg=img.naturalWidth/img.naturalHeight;
+  if(arImg < arBox*0.9){ // immagine più “verticale” del contenitore
+    img.classList.remove('fit-cover'); img.classList.add('fit-contain');
+    // se è una card, attiva bg blur
+    const blur=box.querySelector('.bg-blur'); if(blur && img.src){ blur.style.backgroundImage=`url('${img.src}')`; blur.style.opacity=1; }
     return 'contain';
   }else{
-    img.classList.remove('fit-contain');
-    img.classList.add('fit-cover');
+    img.classList.remove('fit-contain'); img.classList.add('fit-cover');
+    const blur=box.querySelector('.bg-blur'); if(blur){ blur.style.opacity=0; }
     return 'cover';
   }
 }
 
+/* ===== RENDER & ROUTER ===== */
+function filteredItems(){const q=(state.q||'').trim().toLowerCase(); return ANIMALS.filter(a=>(!q||a._hay.includes(q))).filter(a=>(!state.cls||a.class===state.cls)).sort(by('name'))}
+function applyRandomTheme(){const t=THEMES[Math.floor(Math.random()*THEMES.length)]; applyTheme(t)}
+function render(){
+  const container=qs('#view'); const hash=location.hash.replace('#','')||'/home'; state.route=hash;
+  if(hash.startsWith('/animal/')){
+    const id=hash.split('/')[2]; const a=ANIMALS.find(x=>x.id===id); if(a) applyTheme(toTheme(habClass(a.habitat||"")));
+    container.innerHTML=a?detailTpl(a):`<div class="panel pad"><h2>Ops!</h2><p>Animale non trovato.</p></div>`;
+    if(a){ bindTocLinks(); hydrateImages(container,a); }
+    return;
+  }
+  if(hash==='/curiosita'){ applyRandomTheme(); container.innerHTML=curiositaTpl(); return; }
+  if(hash==='/contatti'){ applyTheme('theme-prateria'); container.innerHTML=contattiTpl(); return; }
+  if(hash==='/animali'||hash==='/home'){ applyRandomTheme(); container.innerHTML=listTpl(); hydrateImages(container); return; }
+  applyRandomTheme(); container.innerHTML=listTpl(); hydrateImages(container);
+}
+
+/* ===== IMMAGINI: IDRATAZIONE POST-RENDER ===== */
 async function hydrateImages(root=document, currentAnimal=null){
   if(!state.photos) return;
-  const imgs = Array.from(root.querySelectorAll('img[data-wiki]'));
+  const imgs=Array.from(root.querySelectorAll('img[data-wiki]'));
   for(const img of imgs){
-    const titles = (img.getAttribute('data-wiki')||'').split('|').filter(Boolean);
-    const info = await findWikiImage(titles);
+    const titles=(img.getAttribute('data-wiki')||'').split('|').filter(Boolean);
+    const info=await findWikiImage(titles);
     if(info && info.src){
-      img.src = info.src;
-      img.dataset.page = info.page || '';
-      // Banner: decidi fit al load
+      img.src=info.src; img.dataset.page=info.page||'';
       img.addEventListener('load', ()=>{
-        const mode = decideFitMode(img);
-        const btn = root.querySelector('#fitToggle');
-        if(btn){ btn.textContent = `🖼️ Adatta immagine: ${mode==='contain'?'Intera':'Cover'}`; }
+        const mode=decideFitMode(img);
+        const btn=root.querySelector('#fitToggle'); if(btn && img.closest('.banner')) btn.textContent=`🖼️ Adatta immagine: ${mode==='contain'?'Intera':'Cover'}`;
       }, {once:true});
-      // Clic sul banner → apri Wikipedia
-      const banner = img.closest('.banner');
+      const banner=img.closest('.banner');
       if(banner){
-        banner.addEventListener('click', ()=>{
-          const url = img.dataset.page || info.src;
-          window.open(url, '_blank', 'noopener');
-        }, {once:true});
+        banner.addEventListener('click', ()=>{ const url=img.dataset.page||info.src; window.open(url,'_blank','noopener'); }, {once:true});
       }
-      // Attribution
       if(currentAnimal){
-        const creditBox = root.querySelector('#img-credit');
+        const creditBox=root.querySelector('#img-credit');
         if(creditBox){
-          const pageUrl = info.page ? `<a href="${info.page}" target="_blank" rel="noopener">Wikipedia (${info.lang})</a>` : 'Wikipedia/Wikimedia';
-          creditBox.innerHTML = `Immagine: ${info.credit} — ${pageUrl}`;
+          const pageUrl=info.page?`<a href="${info.page}" target="_blank" rel="noopener">Wikipedia (${info.lang})</a>`:'Wikipedia/Wikimedia';
+          creditBox.innerHTML=`Immagine: ${info.credit} — ${pageUrl}`;
         }
       }
     }else{
-      const th = img.closest('.thumb, .banner');
-      if(th){ const em = th.querySelector('.emoji'); if(em) em.style.display = 'grid'; }
+      const th=img.closest('.thumb, .banner'); if(th){ const em=th.querySelector('.emoji'); if(em) em.style.display='grid'; }
     }
   }
-
-  // Gestione interruttore manuale Cover/Intera nel dettaglio
-  const toggle = root.querySelector('#fitToggle');
-  const bannerImg = root.querySelector('.banner img.photo');
+  // toggle manuale nel dettaglio
+  const toggle=root.querySelector('#fitToggle'); const bannerImg=root.querySelector('.banner img.photo');
   if(toggle && bannerImg){
     toggle.addEventListener('click', ()=>{
-      if(bannerImg.classList.contains('fit-contain')){
-        bannerImg.classList.remove('fit-contain'); bannerImg.classList.add('fit-cover');
-        toggle.textContent = '🖼️ Adatta immagine: Cover';
-      }else{
-        bannerImg.classList.remove('fit-cover'); bannerImg.classList.add('fit-contain');
-        toggle.textContent = '🖼️ Adatta immagine: Intera';
-      }
+      if(bannerImg.classList.contains('fit-contain')){ bannerImg.classList.remove('fit-contain'); bannerImg.classList.add('fit-cover'); toggle.textContent='🖼️ Adatta immagine: Cover'; }
+      else{ bannerImg.classList.remove('fit-cover'); bannerImg.classList.add('fit-contain'); toggle.textContent='🖼️ Adatta immagine: Intera'; }
     });
-    // Ricalcola su resize per mantenere la scelta intelligente
-    const ro = new ResizeObserver(()=> decideFitMode(bannerImg));
-    ro.observe(bannerImg.closest('.banner'));
+    const ro=new ResizeObserver(()=>decideFitMode(bannerImg)); ro.observe(bannerImg.closest('.banner'));
   }
 }
 
 /* ===== INTERAZIONE ===== */
-function goRandom(){ const items = filteredItems(); if(!items.length) return; const pick = items[Math.floor(Math.random()*items.length)]; location.hash = `#/animal/${pick.id}`; showToast(`Hai pescato: ${pick.name}! 🎲`); }
-function bindTocLinks(){ document.querySelectorAll('.toc a[data-target]').forEach(a=>{ a.addEventListener('click', (e)=>{ e.preventDefault(); const el = document.querySelector(a.getAttribute('data-target')); if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); } }); }); }
+function goRandom(){const items=filteredItems(); if(!items.length)return; const pick=items[Math.floor(Math.random()*items.length)]; location.hash=`#/animal/${pick.id}`; showToast(`Hai pescato: ${pick.name}! 🎲`)}
+function bindTocLinks(){document.querySelectorAll('.toc a[data-target]').forEach(a=>{a.addEventListener('click',(e)=>{e.preventDefault();const el=document.querySelector(a.getAttribute('data-target')); if(el){el.scrollIntoView({behavior:'smooth',block:'start'})}})})}
 function setupControls(){
-  document.querySelector('#q').addEventListener('input', e=>{ state.q = e.target.value; render(); });
-  document.querySelector('#filterClass').addEventListener('change', e=>{ state.cls = e.target.value; render(); });
-  const br = document.querySelector('#btnRandom'); if(br) br.addEventListener('click', goRandom);
-  const tp = document.querySelector('#togglePhotos'); if(tp){ tp.addEventListener('change', e=>{ state.photos = !!e.target.checked; render(); }); }
-  window.addEventListener('keydown', (e)=>{
-    if(e.key && e.key.toLowerCase()==='r' && !e.metaKey && !e.ctrlKey && !e.altKey){
-      const a = document.activeElement; if(a && (a.tagName==='INPUT' || a.tagName==='TEXTAREA' || a.isContentEditable)) return;
-      e.preventDefault(); goRandom();
-    }
-  });
+  document.querySelector('#q').addEventListener('input', e=>{state.q=e.target.value; render()});
+  document.querySelector('#filterClass').addEventListener('change', e=>{state.cls=e.target.value; render()});
+  const br=document.querySelector('#btnRandom'); if(br) br.addEventListener('click', goRandom);
+  const tp=document.querySelector('#togglePhotos'); if(tp){ tp.addEventListener('change', e=>{state.photos=!!e.target.checked; render()})}
+  window.addEventListener('keydown',(e)=>{if(e.key && e.key.toLowerCase()==='r' && !e.metaKey && !e.ctrlKey && !e.altKey){const a=document.activeElement; if(a&&(a.tagName==='INPUT'||a.tagName==='TEXTAREA'||a.isContentEditable))return; e.preventDefault(); goRandom();}})
 }
 window.addEventListener('hashchange', render);
 window.addEventListener('DOMContentLoaded', ()=>{ setupControls(); render(); });
