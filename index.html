@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Biolo-Gio | Enciclopedia (v7.2 foto con fallback)</title>
-<meta name="description" content="Enciclopedia degli animali con foto automatiche (Unsplash + fallback), or habitat texture, schede semplici e discorsive." />
+<title>Biolo-Gio | Enciclopedia (v7.3 foto da Wikipedia)</title>
+<meta name="description" content="Enciclopedia degli animali con immagini automatiche da Wikipedia/Wikimedia, habitat tematici e schede discorsive." />
 <style>
   :root{ --panel:#fff; --muted:#475569; --text:#0f172a; --ring:#22d3ee55; --radius:18px; --t0:#ffffff; --t1:#f1f5f9; }
   *{box-sizing:border-box} html,body{height:100%}
@@ -18,11 +18,14 @@
   nav{margin-left:auto; display:flex; gap:14px; flex-wrap:wrap}
   nav a{color:var(--muted); text-decoration:none; padding:8px 12px; border-radius:10px}
   nav a:hover{color:var(--text); background:#e2e8f0}
+
   .hero{display:grid; gap:4px; padding:24px 0 8px}
   .hero h1{margin:0; font-size:clamp(28px,4vw,44px)}
   .hero p{margin:0; color:var(--muted)}
+
   .panel{background:var(--panel); border:1px solid #e2e8f0; border-radius:var(--radius); box-shadow:0 8px 30px #0000000d}
   .panel.pad{padding:16px}
+
   .controls{display:grid; grid-template-columns:1fr 220px 220px; gap:12px; align-items:center}
   .search{position:relative}
   .search input{width:100%; padding:14px 44px 14px 14px; border-radius:12px; border:1px solid #cbd5e1; background:#fff; color:#0f172a}
@@ -31,6 +34,7 @@
   select{width:100%; padding:14px; border-radius:12px; border:1px solid #cbd5e1; background:#fff; color:#0f172a}
   .toggle{display:flex; align-items:center; gap:10px; border:1px solid #cbd5e1; padding:10px 12px; border-radius:12px; background:#fff}
   .toggle input{accent-color:#06b6d4}
+
   .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:16px; margin-top:16px}
   .card{background:#fff; border:1px solid #e2e8f0; border-radius:16px; overflow:hidden; transition:transform .15s, box-shadow .15s}
   .card:hover{transform:translateY(-4px); box-shadow:0 12px 30px #00000014}
@@ -42,6 +46,7 @@
     repeating-linear-gradient(45deg, rgba(255,255,255,.25) 0 8px, transparent 8px 16px),
     repeating-radial-gradient( circle at 20% 30%, rgba(0,0,0,.05) 0 1.8px, transparent 1.8px 10px);
     background-size:200px 200px, 160px 160px; mix-blend-mode:soft-light; pointer-events:none;}
+
   /* banner habitat */
   .hab-foresta{background-image:linear-gradient(135deg,#dcfce7,#bbf7d0)}
   .hab-savana{background-image:linear-gradient(135deg,#fef9c3,#fde68a)}
@@ -50,24 +55,28 @@
   .hab-ghiaccio{background-image:linear-gradient(135deg,#f1f5f9,#e0f2fe)}
   .hab-deserto{background-image:linear-gradient(135deg,#ffedd5,#fed7aa)}
   .hab-prateria{background-image:linear-gradient(135deg,#d1fae5,#a7f3d0)}
+
   .badge{display:inline-block; padding:4px 8px; border:1px solid #c7d2fe; border-radius:999px; font-size:12px; color:#4338ca; background:#eef2ff}
   .card .body{padding:12px 14px}
   .card h3{margin:0 0 6px; font-size:18px}
   .meta{font-size:13px; color:#475569}
   .btn{appearance:none; border:none; padding:10px 12px; border-radius:10px; background:#dbf4ff; color:#0c4a6e; cursor:pointer; text-decoration:none; display:inline-flex; gap:8px; align-items:center}
   .btn:hover{background:#bae6fd}
+
   .detail{margin-top:24px; display:grid; grid-template-columns:1.6fr 0.9fr; gap:18px}
   .hero-animal{border-radius:16px; overflow:hidden; position:relative; border:1px solid #e2e8f0}
-  .hero-animal .banner{height:220px; display:grid; place-items:center; font-size:0; position:relative}
+  .hero-animal .banner{height:240px; display:grid; place-items:center; font-size:0; position:relative}
   .hero-animal .banner img.photo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:saturate(1.05) contrast(1.03)}
   .hero-animal .banner .overlay{position:absolute; inset:0; mix-blend-mode:multiply; opacity:.85}
   .hero-animal .head{position:relative; display:flex; gap:16px; align-items:center; padding:12px 16px}
   .quick{position:sticky; top:90px; align-self:start}
   .quick .kv{display:grid; grid-template-columns:auto 1fr; gap:8px 12px; font-size:14px}
   .chip{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:#f1f5f9; border:1px solid #e2e8f0; font-size:12px}
+
   .toc{display:flex; flex-wrap:wrap; gap:8px; padding:8px 0}
   .toc a{padding:6px 10px; border:1px solid #e2e8f0; border-radius:999px; text-decoration:none; color:#334155; background:#fff}
   .toc a:hover{background:#f8fafc}
+
   details.acc{border:1px solid #e2e8f0; border-radius:12px; background:#fff; margin:14px 0; overflow:hidden}
   details.acc[open]{box-shadow:0 8px 24px #0000000d}
   summary.acc-sum{list-style:none; cursor:pointer; padding:12px 14px; display:flex; align-items:center; gap:10px; font-weight:600}
@@ -78,8 +87,11 @@
   .src{font-size:12px; color:#334155; margin-top:6px}
   .src a{color:#0369a1; text-decoration:none}
   .src a:hover{text-decoration:underline}
+
   .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(40px);background:linear-gradient(135deg,#06b6d4,#8b5cf6);color:#fff;padding:10px 18px;border-radius:12px;box-shadow:0 8px 30px #00000026;opacity:0;pointer-events:none;transition:opacity .35s, transform .35s;z-index:9999}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* Pattern di sfondo globale con colori per tema */
   @keyframes drift {0%{background-position:0 0,0 0,0 0,200px 200px}100%{background-position:0 0,0 0,0 0,400px 400px}}
   body[class*="theme-"]{
     background-attachment:fixed;
@@ -103,8 +115,8 @@
 
 <main class="wrap">
   <section class="hero">
-    <h1>Biolo-Gio v7.2 — foto con fallback robusto</h1>
-    <p>Card e schede usano foto automatiche: prima Unsplash <i>random</i>, poi LoremFlickr; se falliscono → emoji.</p>
+    <h1>Biolo-Gio v7.3 — foto da Wikipedia/Wikimedia</h1>
+    <p>Le immagini vengono richieste ai server di Wikipedia (it/en) tramite API pubbliche. Se non disponibili, vedi l’emoji.</p>
   </section>
 
   <section class="panel pad" id="controls">
@@ -134,7 +146,7 @@
   <section id="view"></section>
 
   <footer class="wrap" style="margin:30px 0 60px; color:#475569">
-    Progetto <b>Biolo-Gio</b>. Foto auto: Unsplash &amp; LoremFlickr (query sul nome scientifico). Per foto 100% corrette preparo mapping curato.
+    Immagini via <a href="https://www.wikipedia.org/" target="_blank" rel="noopener">Wikipedia/Wikimedia</a> — licenze libere. Attribution automatica nel dettaglio quando disponibile.
   </footer>
 </main>
 
@@ -178,33 +190,38 @@ const habClass = (hab='')=>{
 };
 const toTheme = hc=>({ 'hab-foresta':'theme-foresta','hab-savana':'theme-savana','hab-ghiaccio':'theme-ghiaccio','hab-oceano':'theme-oceano','hab-montagna':'theme-montagna','hab-deserto':'theme-deserto','hab-prateria':'theme-prateria' }[hc]||'theme-prateria');
 
-/* ===== FOTO AUTO (due provider + fallback) ===== */
-function unsplashRandom(q, w=800, h=600){
-  // modalità /random più compatibile su GitHub Pages
-  return `https://source.unsplash.com/random/${w}x${h}/?${q}`;
+/* ===== IMMAGINI DA WIKIPEDIA ===== */
+const COMMON_EN = {
+  "Leone":"Lion","Tigre":"Tiger","Ghepardo":"Cheetah","Lupo grigio":"Gray wolf","Gatto domestico":"Cat",
+  "Wombat":"Wombat","Capibara":"Capybara","Drago di Komodo":"Komodo dragon","Falco pellegrino":"Peregrine falcon",
+  "Aquila reale":"Golden eagle","Corvo comune":"Carrion crow","Pinguino di Humboldt":"Humboldt penguin",
+  "Cobra reale":"King cobra","Squalo balena":"Whale shark","Bue muschiato":"Muskox","Pangolino":"Pangolin",
+  "Alce":"Moose","Caribù/Renna":"Reindeer","Pellicano bianco":"Great white pelican",
+  "Pappagallo cenerino":"African grey parrot","Cormorano grande":"Great cormorant","Squalo martello":"Scalloped hammerhead"
+};
+async function wikiSummary(title, lang='it'){
+  try{
+    const r = await fetch(`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`, {mode:'cors', referrerPolicy:'no-referrer'});
+    if(!r.ok) throw new Error(r.status);
+    return await r.json();
+  }catch(e){ return null; }
 }
-function loremFlickr(q, w=800, h=600){
-  return `https://loremflickr.com/${w}/${h}/${q}`;
-}
-function photoCandidates(sci, w, h){
-  const base = encodeURIComponent((sci||"wildlife")+" animal");
-  return [ unsplashRandom(base,w,h), loremFlickr(base,w,h) ];
-}
-function setFallback(imgEl, list){
-  if(!imgEl || !list || !list.length) return;
-  imgEl.dataset.fidx = imgEl.dataset.fidx ? (parseInt(imgEl.dataset.fidx)+1) : 1;
-  const idx = parseInt(imgEl.dataset.fidx);
-  if(idx < list.length){
-    imgEl.src = list[idx];
-  }else{
-    // esauriti i fallback → nascondo l'immagine e mostro l'emoji
-    const thumb = imgEl.closest('.thumb');
-    if(thumb){
-      imgEl.remove();
-      const em = thumb.querySelector('.emoji');
-      if(em) em.style.display = 'grid';
-    }
+async function findWikiImage(titles){
+  // prova it → en per ciascun titolo
+  for(const t of titles){
+    let j = await wikiSummary(t, 'it');
+    if(j && j.thumbnail && j.thumbnail.source) return {src:j.thumbnail.source, credit:j.titles?.normalized || t, lang:'it', page:j.content_urls?.desktop?.page};
+    j = await wikiSummary(t, 'en');
+    if(j && j.thumbnail && j.thumbnail.source) return {src:j.thumbnail.source, credit:j.titles?.normalized || t, lang:'en', page:j.content_urls?.desktop?.page};
   }
+  return null;
+}
+function titlesFor(a){
+  const arr = [];
+  if(a.scientificName) arr.push(a.scientificName);
+  if(a.name) arr.push(a.name);
+  if(COMMON_EN[a.name]) arr.push(COMMON_EN[a.name]);
+  return Array.from(new Set(arr));
 }
 
 /* ===== TESTI “LITE” ===== */
@@ -226,7 +243,7 @@ function expandLite([name, scientificName, cls, emoji, habitat, diet]){
     facts:["Adattabile","Ruolo ecologico rilevante","Convivenza possibile"] };
 }
 
-/* ===== DATASET (estratto) ===== */
+/* ===== DATASET (stesso formato di prima, estratto) ===== */
 const BASE_BULK = [
   ["Leone","Panthera leo","Mammiferi","🦁","savana africana","carnivoro (ungulati)"],
   ["Tigre","Panthera tigris","Mammiferi","🐯","foreste e paludi asiatiche","carnivoro"],
@@ -252,41 +269,15 @@ const BASE_BULK = [
   ["Squalo martello","Sphyrna lewini","Pesci","🔨","mari tropicali","carnivoro"]
 ];
 
-/* ===== PREMIUM (esempi) ===== */
-const PREMIUM = [
-  {name:"Gatto domestico",scientificName:"Felis catus",class:"Mammiferi",emoji:"🐱",
-   habitat:"Ambienti urbani e rurali (prossimità umana)",diet:"Carnivoro opportunista",lifespan:"12–18 anni",size:"3–5 kg",conservation:"—",
-   description:"Predatore leggero con sensi fini (udito e vista crepuscolare). Cammina su cuscinetti morbidi; vibrisse come radar di prossimità.",
-   sociality:"Semi-solitario; gruppi flessibili dove il cibo è concentrato. Comunicazione ricca con posture, fusa e marcature.",
-   feeding:"Caccia in agguato su micro-prede; anche in casa mantiene sequenze di caccia come gioco.",
-   reproduction:"Poliestre; cucciolate multiple/anno se non sterilizzato; cure materne intense.",
-   interactions:"Controlla roditori; se libero all’esterno può impattare avifauna.",
-   human:"Sterilizzazione e campanellini/colletti riducono impatti; finestre in sicurezza.",
-   facts:["Vista crepuscolare","Vibrisse ‘radar’","Predatore opportunista"]},
-  {name:"Cobra reale",scientificName:"Ophiophagus hannah",class:"Rettili",emoji:"🐍",
-   habitat:"Foreste pluviali e colline del Sud e Sud-Est asiatico",diet:"Ofiofago",lifespan:"20+ anni",size:"3–5,5 m",conservation:"Vulnerable",
-   description:"Testa stretta, collare poco marcato; vista/olfatto finissimi. Movimento calmo, energeticamente parsimonioso.",
-   sociality:"Solitario; tolleranza presso siti di alimentazione/riproduzione.",
-   feeding:"Caccia altri serpenti con pista odorosa; veleno neurotossico.",
-   reproduction:"Costruisce un nido e lo sorveglia (caso raro tra i serpenti).",
-   interactions:"Apicale fra i rettili; controlla altri ofidi.",
-   human:"Evitiamo il confronto: rimozione esperta e tutela habitat.",
-   facts:["Serpente velenoso più lungo","Nido sorvegliato","Neurotossine"]}
-];
-
-/* ===== COSTRUZIONE LISTA COMPLETA ===== */
+/* ===== COSTRUZIONE LISTA ===== */
 let ANIMALS = BASE_BULK.map(expandLite);
 ANIMALS.forEach(a=>{ a.id = slug(a.name); a._hay = [a.name,a.scientificName,a.habitat,a.diet,a.class,(a.facts||[]).join(" ")].join(" ").toLowerCase(); });
-const idx = new Map(ANIMALS.map((a,i)=>[a.name,i]));
-PREMIUM.forEach(p=>{ p.id = slug(p.name); p._hay = [p.name,p.scientificName,p.habitat,p.diet,p.class,(p.facts||[]).join(" ")].join(" ").toLowerCase(); if(idx.has(p.name)) ANIMALS[idx.get(p.name)]=p; else ANIMALS.push(p); });
 
 /* ===== UI ===== */
 function cardTpl(a){
   const hc = habClass(a.habitat||"");
-  const sci = a.scientificName || a.name;
-  const candidates = photoCandidates(sci,600,400);
-  const img = state.photos ? `<img referrerpolicy="no-referrer" loading="lazy" alt="${a.name}"
-       src="${candidates[0]}" onerror="setFallback(this, ['${candidates[0]}','${candidates[1]}'])" />` : '';
+  // l'img parte vuota, poi JS la riempie con la thumb trovata via Wikipedia
+  const img = state.photos ? `<img referrerpolicy="no-referrer" loading="lazy" alt="${a.name}" data-wiki="${titlesFor(a).map(t=>t.replace(/"/g,'&quot;')).join('|')}" />` : '';
   return `<article class="card" aria-label="${a.name}">
     <div class="thumb ${hc}">
       ${img}
@@ -325,17 +316,15 @@ function quickFacts(a){
 function acc(id,t,html){ return `<details class="acc" id="${id}"><summary class="acc-sum"><span class="chev">▶</span> ${t}</summary><div class="acc-body">${html}</div></details>`; }
 function detailTpl(a){
   const hc = habClass(a.habitat||"");
-  const sci = a.scientificName || a.name;
-  const candidates = photoCandidates(sci,1200,500);
   const facts = (a.facts||[]).map(f=>`<li>${f}</li>`).join('');
   const finale = (a.facts && a.facts[0]) ? a.facts[0] : "Questo animale riserva sempre sorprese.";
-  const srcNote = state.photos ? `<div class="src">Foto auto: Unsplash/LoremFlickr — query “${sci}”.</div>` : '';
+  // banner img da Wikipedia (riempito dopo il render)
+  const banner = state.photos ? `<img class="photo" referrerpolicy="no-referrer" alt="${a.name}" data-wiki="${titlesFor(a).map(t=>t.replace(/"/g,'&quot;')).join('|')}" />` : '';
   return `<div class="detail">
     <div>
       <div class="hero-animal panel">
         <div class="banner ${hc}">
-          ${ state.photos ? `<img class="photo" referrerpolicy="no-referrer" alt="${a.name}"
-             src="${candidates[0]}" onerror="setFallback(this, ['${candidates[0]}','${candidates[1]}'])" />` : '' }
+          ${banner}
           <div class="overlay ${hc}"></div>
         </div>
         <div class="head">
@@ -351,7 +340,7 @@ function detailTpl(a){
               <a href="#" data-target="#hum">Rapporto con l'uomo</a>
               <a href="#" data-target="#facts">Curiosità</a>
             </div>
-            ${srcNote}
+            <div class="src" id="img-credit"></div>
           </div>
           <div><a class="btn" href="#/home">← Torna all'elenco</a></div>
         </div>
@@ -393,13 +382,42 @@ function render(){
     const a = ANIMALS.find(x=>x.id===id);
     if(a) applyTheme(toTheme(habClass(a.habitat||"")));
     container.innerHTML = a ? detailTpl(a) : `<div class="panel pad"><h2>Ops!</h2><p>Animale non trovato.</p></div>`;
-    if(a) bindTocLinks();
+    if(a) { bindTocLinks(); hydrateImages(container, a); }
     return;
   }
   if(hash==='/curiosita'){ applyRandomTheme(); container.innerHTML = curiositaTpl(); return; }
   if(hash==='/contatti'){ applyTheme('theme-prateria'); container.innerHTML = contattiTpl(); return; }
-  if(hash==='/animali' || hash==='/home'){ applyRandomTheme(); container.innerHTML = listTpl(); return; }
-  applyRandomTheme(); container.innerHTML = listTpl();
+  if(hash==='/animali' || hash==='/home'){ applyRandomTheme(); container.innerHTML = listTpl(); hydrateImages(container); return; }
+  applyRandomTheme(); container.innerHTML = listTpl(); hydrateImages(container);
+}
+
+/* ===== IMMAGINI: IDRATAZIONE POST-RENDER ===== */
+async function hydrateImages(root=document, currentAnimal=null){
+  if(!state.photos) return;
+  const imgs = Array.from(root.querySelectorAll('img[data-wiki]'));
+  for(const img of imgs){
+    const titles = (img.getAttribute('data-wiki')||'').split('|').filter(Boolean);
+    const info = await findWikiImage(titles);
+    if(info && info.src){
+      img.src = info.src;
+      img.dataset.page = info.page || '';
+      // se siamo nella pagina dettaglio, scrivo attribution
+      if(currentAnimal){
+        const creditBox = root.querySelector('#img-credit');
+        if(creditBox){
+          const pageUrl = info.page ? `<a href="${info.page}" target="_blank" rel="noopener">pagina ${info.lang}.wikipedia</a>` : 'Wikipedia/Wikimedia';
+          creditBox.innerHTML = `Immagine: ${info.credit} — ${pageUrl}`;
+        }
+      }
+    }else{
+      // fallback: mostra emoji (l'immagine resta vuota)
+      const th = img.closest('.thumb, .banner');
+      if(th){
+        const em = th.querySelector('.emoji');
+        if(em) em.style.display = 'grid';
+      }
+    }
+  }
 }
 
 /* ===== INTERAZIONE ===== */
@@ -419,7 +437,7 @@ function setupControls(){
 }
 window.addEventListener('hashchange', render);
 window.addEventListener('DOMContentLoaded', ()=>{ setupControls(); render(); });
-window.addEventListener('error', ()=>{ showToast('⚠️ Errore script: controlla che il copia/incolla sia completo'); });
+window.addEventListener('error', ()=>{ showToast('⚠️ Errore script: copia/incolla incompleto?'); });
 </script>
 </body>
 </html>
