@@ -109,6 +109,38 @@
     background-size:auto,auto,140px 140px,160px 160px!important;
     background-blend-mode:normal,normal,overlay,overlay; animation:drift 120s linear infinite;
   }
+/* ——— ANTI-TAGLIO DEFINITIVO PER LE CARD ——— */
+.thumb{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+.thumb img{
+  /* niente crop, mai */
+  width:auto !important;
+  height:auto !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  transform:none !important;        /* niente zoom in hover */
+  background:#f8fafc !important;    /* se restano bordi, sono “neutri” */
+}
+
+.card:hover .thumb img{ transform:none !important; }
+
+/* riempimento sfocato sempre visibile dietro l’immagine */
+.thumb .bg-blur{
+  opacity:1 !important;
+  background-size:cover !important;
+  background-position:center !important;
+}
+
+/* (opzionale) se vuoi eliminare le righe diagonali sopra le foto: */
+/*
+.thumb::after{ display:none !important; }
+*/
 </style>
 </head>
 <body>
